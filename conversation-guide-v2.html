@@ -1027,6 +1027,17 @@
     .cg-step-d { font-size: 12px; line-height: 1.5; color: var(--content-secondary); }
     .cg-step-time { font-size: 12px; font-weight: 500; color: var(--content-info); white-space: nowrap; }
 
+    /* Conversation starters preview: the keyword carries the eye, the question follows */
+    .cg-starters { display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    .cg-starter { display: flex; align-items: baseline; gap: var(--spacing-tight); }
+    .cg-starter-k {
+      flex-shrink: 0; min-width: 62px;
+      font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em;
+      color: var(--content-info);
+    }
+    .cg-starter-q { font-size: 13px; line-height: 1.5; color: var(--content-base); }
+    .cg-starters-foot { margin: var(--spacing-base) 0 0; font-size: 12px; color: var(--content-secondary); }
+
   </style>
 </head>
 <body>
@@ -2641,13 +2652,15 @@
 
   // ── Panel body: a five-second trailer for the downloadable guide, not the guide itself ──
   function guideStepsHTML(){
+    // Three high-level moves, condensed from the guide's five agenda points. The
+    // timings are the guide's own, bucketed so they still add up to 35 to 45 minutes.
     var steps = [
-      ['barchart-2', 'Share the results', 'Walk through the scores together', '15 min'],
-      ['group', 'Listen per focus area', 'Ask what sits behind each score', '30 min'],
-      ['check', 'Decide together', 'Agree on next steps as a team', '10 min']
+      ['barchart-2', 'Look at the results together', 'Open up and choose one focus area', '10 to 15 min'],
+      ['message', 'Explore what sits behind it', 'Use the conversation starters to listen', '20 to 25 min'],
+      ['check', 'Agree what happens next', 'One realistic step, owner and follow up', '3 min']
     ];
     return '<section class="cg-blk">' +
-      '<div class="cg-blk-head"><span class="cg-blk-label">What’s inside</span><span class="cg-blk-aside">About 55 minutes</span></div>' +
+      '<div class="cg-blk-head"><span class="cg-blk-label">What’s inside</span><span class="cg-blk-aside">About 40 minutes</span></div>' +
       '<div class="cg-steps">' + steps.map(function(s){
         return '<div class="cg-step">' +
           '<span class="cg-step-ico"><i data-icon="' + s[0] + '"></i></span>' +
@@ -2658,15 +2671,35 @@
       }).join('') + '</div>' +
     '</section>';
   }
+  // A taste of the seven generic conversation starters. They apply to whichever
+  // focus area the team picks, so nothing here depends on this manager's results.
+  function guideStartersHTML(){
+    var starters = [
+      ['Notice', 'What stands out to you about this result?'],
+      ['Example', 'What does this look like in our day to day work?'],
+      ['Influence', 'What is within our team\u2019s influence, and what needs support?']
+    ];
+    return '<section class="cg-blk">' +
+      '<div class="cg-blk-head"><span class="cg-blk-label">Conversation starters</span><span class="cg-blk-aside">Seven in the guide</span></div>' +
+      '<div class="cg-starters">' + starters.map(function(s){
+        return '<div class="cg-starter">' +
+          '<span class="cg-starter-k">' + s[0] + '</span>' +
+          '<span class="cg-starter-q">' + s[1] + '</span>' +
+        '</div>';
+      }).join('') + '</div>' +
+      '<p class="cg-starters-foot">Pick two or three that fit your team, then listen</p>' +
+    '</section>';
+  }
   function guidePanelBodyHTML(){
-    return guideStepsHTML();
+    return guideStepsHTML() + guideStartersHTML();
   }
   function guideIntroHTML(){
+    // The guide's own reminder for managers: be curious, listen before deciding, share ownership.
     // Note: the icon file is Clock.svg (capital C) — GitHub Pages is case sensitive
-    var usps = [['lightbulb', 'Hear the why behind the scores'], ['Clock', 'Ready to run in about five minutes of prep'], ['group', 'End with decisions you make together']];
+    var usps = [['lightbulb', 'Hear the experience behind the results'], ['Clock', 'A ready agenda for about 40 minutes'], ['group', 'End with one step you agree together']];
     return '<div class="cg-intro">' +
       '<div class="cg-intro-main">' +
-        '<h4 class="cg-intro-title">Hear more, prep less, decide together</h4>' +
+        '<h4 class="cg-intro-title">Understand first, then decide together</h4>' +
         '<div class="cg-intro-usps">' + usps.map(function(u){
           return '<div class="cg-usp"><span class="cg-usp-ico"><i data-icon="' + u[0] + '"></i></span> ' + u[1] + '</div>';
         }).join('') + '</div>' +
@@ -2698,7 +2731,7 @@
           '<div class="sp-toolbar"><div class="sp-actions">' +
             '<div class="cg-tt"><button class="ib ib-36 ib-secondary" id="cg-guide-close" aria-label="Close" onclick="closeGuide()"><i data-icon="cross"></i></button><div class="tooltip is-left">Close</div></div>' +
           '</div></div>' +
-          '<div class="sp-heading"><h3 class="sp-title" id="cg-guide-title">Your conversation guide: <span class="cg-title-sub">From scores to shared decisions</span></h3></div>' +
+          '<div class="sp-heading"><h3 class="sp-title" id="cg-guide-title">Your conversation guide: <span class="cg-title-sub">Understanding what drives results</span></h3></div>' +
         '</div>' +
         '<div class="sp-body cg-guide-body">' + guideIntroHTML() + guidePanelBodyHTML() + '</div>' +
         '<div class="sp-footer cg-guide-footer" id="cg-guide-footer">' + guideFooterHTML() + '</div>' +

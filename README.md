@@ -23,6 +23,10 @@ entry point each, no variant switcher.
 `ac-overview-embed.html` is the Overview fragment the prototypes load in an
 iframe; it is not a prototype on its own.
 
+`guide/` holds the conversation guide document itself: the PDF the side panel's
+**Download guide** button hands over, its design source and the original content.
+See `guide/README.md`.
+
 ## Building blocks
 
 `tokens.css`, `foundation.css`, `components.css`, `icons.js` and `assets/` are

@@ -2571,29 +2571,7 @@
   document.getElementById('step-dialog').addEventListener('click', function(e){ if(e.target === this) stepClose(); });
 
   // ═══════════════ Conversation Guide — preview + download (Phase 1) ═══════════
-  var GUIDE_META = { survey: "Employee listening '25", team: "Sales West" };
   // Generated from the surfaced (primary) focus areas.
-  var GUIDE_AREAS = [
-    { id:0, no:1, theme:"Managing systems",
-      statement:"Within my organization, the work processes are well organized",
-      score:"36%", trend:{ dir:"down", text:"22 below benchmark" },
-      q:{ clarify:"When you read this statement, what comes to mind first",
-          concretize:"Where in a normal week does a messy process slow you down the most",
-          root:"What makes these processes hard to follow: the steps, the tools, or who owns them" } },
-    { id:1, no:2, theme:"Providing direction",
-      statement:"My manager gives me feedback that helps me improve",
-      score:"41%", trend:{ dir:"down", text:"Down 11 since last survey" },
-      q:{ clarify:"What does helpful feedback look like for you",
-          concretize:"Can you think of a recent moment where feedback would have made a difference",
-          root:"What gets in the way of us having these conversations more often" } },
-    { id:2, no:3, theme:"Career development",
-      statement:"I have opportunities to grow within this organization",
-      score:"48%", trend:{ dir:"up", text:"Up 4, still below benchmark" },
-      q:{ clarify:"What does growth mean to you right now",
-          concretize:"Which skills or steps would you most like to work toward this year",
-          root:"What holds you back from taking those steps today" } }
-  ];
-  function guideArea(id){ return GUIDE_AREAS.find(function(a){ return a.id === id; }); }
 
   // Focus View entry: four versions — 1 (d) card full width between At first glance and
   // What needs focus, 2 (c) conversational popup 2 seconds after landing, 3 (e) a nudge
@@ -2742,50 +2720,17 @@
     if(panel && !reduce){ panel.addEventListener('animationend', fin, { once: true }); setTimeout(fin, 400); }
     else fin();
   }
-  function downloadGuide(){
-    var blob = new Blob([buildGuideFile()], { type: 'text/html' });
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url; a.download = 'conversation-guide-sales-west.html';
-    document.body.appendChild(a); a.click();
-    setTimeout(function(){ if(a.parentNode) a.parentNode.removeChild(a); URL.revokeObjectURL(url); }, 800);
-  }
 
-  // Self-contained printable HTML deliverable (opens/prints on its own, no design-system files).
-  function guideFileSection(a){
-    return '<section class="sec">' +
-      '<p class="eyebrow">Focus area ' + a.no + ' &middot; ' + esc(a.theme) + '</p>' +
-      '<h2>' + esc(a.statement) + '</h2>' +
-      '<p class="meta"><span class="score">' + esc(a.score) + '</span> ' + esc(a.trend.text) + '</p>' +
-      '<div class="q"><span>Clarify</span><p>' + esc(a.q.clarify) + '</p></div>' +
-      '<div class="q"><span>Concretize</span><p>' + esc(a.q.concretize) + '</p></div>' +
-      '<div class="q"><span>Root cause</span><p>' + esc(a.q.root) + '</p></div>' +
-      '<p class="triage">As a team, decide together: is this one to improve now, keep an eye on, or ask for support with.</p>' +
-    '</section>';
-  }
-  function buildGuideFile(){
-    var css = 'body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#1b2733;max-width:720px;margin:40px auto;padding:0 24px;line-height:1.6}'
-      + 'h1{font-size:24px;margin:0 0 4px}.sub{color:#5b6b7b;margin:0 0 24px}'
-      + '.agenda{border:1px solid #e2e8f0;border-radius:10px;padding:16px 20px;margin:0 0 28px}'
-      + '.agenda h3{margin:0 0 8px;font-size:15px}.agenda ol{margin:0;padding:0;list-style:none}'
-      + '.agenda li{display:flex;gap:16px;padding:2px 0}.agenda .t{width:44px;color:#5b6b7b;flex:none}'
-      + '.branch{background:#eff6ff;border-radius:8px;padding:8px 12px;margin:8px 0;color:#334155;font-size:14px}'
-      + '.sec{border-top:1px solid #e2e8f0;padding-top:20px;margin-top:20px}'
-      + '.eyebrow{color:#0a7d78;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.04em;margin:0}'
-      + '.sec h2{font-size:17px;margin:4px 0 8px}.meta{color:#5b6b7b;margin:0 0 12px}'
-      + '.score{display:inline-block;background:#fff4e5;color:#b25b00;font-weight:600;border-radius:20px;padding:2px 10px;margin-right:8px}'
-      + '.q{border-left:2px solid #b7e0de;padding-left:14px;margin:8px 0}.q span{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:#5b6b7b}.q p{margin:2px 0 0}'
-      + '.triage{background:#f1f5f9;border-radius:8px;padding:8px 12px;font-size:14px;color:#334155}'
-      + '@media print{body{margin:0}.sec{break-inside:avoid}}';
-    var agenda = '<div class="agenda"><h3>Agenda &middot; about 45 minutes</h3><ol>'
-      + '<li><span class="t">0:00</span><span>Open the conversation</span></li>'
-      + '<li class="branch">If your team has not seen the results yet, plan 15 to 25 minutes to share them first</li>'
-      + GUIDE_AREAS.map(function(a, i){ var m = 5 + i * 10; return '<li><span class="t">0:' + (m < 10 ? '0' + m : m) + '</span><span>' + esc(a.theme) + '</span></li>'; }).join('')
-      + '<li><span class="t">0:' + (5 + GUIDE_AREAS.length * 10) + '</span><span>Agree on next steps</span></li></ol></div>';
-    var closing = '<section class="sec"><p class="eyebrow">Close</p><h2>Agree on next steps</h2><p>Before you wrap up, agree on one or two concrete steps and who will follow up. You can record the steps you agree on in the Action Planner.</p></section>';
-    var head = '<h1>Your conversation guide</h1><p class="sub">Generated from ' + esc(GUIDE_META.survey) + ' for ' + esc(GUIDE_META.team) + '</p>';
-    var inner = head + agenda + GUIDE_AREAS.map(guideFileSection).join('') + closing;
-    return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Conversation guide, ' + esc(GUIDE_META.team) + '</title><style>' + css + '</style></head><body>' + inner + '</body></html>';
+  // The guide is a real document that ships with the prototype, not something built
+  // on the fly: a tester downloads exactly the PDF a manager would get, so their
+  // feedback is about the actual guide.
+  var GUIDE_FILE = 'guide/conversation-guide.pdf';
+  function downloadGuide(){
+    var a = document.createElement('a');
+    a.href = GUIDE_FILE;
+    a.download = 'Conversation guide for managers.pdf';
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ if(a.parentNode) a.parentNode.removeChild(a); }, 800);
   }
 
   renderCards();

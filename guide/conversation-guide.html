@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Understanding what drives results — Conversation guide for managers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Effectory design system values, inlined so the guide is self contained:
+     it opens, prints and is shared without any of the design system files. */
+  :root {
+    --brand: #166764;          /* content-brand   */
+    --brand-mid: #0a9d99;      /* bg-brand        */
+    --brand-tint: #d2f8f6;     /* bg-brand-subtle */
+    --ink: #192743;            /* content-base    */
+    --ink-70: rgba(25, 39, 67, .80);
+    --ink-50: rgba(25, 39, 67, .50);
+    --line: #e1e4e8;
+    --paper: #ffffff;
+    --grey: #f8f8f9;
+    --yellow-tint: #ffefc2;
+    --yellow: #d68100;
+    --blue-tint: #e6f0fe;
+    --blue: #205bb9;
+    --green-tint: #d7f9e0;
+    --green: #236e41;
+    --r-sm: 6px;
+    --r-md: 10px;
+    --r-lg: 16px;
+    --sans: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--grey);
+    margin: 0;
+    padding: 32px 20px 64px;
+    line-height: 1.6;
+    font-size: 13px;
+  }
+  .page { max-width: 820px; margin: 0 auto; }
+
+  /* ─── Masthead ────────────────────────────────────────────────────────── */
+  .masthead {
+    position: relative; overflow: hidden;
+    background: var(--brand); color: #fff;
+    border-radius: var(--r-lg);
+    padding: 34px 38px 30px;
+  }
+  /* the signature Effectory corner wave */
+  .masthead::after {
+    content: ''; position: absolute; right: -60px; bottom: -110px;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: rgba(255, 255, 255, .07);
+  }
+  .masthead::before {
+    content: ''; position: absolute; right: 40px; top: -90px;
+    width: 190px; height: 190px; border-radius: 50%;
+    background: rgba(255, 255, 255, .06);
+  }
+  .mast-body { position: relative; z-index: 1; }
+  .kicker {
+    display: inline-block; margin: 0 0 14px;
+    font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: #fff; background: rgba(255, 255, 255, .16);
+    border-radius: 100px; padding: 5px 12px;
+  }
+  .masthead h1 { margin: 0; font-size: 30px; line-height: 1.25; font-weight: 600; letter-spacing: -.01em; }
+  .masthead .lede { margin: 8px 0 0; font-size: 15px; color: rgba(255, 255, 255, .88); font-weight: 400; }
+
+  .fill-row { display: flex; gap: 14px; margin-top: 24px; position: relative; z-index: 1; }
+  .fill { flex: 1; }
+  .fill span {
+    display: block; font-size: 10px; letter-spacing: .09em; text-transform: uppercase;
+    font-weight: 600; color: rgba(255, 255, 255, .72); margin-bottom: 5px;
+  }
+  .fill i { display: block; height: 30px; border-radius: var(--r-sm); background: rgba(255, 255, 255, .14); }
+
+  /* ─── Generic blocks ──────────────────────────────────────────────────── */
+  .card {
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: var(--r-md); padding: 20px 22px;
+  }
+  .stack > * + * { margin-top: 14px; }
+  section { margin-top: 26px; }
+
+  h2.sec-title {
+    margin: 0 0 4px; font-size: 21px; font-weight: 600; letter-spacing: -.01em;
+  }
+  .sec-lede { margin: 0 0 16px; font-size: 13.5px; color: var(--ink-70); max-width: 68ch; }
+  .rule { display: flex; align-items: center; gap: 12px; margin: 0 0 14px; }
+  .rule::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+  .rule .num {
+    flex: none; width: 30px; height: 30px; border-radius: 50%;
+    background: var(--brand); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 600;
+  }
+  .rule h3 { margin: 0; font-size: 16px; font-weight: 600; }
+
+  /* icon + text row, used for the role and the opening note */
+  .note { display: flex; gap: 16px; align-items: flex-start; }
+  .note-ico {
+    flex: none; width: 42px; height: 42px; border-radius: var(--r-sm);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .note-ico svg { width: 22px; height: 22px; }
+  .note h3 { margin: 0 0 4px; font-size: 15px; font-weight: 600; }
+  .note p { margin: 0; font-size: 13px; color: var(--ink-70); }
+  .is-brand { background: var(--brand-tint); color: var(--brand); }
+  .is-blue  { background: var(--blue-tint);  color: var(--blue); }
+  .is-green { background: var(--green-tint); color: var(--green); }
+  .is-yellow{ background: var(--yellow-tint);color: var(--yellow); }
+
+  /* ─── Three reminders ─────────────────────────────────────────────────── */
+  .reminders { background: var(--yellow-tint); border-radius: var(--r-md); padding: 20px 22px; }
+  .reminders > .lbl {
+    font-size: 10px; letter-spacing: .09em; text-transform: uppercase;
+    font-weight: 600; color: var(--yellow); margin-bottom: 14px;
+  }
+  .rem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .rem-ico {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--yellow); color: #fff;
+    display: flex; align-items: center; justify-content: center; margin-bottom: 9px;
+  }
+  .rem-ico svg { width: 18px; height: 18px; }
+  .rem h4 { margin: 0 0 3px; font-size: 14px; font-weight: 600; }
+  .rem p { margin: 0; font-size: 12px; line-height: 1.5; color: var(--ink-70); }
+
+  /* ─── Focus areas + celebration ───────────────────────────────────────── */
+  .two-col { display: grid; grid-template-columns: 1.15fr 1fr; gap: 16px; align-items: start; }
+  .panel-lbl {
+    font-size: 10px; letter-spacing: .09em; text-transform: uppercase; font-weight: 600;
+    margin: 0 0 2px;
+  }
+  .panel-sub { margin: 0 0 14px; font-size: 11.5px; color: var(--ink-50); }
+  .blanks { list-style: none; margin: 0; padding: 0; counter-reset: b; }
+  .blanks li { display: flex; align-items: center; gap: 10px; padding: 7px 0; }
+  .blanks li + li { border-top: 1px dashed var(--line); }
+  .blanks .n {
+    flex: none; width: 21px; height: 21px; border-radius: 50%;
+    background: var(--brand-tint); color: var(--brand);
+    font-size: 11px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .blanks .ln { flex: 1; height: 15px; border-bottom: 1px dotted #b9c0cc; }
+  .writeline { height: 15px; border-bottom: 1px dotted #b9c0cc; margin-top: 12px; }
+  .panel-foot { margin: 14px 0 0; font-size: 12px; color: var(--ink-70); }
+
+  /* ─── Agenda timeline ─────────────────────────────────────────────────── */
+  .agenda { position: relative; padding-left: 2px; }
+  .ag-item { display: flex; gap: 16px; position: relative; padding-bottom: 14px; }
+  .ag-item:last-child { padding-bottom: 0; }
+  .ag-rail { flex: none; width: 34px; display: flex; flex-direction: column; align-items: center; }
+  .ag-dot {
+    width: 34px; height: 34px; border-radius: 50%; flex: none;
+    background: var(--brand); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 600;
+  }
+  .ag-line { flex: 1; width: 2px; background: var(--brand-tint); margin: 5px 0 0; min-height: 14px; }
+  .ag-item:last-child .ag-line { display: none; }
+  .ag-card {
+    flex: 1; background: var(--paper); border: 1px solid var(--line);
+    border-radius: var(--r-md); padding: 13px 16px;
+    display: flex; gap: 16px; align-items: baseline; justify-content: space-between;
+  }
+  .ag-txt h4 { margin: 0 0 2px; font-size: 14px; font-weight: 600; }
+  .ag-txt p { margin: 0; font-size: 12.5px; color: var(--ink-70); }
+  .ag-time {
+    flex: none; font-size: 11.5px; font-weight: 600; color: var(--brand);
+    background: var(--brand-tint); border-radius: 100px; padding: 4px 11px; white-space: nowrap;
+  }
+  .ag-total {
+    margin-top: 14px; text-align: right; font-size: 12px; color: var(--ink-50);
+  }
+
+  /* ─── Conversation starter quote ──────────────────────────────────────── */
+  .quote {
+    background: var(--brand-tint);
+    border-radius: var(--r-md); padding: 16px 20px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .quote svg { flex: none; width: 20px; height: 20px; color: var(--brand); margin-top: 2px; }
+  .quote .lbl {
+    display: block; font-size: 10px; letter-spacing: .09em; text-transform: uppercase;
+    font-weight: 600; color: var(--brand); margin-bottom: 5px;
+  }
+  .quote p { margin: 0; font-size: 13.5px; font-style: italic; color: var(--ink); }
+  .quote p + p { margin-top: 8px; }
+
+  /* ─── Prompt pairs ────────────────────────────────────────────────────── */
+  .prompts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .prompt { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-md); padding: 15px 17px; }
+  .prompt .tag {
+    display: inline-block; font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+    font-weight: 600; color: var(--brand); background: var(--brand-tint);
+    border-radius: 100px; padding: 3px 9px; margin-bottom: 8px;
+  }
+  .prompt p { margin: 0; font-size: 13px; }
+  .prompt p + p { margin-top: 6px; }
+
+  /* ─── Conversation starters table ─────────────────────────────────────── */
+  .starters { border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; background: var(--paper); }
+  .st-head {
+    display: grid; grid-template-columns: 168px 1fr;
+    background: var(--brand); color: #fff;
+    font-size: 10px; letter-spacing: .09em; text-transform: uppercase; font-weight: 600;
+  }
+  .st-head span { padding: 10px 16px; }
+  .st-row { display: grid; grid-template-columns: 168px 1fr; border-top: 1px solid var(--line); }
+  .st-row:first-of-type { border-top: 0; }
+  .st-key {
+    display: flex; align-items: flex-start; gap: 9px;
+    padding: 12px 16px; background: var(--grey);
+    font-size: 12px; font-weight: 600; color: var(--brand); letter-spacing: .03em;
+  }
+  .st-key svg { flex: none; width: 15px; height: 15px; margin-top: 1px; }
+  .st-q { padding: 12px 16px; font-size: 13px; }
+
+  /* ─── Keep listening strip ────────────────────────────────────────────── */
+  .listen { background: var(--blue-tint); border-radius: var(--r-md); padding: 15px 18px; }
+  .listen .lbl {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 10px; letter-spacing: .09em; text-transform: uppercase;
+    font-weight: 600; color: var(--blue); margin-bottom: 9px;
+  }
+  .listen .lbl svg { width: 15px; height: 15px; }
+  .listen ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+  .listen li {
+    background: rgba(255, 255, 255, .75); border-radius: 100px;
+    padding: 5px 13px; font-size: 12.5px; font-style: italic;
+  }
+  .listen .after { margin: 10px 0 0; font-size: 12px; color: var(--ink-70); }
+
+  /* ─── Record grid ─────────────────────────────────────────────────────── */
+  .record { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .rec {
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: var(--r-md); padding: 13px 15px 16px;
+  }
+  .rec span {
+    display: block; font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+    font-weight: 600; color: var(--brand); margin-bottom: 10px;
+  }
+  .rec i { display: block; height: 14px; border-bottom: 1px dotted #b9c0cc; }
+  .rec i + i { margin-top: 11px; }
+
+  /* ─── Footer ──────────────────────────────────────────────────────────── */
+  .foot {
+    margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--line);
+    display: flex; gap: 16px; align-items: center; justify-content: space-between;
+    font-size: 11.5px; color: var(--ink-50);
+  }
+  .foot strong { color: var(--ink-70); font-weight: 600; }
+
+  /* ─── Print: A4 ───────────────────────────────────────────────────────── */
+  @page { size: A4; margin: 13mm 12mm; }
+  @media print {
+    body { background: #fff; padding: 0; font-size: 11.5px; }
+    .page { max-width: none; }
+    .masthead { border-radius: 12px; padding: 26px 30px 24px; }
+    .masthead h1 { font-size: 25px; }
+    section { margin-top: 18px; }
+    .card, .rem, .ag-item, .prompt, .rec, .quote, .reminders, .listen, .st-row { break-inside: avoid; }
+    .starters, .two-col, .record, .prompts { break-inside: avoid; }
+    section { break-inside: avoid-page; }
+    .page-break { break-before: page; }
+    .foot { break-inside: avoid; }
+  }
+
+  /* Scoped to SCREEN only: an A4 print box is about 700 CSS px wide, so an
+     unscoped max-width rule would collapse every two-column block in the PDF. */
+  @media screen and (max-width: 820px) {
+    .two-col, .prompts, .rem-grid, .record { grid-template-columns: 1fr; }
+    .st-head, .st-row { grid-template-columns: 1fr; }
+    .st-head span:first-child { padding-bottom: 0; }
+    .fill-row { flex-direction: column; }
+    .ag-card { flex-direction: column; align-items: flex-start; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ══════════════ Masthead ══════════════ -->
+  <header class="masthead">
+    <div class="mast-body">
+      <p class="kicker">Conversation guide for managers</p>
+      <h1>Understanding what drives results</h1>
+      <p class="lede">A light structure for the conversation that turns your team's results into shared understanding, and then into one agreed step.</p>
+      <div class="fill-row">
+        <label class="fill"><span>Survey name</span><i></i></label>
+        <label class="fill"><span>Team name</span><i></i></label>
+        <label class="fill"><span>Date</span><i></i></label>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══════════════ Your role ══════════════ -->
+  <section class="stack">
+    <div class="card note">
+      <span class="note-ico is-brand" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 20v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="3.5"/>
+          <path d="M22 20v-2a4 4 0 0 0-3-3.87M16.5 3.6a4 4 0 0 1 0 6.8"/>
+        </svg>
+      </span>
+      <div>
+        <h3>Your role in the conversation</h3>
+        <p>You are a facilitator and listener. As a manager, you set the tone, encourage a safe environment and foster healthy, respectful team conversations.</p>
+      </div>
+    </div>
+
+    <!-- three reminders -->
+    <div class="reminders">
+      <p class="lbl">Reminder for managers</p>
+      <div class="rem-grid">
+        <div class="rem">
+          <span class="rem-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6M11 8v3l2 1.5"/>
+            </svg>
+          </span>
+          <h4>Be curious</h4>
+          <p>Treat the result as a signal to understand, not a verdict to defend.</p>
+        </div>
+        <div class="rem">
+          <span class="rem-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 12a8 8 0 0 1 16 0v5a3 3 0 0 1-3 3h-1"/><rect x="2.5" y="12" width="4" height="6" rx="2"/><rect x="17.5" y="12" width="4" height="6" rx="2"/>
+            </svg>
+          </span>
+          <h4>Listen before deciding</h4>
+          <p>Hear examples and context before moving to solutions.</p>
+        </div>
+        <div class="rem">
+          <span class="rem-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="7" r="3"/><circle cx="5" cy="17" r="3"/><circle cx="19" cy="17" r="3"/>
+              <path d="M12 10v2.5M12 12.5l-5 2M12 12.5l5 2"/>
+            </svg>
+          </span>
+          <h4>Share ownership</h4>
+          <p>Involve the team in what matters and in what happens next.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card note">
+      <span class="note-ico is-blue" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 14v-3M11.5 14V8M16 14v-5"/>
+        </svg>
+      </span>
+      <div>
+        <h3>Start with the overall team results</h3>
+        <p>Open the discussion by looking at the team's overall results. Use whichever visual supports the conversation best: this guide, a one pager, a slide deck or another results view. The aim is to create a shared picture before discussing the focus areas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ Overall results and focus areas ══════════════ -->
+  <section>
+    <h2 class="sec-title">Overall results and focus areas</h2>
+    <p class="sec-lede">Present the overall results first, then show the three generated focus areas. Check what resonates with the team and guide them to select one focus area to explore more deeply. Do not try to cover all three in one meeting.</p>
+
+    <div class="two-col">
+      <div class="card">
+        <p class="panel-lbl" style="color: var(--brand)">Three focus areas</p>
+        <p class="panel-sub">Generated from your team results</p>
+        <ul class="blanks">
+          <li><span class="n">1</span><span class="ln"></span></li>
+          <li><span class="n">2</span><span class="ln"></span></li>
+          <li><span class="n">3</span><span class="ln"></span></li>
+        </ul>
+        <p class="panel-foot">Present all three, check what resonates, then choose one together.</p>
+      </div>
+
+      <div class="card" style="background: var(--green-tint); border-color: transparent">
+        <p class="panel-lbl" style="color: var(--green)">Celebration point</p>
+        <p class="panel-sub">Generated from your team results, if available</p>
+        <div class="writeline"></div>
+        <div class="writeline"></div>
+        <p class="panel-foot">Notice what is working well and how to protect or build on it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ Agenda ══════════════ -->
+  <section>
+    <h2 class="sec-title">Suggested agenda</h2>
+    <p class="sec-lede">Five steps, about 35 to 45 minutes in total.</p>
+
+    <div class="agenda">
+      <div class="ag-item">
+        <div class="ag-rail"><span class="ag-dot">1</span><span class="ag-line"></span></div>
+        <div class="ag-card">
+          <div class="ag-txt"><h4>Open the conversation</h4><p>Set the purpose and create a safe environment.</p></div>
+          <span class="ag-time">5 min</span>
+        </div>
+      </div>
+      <div class="ag-item">
+        <div class="ag-rail"><span class="ag-dot">2</span><span class="ag-line"></span></div>
+        <div class="ag-card">
+          <div class="ag-txt"><h4>Look at the overall results and select a focus area</h4><p>Present the overall picture and three focus areas, check resonance and choose one together.</p></div>
+          <span class="ag-time">5 to 10 min</span>
+        </div>
+      </div>
+      <div class="ag-item">
+        <div class="ag-rail"><span class="ag-dot">3</span><span class="ag-line"></span></div>
+        <div class="ag-card">
+          <div class="ag-txt"><h4>Take a moment to celebrate</h4><p>If there is a celebration point, notice what is going well and make it visible.</p></div>
+          <span class="ag-time">5 min</span>
+        </div>
+      </div>
+      <div class="ag-item">
+        <div class="ag-rail"><span class="ag-dot">4</span><span class="ag-line"></span></div>
+        <div class="ag-card">
+          <div class="ag-txt"><h4>Dive deeper and set concrete agreements</h4><p>Use the generic conversation starters to understand the selected area, then agree a realistic step.</p></div>
+          <span class="ag-time">15 to 20 min</span>
+        </div>
+      </div>
+      <div class="ag-item">
+        <div class="ag-rail"><span class="ag-dot">5</span><span class="ag-line"></span></div>
+        <div class="ag-card">
+          <div class="ag-txt"><h4>Close off the meeting</h4><p>Summarise what you heard, what happens next and the follow up moment.</p></div>
+          <span class="ag-time">3 min</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ Guidance ══════════════ -->
+  <section class="page-break">
+    <h2 class="sec-title">Further guidance on each agenda point</h2>
+    <p class="sec-lede">Use these prompts as a light reference. Adapt them to the flow of the conversation rather than reading them as a script.</p>
+  </section>
+
+  <!-- 1 -->
+  <section class="stack">
+    <div class="rule"><span class="num">1</span><h3>Open the conversation</h3></div>
+    <p class="sec-lede" style="margin-bottom: 0">Set the purpose: understand the experience behind the results before deciding what to do. Create safety by agreeing to listen to understand, make room for different experiences and discuss patterns rather than individual responses.</p>
+    <div class="quote">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.6-.8L3 20.5l1.4-4.2A8.2 8.2 0 0 1 3.6 12a8.4 8.4 0 0 1 8.4-8.4h.5A8.4 8.4 0 0 1 21 11.5z"/>
+      </svg>
+      <div>
+        <span class="lbl">Conversation starter</span>
+        <p>"These results tell us where to look, not why the results are what they are. I would like us to understand the experience behind them together."</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="stack">
+    <div class="rule"><span class="num">2</span><h3>Look at the overall results and select a focus area</h3></div>
+    <p class="sec-lede" style="margin-bottom: 0">Open the discussion with the overall team results. You can use this guide, a one pager, a slide deck or another visual that fits the context. Present the three generated focus areas, check whether they resonate with the team, and guide the team to select one area to explore further.</p>
+    <div class="prompts">
+      <div class="prompt">
+        <span class="tag">Open the picture</span>
+        <p>What do you recognise in this picture?</p>
+      </div>
+      <div class="prompt">
+        <span class="tag">Check resonance</span>
+        <p>What feels incomplete or surprising?</p>
+        <p>Which of the three focus areas feels most important or useful for us to explore?</p>
+      </div>
+    </div>
+    <div class="card note" style="background: var(--grey)">
+      <span class="note-ico is-yellow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.4.3.6.8.6 1.2h6c0-.4.2-.9.6-1.2A6 6 0 0 0 12 3z"/>
+        </svg>
+      </span>
+      <div><p>Choose one focus area together. The manager guides the selection, but should not decide in isolation.</p></div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="stack">
+    <div class="rule"><span class="num">3</span><h3>Take a moment to celebrate</h3></div>
+    <p class="sec-lede" style="margin-bottom: 0">If a celebration point is available, use it to notice what is going well and make the team's contribution visible. Share a few concrete examples of behaviours you see day to day, without turning the moment into a speech.</p>
+    <div class="prompts">
+      <div class="prompt">
+        <span class="tag" style="background: var(--green-tint); color: var(--green)">Notice</span>
+        <p>What is helping this work well?</p>
+      </div>
+      <div class="prompt">
+        <span class="tag" style="background: var(--green-tint); color: var(--green)">Build</span>
+        <p>When have you experienced this at its best?</p>
+        <p>What should we protect, repeat or build on?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="stack page-break">
+    <div class="rule"><span class="num">4</span><h3>Dive deeper into the selected focus area and set concrete agreements</h3></div>
+    <p class="sec-lede" style="margin-bottom: 0">Use the generic conversation starters below for whichever focus area the team selected. Choose two or three, listen to the responses, ask a follow up when useful, check whether others recognise the pattern and summarise what you hear.</p>
+
+    <div class="starters">
+      <div class="st-head"><span>Conversation starter</span><span>Use it to explore</span></div>
+      <div class="st-row">
+        <div class="st-key">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.6"/></svg>
+          Notice
+        </div>
+        <div class="st-q">What stands out to you about this result?</div>
+      </div>
+      <div class="st-row">
+        <div class="st-key">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="16" rx="2.5"/><path d="M7.5 9.5h9M7.5 13.5h6"/></svg>
+          Example
+        </div>
+        <div class="st-q">What does this look like in our day to day work? Can you think of a recent example?</div>
+      </div>
+      <div class="st-row">
+        <div class="st-key">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5l3 2"/></svg>
+          Context
+        </div>
+        <div class="st-q">What was happening when the survey was answered? Was there a project, change, deadline, incident or period of pressure that may have influenced the result?</div>
+      </div>
+      <div class="st-row">
+        <div class="st-key">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>
+          Driver
+        </div>
+        <div class="st-q">What seems to be making this easier or harder?</div>
+      </div>
+      <div class="st-row">
+        <div class="st-key">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="3"/><circle cx="17" cy="14" r="3"/><path d="M3 20a5 5 0 0 1 10 0"/></svg>
+          Difference
+        </div>
+        <div class="st-q">Does anyone experience this differently? What might explain the difference?</div>
+      </div>
+      <div class="st-row">
+        <div class="st-key">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></svg>
+          Influence
+        </div>
+        <div class="st-q">What part of this is within our team's influence, and what needs support elsewhere?</div>
+      </div>
+      <div class="st-row">
+        <div class="st-key">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2.5 4.5 13.5H11l-.8 8 8.3-11h-6.4l.9-8z"/></svg>
+          Meaningful change
+        </div>
+        <div class="st-q">What would make a meaningful difference?</div>
+      </div>
+    </div>
+
+    <div class="listen">
+      <p class="lbl">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 0 1 16 0v5a3 3 0 0 1-3 3h-1"/><rect x="2.5" y="12" width="4" height="6" rx="2"/><rect x="17.5" y="12" width="4" height="6" rx="2"/></svg>
+        Keep listening
+      </p>
+      <ul>
+        <li>"Can you say a little more?"</li>
+        <li>"What else is important here?"</li>
+        <li>"I'm hearing … Did I capture that accurately?"</li>
+      </ul>
+      <p class="after">Use the deeper question only if the team wants to go further.</p>
+    </div>
+
+    <p class="sec-lede" style="margin: 0">Set concrete agreements: check what needs addressing first, agree whether to improve, monitor or seek support, then set a small, realistic step. The manager remains accountable for follow through.</p>
+
+    <div class="prompts">
+      <div class="prompt"><p>Which theme matters most to carry forward?</p></div>
+      <div class="prompt"><p>What would make a meaningful difference?</p></div>
+      <div class="prompt"><p>What is one small, realistic first step?</p></div>
+      <div class="prompt"><p>Who owns it, what support is needed and when will we check in?</p></div>
+    </div>
+
+    <div class="record">
+      <div class="rec"><span>Shared focus</span><i></i><i></i></div>
+      <div class="rec"><span>What we learned</span><i></i><i></i></div>
+      <div class="rec"><span>First step</span><i></i><i></i></div>
+      <div class="rec"><span>Owner and timing</span><i></i><i></i></div>
+      <div class="rec"><span>Support needed</span><i></i><i></i></div>
+      <div class="rec"><span>Follow up</span><i></i><i></i></div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="stack">
+    <div class="rule"><span class="num">5</span><h3>Close off the meeting</h3></div>
+    <div class="quote">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.6-.8L3 20.5l1.4-4.2A8.2 8.2 0 0 1 3.6 12a8.4 8.4 0 0 1 8.4-8.4h.5A8.4 8.4 0 0 1 21 11.5z"/>
+      </svg>
+      <div>
+        <span class="lbl">Conversation starter</span>
+        <p>"Today we heard … We agreed to … The first step is … [name] will … by … We will check in again …"</p>
+        <p>"What is the most important thing we should take forward from this conversation?"</p>
+      </div>
+    </div>
+    <div class="card note">
+      <span class="note-ico is-green" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6.5 9.5 17 4 11.5"/>
+        </svg>
+      </span>
+      <div><p>Thank everyone for participating and being open. Make sure the agreement and follow up are visible after the meeting.</p></div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span><strong>Understanding what drives results</strong> &middot; Conversation guide for managers</span>
+    <span>Effectory</span>
+  </footer>
+
+</div>
+</body>
+</html>

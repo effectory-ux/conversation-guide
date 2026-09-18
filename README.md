@@ -1,8 +1,8 @@
 # Conversation Guide
 
-The Action Center · Manager and Conversation Guide prototypes: the pages a
-manager sees after a survey, and the guide that helps them bring the results to
-their team before deciding what to do.
+The Conversation Guide prototype: the guide that helps a manager bring their
+team's results to the team before deciding what to do, and the document they
+download from it.
 
 Moved here from `effectory-design/effectory-design-documentation` on 2026-09-16.
 
@@ -10,31 +10,37 @@ Moved here from `effectory-design/effectory-design-documentation` on 2026-09-16.
 
 | File | What it is |
 |---|---|
-| `conversation-guide-v1.html` | Conversation Guide, **version 1**: the entry card sits in the page, above the focus cards |
-| `conversation-guide-v2.html` | Conversation Guide, **version 2**: a popup appears from the bottom right two seconds after landing |
-| `action-center-manager-stepper.html` | Action Center · Manager, stepper version (the one the guide builds on) |
-| `action-center-manager.html` | Action Center · Manager |
-| `action-center-manager-v4.html` | Action Center · Manager, v4 |
-| `action-center-manager-v5.html` | Action Center · Manager, v5 |
+| `conversation-guide-v1.html` | **Version 1**: the entry card sits in the page, above the focus cards |
+| `conversation-guide-v2.html` | **Version 2**: a popup appears from the bottom right two seconds after landing |
 
-v1 and v2 are the A/B pair for user testing: same title and description, one
-entry point each, no variant switcher.
+The two are the A/B pair for user testing: same title and description, one entry
+point each, no variant switcher. Everything else about them is identical.
 
-`ac-overview-embed.html` is the Overview fragment the prototypes load in an
-iframe; it is not a prototype on its own.
+`ac-overview-embed.html` is the Overview fragment both load in an iframe; it is
+not a prototype on its own.
 
-`guide/` holds the conversation guide document itself: the PDF the side panel's
-**Download guide** button hands over, its design source and the original content.
+`guide/` holds the conversation guide document: the PDF the side panel's
+**Download guide** button hands over, and the original content it came from.
 See `guide/README.md`.
+
+## Where the Action Center prototypes went
+
+They used to live here too. They now have their own repo,
+[effectory-ux/action-center](https://github.com/effectory-ux/action-center),
+published at <https://effectory-ux.github.io/action-center/>, so the copies here
+were removed on 2026-09-18 rather than left to drift. The prototype toolbar and
+its `proto-config-ac.js` went with them: nothing here loaded them.
+
+The Conversation Guide builds on the stepper version of that prototype, so when
+its Focus view or Actions page changes, the change usually belongs here too.
 
 ## Building blocks
 
 `tokens.css`, `foundation.css`, `components.css`, `icons.js` and `assets/` are
 copies from the Engage design system, kept here so the prototypes render without
 a build step. `effectiveness.css`, `effectiveness.js` and `i18n.js` belong to the
-Overview embed. `toolbar/` is the shared prototype toolbar (a copy of
-`effectory-ux/prototype-toolbar`); `proto-config-ac.js` is what the Action Center
-prototypes put in it.
+Overview embed, and `assets/illustrations/win-small.svg` and `improve-small.svg`
+are loaded by `effectiveness.js`.
 
 ## Running locally
 

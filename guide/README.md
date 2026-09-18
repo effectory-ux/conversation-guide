@@ -6,24 +6,28 @@ prototype, so a user-testing participant reviews exactly what a manager would ge
 
 | File | What it is |
 |---|---|
-| `conversation-guide.pdf` | The deliverable, A4, 5 pages. This is what the button downloads |
-| `conversation-guide.html` | The design source. Self contained: Effectory tokens, type and icons are inlined, so it opens and prints on its own |
-| `conversation-guide-source.docx` | The content as supplied, before the design pass. Kept so wording changes can be traced |
+| `conversation-guide.pdf` | The deliverable: A4, 6 pages. This is what the button downloads |
+| `conversation-guide-source.docx` | The original content brief, before the design pass. Kept so wording can be traced back |
 
-## Regenerating the PDF after a content or design change
+## Updating the guide
 
-Edit `conversation-guide.html`, serve the folder, then print it to PDF with
-headless Chrome:
+The PDF is **supplied, not built here**: it is designed outside this repo and
+dropped in. To publish a new version, replace `conversation-guide.pdf`, keeping
+the filename, and the prototype picks it up with no code change.
 
-```
-python3 -m http.server 8000
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless \
-  --print-to-pdf=guide/conversation-guide.pdf --no-pdf-header-footer \
-  http://localhost:8000/guide/conversation-guide.html
-```
+When the content changes, check the side panel still matches it. The panel is a
+trailer for this document, so these three things in `conversation-guide-v1.html`
+and `-v2.html` are the ones that go stale:
 
-Two things to keep in mind when editing the CSS: the responsive rules are scoped
-to `@media screen` on purpose, because an A4 print box is about 700 CSS pixels
-wide and an unscoped `max-width` rule would collapse every two column block in
-the PDF. And `print-color-adjust: exact` is what keeps the brand colours from
-being dropped when printing.
+- `guideIntroHTML()` — the three principles on the guide's cover
+- `guideStepsHTML()` — the agenda condensed to three moves, and the total time
+- `guideStartersHTML()` — three of the conversation starters, and how many exist
+
+## What the guide contains
+
+1. Cover: the promise, the three principles, and survey, team and date to fill in
+2. Suggested agenda at a glance: five steps, about 35 to 45 minutes
+3. Overall results and focus areas, with space for the three areas and a celebration point
+4. Guidance for steps 1 to 3, with conversation starters and a notes area
+5. Step 4: the seven conversation starters, keep listening prompts and a notes area
+6. Step 4 agreements, and step 5 to close off the meeting

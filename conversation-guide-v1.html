@@ -2657,7 +2657,7 @@
       ['check', 'Agree what happens next', 'One realistic step, owner and follow up', '3 min']
     ];
     return '<section class="cg-blk">' +
-      '<div class="cg-blk-head"><span class="cg-blk-label">What’s inside</span><span class="cg-blk-aside">About 40 minutes</span></div>' +
+      '<div class="cg-blk-head"><span class="cg-blk-label">What’s inside</span><span class="cg-blk-aside">Five steps, about 40 minutes</span></div>' +
       '<div class="cg-steps">' + steps.map(function(s){
         return '<div class="cg-step">' +
           '<span class="cg-step-ico"><i data-icon="' + s[0] + '"></i></span>' +
@@ -2684,19 +2684,19 @@
           '<span class="cg-starter-q">' + s[1] + '</span>' +
         '</div>';
       }).join('') + '</div>' +
-      '<p class="cg-starters-foot">Pick two or three that fit your team, then listen</p>' +
+      '<p class="cg-starters-foot">Pick two or three, then capture what you agree in the guide</p>' +
     '</section>';
   }
   function guidePanelBodyHTML(){
     return guideStepsHTML() + guideStartersHTML();
   }
   function guideIntroHTML(){
-    // The guide's own reminder for managers: be curious, listen before deciding, share ownership.
-    // Note: the icon file is Clock.svg (capital C) — GitHub Pages is case sensitive
-    var usps = [['lightbulb', 'Hear the experience behind the results'], ['Clock', 'A ready agenda for about 40 minutes'], ['group', 'End with one step you agree together']];
+    // The three principles the guide leads with on its cover, so the panel and the
+    // document a manager downloads open on the same promise.
+    var usps = [['search', 'Be curious about what sits behind the scores'], ['message', 'Listen before deciding'], ['group', 'Share ownership of what happens next']];
     return '<div class="cg-intro">' +
       '<div class="cg-intro-main">' +
-        '<h4 class="cg-intro-title">Understand first, then decide together</h4>' +
+        '<h4 class="cg-intro-title">Understand together, then agree one step</h4>' +
         '<div class="cg-intro-usps">' + usps.map(function(u){
           return '<div class="cg-usp"><span class="cg-usp-ico"><i data-icon="' + u[0] + '"></i></span> ' + u[1] + '</div>';
         }).join('') + '</div>' +

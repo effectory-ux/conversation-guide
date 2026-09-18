@@ -21,7 +21,7 @@ and `-v2.html` are the ones that go stale:
 
 - `guideIntroHTML()` — the three principles on the guide's cover
 - `guideStepsHTML()` — the agenda condensed to three moves, and the total time
-- `guideStartersHTML()` — three of the conversation starters, and how many exist
+- `guideTakeawaysHTML()` — the fields the team fills in on the last page, and the improve, monitor or need support decision
 
 ## What the guide contains
 
@@ -30,4 +30,4 @@ and `-v2.html` are the ones that go stale:
 3. Overall results and focus areas, with space for the three areas and a celebration point
 4. Guidance for steps 1 to 3, with conversation starters and a notes area
 5. Step 4: the seven conversation starters, keep listening prompts and a notes area
-6. Step 4 agreements, and step 5 to close off the meeting
+6. Step 4 agreements: six fields to fill in, a choice between improve, monitor and need support, then step 5 to close off the meeting

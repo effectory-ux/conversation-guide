@@ -969,28 +969,9 @@
     /* Guide preview side panel */
     .cg-guide-body { display: flex; flex-direction: column; gap: var(--spacing-loose); }
 
-    /* Intro USP card — soft yellow, borderless: title + USPs left, illustration right.
-       The extra-light yellow mixes two tokens; the DS has no tint lighter than
-       --bg-highlight-subtle, flagged as a token gap. */
-    .cg-intro {
-      display: flex; align-items: center; gap: var(--spacing-loose);
-      background: color-mix(in srgb, var(--bg-highlight-subtle) 45%, var(--bg-base));
-      border-radius: var(--radius-lg); padding: var(--spacing-loose);
-    }
-    .cg-intro-main { flex: 1; min-width: 0; }
-    .cg-intro-title { margin: 0 0 var(--spacing-base); font-size: 15px; font-weight: 700; line-height: 1.35; color: var(--content-base); }
-    .cg-intro-usps { display: flex; flex-direction: column; gap: var(--spacing-extra-tight); }
-    .cg-usp { display: flex; align-items: center; gap: var(--spacing-tight); font-size: 13px; font-weight: 500; color: var(--content-base); }
-    .cg-usp-ico {
-      flex-shrink: 0; width: 24px; height: 24px; border-radius: var(--radius-full);
-      display: inline-flex; align-items: center; justify-content: center;
-      background: var(--bg-highlight-base); color: var(--content-inverse);
-    }
-    .cg-usp-ico i { width: 12px; height: 12px; display: flex; }
-    .cg-intro-illo { flex-shrink: 0; width: 128px; height: auto; }
 
     /* Merged panel title: bold product name, regular tagline */
-    .cg-title-sub { font-weight: 400; }
+    .cg-title-sub { display: block; margin-top: 2px; font-weight: 400; }
 
     /* Panel section card — same surface as the example card, so the panel reads as one system */
     .cg-blk {
@@ -1033,11 +1014,24 @@
       display: inline-flex; align-items: center; gap: var(--spacing-extra-tight);
       padding: var(--spacing-extra-tight) var(--spacing-base-tight);
       border-radius: var(--radius-full);
-      background: var(--bg-positive-subtle); color: var(--content-base);
+      background: var(--bg-highlight-base); color: var(--content-base);
       font-size: 12.5px; font-weight: 500;
     }
-    .cg-take i { flex-shrink: 0; width: 13px; height: 13px; display: flex; color: var(--content-positive); }
+    .cg-take i { flex-shrink: 0; width: 13px; height: 13px; display: flex; color: var(--content-base); }
     .cg-takes-foot { margin: var(--spacing-base) 0 0; font-size: 12px; line-height: 1.5; color: var(--content-secondary); }
+
+    /* What you walk away with — the payoff block. Soft yellow so the outcome reads
+       differently from the white method blocks, with the chips a step darker in the
+       same family (the tint the intro card used on its USP icons). Content left,
+       illustration right. */
+    .cg-blk.cg-takeaways {
+      display: flex; align-items: center; gap: var(--spacing-loose);
+      background: var(--bg-highlight-subtle);
+      border-color: transparent; box-shadow: none;
+    }
+    .cg-takeaways-main { flex: 1; min-width: 0; }
+    .cg-takeaways-illo { flex-shrink: 0; width: 128px; height: auto; }
+
 
   </style>
 </head>
@@ -2677,30 +2671,19 @@
   // This is the block that earns the download, so it shows the outcome, not the method.
   function guideTakeawaysHTML(){
     var takes = ['Shared focus', 'What we learned', 'First step', 'Owner and timing', 'Support needed', 'Follow up moment'];
-    return '<section class="cg-blk">' +
-      '<div class="cg-blk-head"><span class="cg-blk-label">What you walk away with</span><span class="cg-blk-aside">Filled in together</span></div>' +
-      '<div class="cg-takes">' + takes.map(function(k){
-        return '<span class="cg-take"><i data-icon="check"></i>' + k + '</span>';
-      }).join('') + '</div>' +
-      '<p class="cg-takes-foot">Seven conversation starters get you there, then you decide together to improve, monitor or get support</p>' +
+    return '<section class="cg-blk cg-takeaways">' +
+      '<div class="cg-takeaways-main">' +
+        '<div class="cg-blk-head"><span class="cg-blk-label">What you walk away with</span><span class="cg-blk-aside">Filled in together</span></div>' +
+        '<div class="cg-takes">' + takes.map(function(k){
+          return '<span class="cg-take"><i data-icon="check"></i>' + k + '</span>';
+        }).join('') + '</div>' +
+        '<p class="cg-takes-foot">Seven conversation starters get you there, then you decide together to improve, monitor or get support</p>' +
+      '</div>' +
+      '<img class="cg-takeaways-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />' +
     '</section>';
   }
   function guidePanelBodyHTML(){
     return guideStepsHTML() + guideTakeawaysHTML();
-  }
-  function guideIntroHTML(){
-    // The three principles the guide leads with on its cover, so the panel and the
-    // document a manager downloads open on the same promise.
-    var usps = [['search', 'Be curious about what sits behind the scores'], ['message', 'Listen before deciding'], ['group', 'Share ownership of what happens next']];
-    return '<div class="cg-intro">' +
-      '<div class="cg-intro-main">' +
-        '<h4 class="cg-intro-title">Understand together, then agree one step</h4>' +
-        '<div class="cg-intro-usps">' + usps.map(function(u){
-          return '<div class="cg-usp"><span class="cg-usp-ico"><i data-icon="' + u[0] + '"></i></span> ' + u[1] + '</div>';
-        }).join('') + '</div>' +
-      '</div>' +
-      '<img class="cg-intro-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />' +
-    '</div>';
   }
   function guideFooterHTML(){
     return '<button class="btn btn-secondary" onclick="closeGuide()">Close</button>' +
@@ -2726,9 +2709,9 @@
           '<div class="sp-toolbar"><div class="sp-actions">' +
             '<div class="cg-tt"><button class="ib ib-36 ib-secondary" id="cg-guide-close" aria-label="Close" onclick="closeGuide()"><i data-icon="cross"></i></button><div class="tooltip is-left">Close</div></div>' +
           '</div></div>' +
-          '<div class="sp-heading"><h3 class="sp-title" id="cg-guide-title">Your conversation guide: <span class="cg-title-sub">Understanding what drives results</span></h3></div>' +
+          '<div class="sp-heading"><h3 class="sp-title" id="cg-guide-title">Your conversation guide:<span class="cg-title-sub">Understand what drives results</span></h3></div>' +
         '</div>' +
-        '<div class="sp-body cg-guide-body">' + guideIntroHTML() + guidePanelBodyHTML() + '</div>' +
+        '<div class="sp-body cg-guide-body">' + guidePanelBodyHTML() + '</div>' +
         '<div class="sp-footer cg-guide-footer" id="cg-guide-footer">' + guideFooterHTML() + '</div>' +
       '</div>';
     if(window.Icons) window.Icons.render(ov);

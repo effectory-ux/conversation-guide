@@ -1158,8 +1158,10 @@
           </div>
           <div class="fv-block-main">
             <div class="fv-cards" id="cards"></div>
-            <!-- The guide sits in the stack as the tile after the three focus areas, so it
-                 is read as the next thing to do rather than as a banner over the block. -->
+            <button class="fv-explore-more" id="explore-more" onclick="toggleMore()"><span id="explore-more-label">Explore more areas</span> <i data-icon="chevron-down"></i></button>
+            <div class="fv-more" id="more-block"><div class="fv-more-inner"><div class="fv-cards" id="cards-more"></div></div></div>
+            <!-- Last in the stack, below Explore more areas and the areas it opens, so the
+                 guide stays the closing tile whether or not the extra areas are expanded. -->
             <div class="cg-entry cg-entry-tile" id="cg-entry-band" hidden>
               <div class="cg-tt cg-entry-close"><button class="ib ib-24 ib-tertiary" aria-label="Dismiss" onclick="dismissEntry()"><i data-icon="cross"></i></button><div class="tooltip is-left">Dismiss</div></div>
               <div class="cg-entry-main">
@@ -1172,8 +1174,6 @@
               </div>
               <img class="cg-entry-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />
             </div>
-            <button class="fv-explore-more" id="explore-more" onclick="toggleMore()"><span id="explore-more-label">Explore more areas</span> <i data-icon="chevron-down"></i></button>
-            <div class="fv-more" id="more-block"><div class="fv-more-inner"><div class="fv-cards" id="cards-more"></div></div></div>
           </div>
         </div>
 

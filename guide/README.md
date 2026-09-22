@@ -5,7 +5,7 @@ already carries their survey, their team and their numbers instead of blank line
 
 | File | What it is |
 |---|---|
-| `conversation-guide.pdf` | **The run sheet, 3 pages.** What *Download a copy* hands over: the results and the principles on page one, the agenda, the starters and what you agree on page two |
+| `conversation-guide.pdf` | **The run sheet, 2 pages.** What *Download a copy* hands over: the results and the principles on page one, the agenda, the starters and what you agree on page two |
 | `conversation-guide-full.pdf` | **The full guide, 7 pages.** The same content with the guidance for each agenda step written out. Not linked from the prototype, kept as the long form reference |
 | `build.py` | Builds both documents, and holds the team results they are populated with |
 | `guide.css` | The shared print stylesheet |
@@ -52,6 +52,13 @@ iframe is unreliable on mobile, and the two are built from the same source.
 
 The `.sheet` is a fixed 210mm so the print stays exact, which is wider than a
 narrow dialog, so a screen-only `zoom` scales the page down. Print is untouched.
+
+The run sheet fits two pages by pairing what is read together rather than by
+cutting content: the two result lists sit side by side, so do steps two and
+three, and the seven starters run in two columns. Type bottoms out at 8pt, which
+is the floor for a sheet read at arm's length on a table. Measure
+`sheet.scrollHeight` in millimetres against 297 after any edit here, because one
+extra line spills a whole page.
 
 ## Keeping the side panel honest
 

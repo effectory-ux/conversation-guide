@@ -281,7 +281,7 @@ h2.sub svg { width: 5mm; height: 5mm; flex: none; }
 
 /* The run sheet's pages carry more per page than the guide's, so they start a
    little higher up. */
-.sheet.is-compact { padding-top: 12mm; }
+.sheet.is-compact { padding-top: 9mm; }
 
 /* ── How to show the results: the platform first, with fallbacks ──────────── */
 .present {
@@ -388,3 +388,75 @@ h2.sub svg { width: 5mm; height: 5mm; flex: none; }
   background: var(--card); color: var(--navy-80);
   font-size: 8.5pt; font-weight: 500;
 }
+
+/* ── Two pages: the two result lists and the seven starters run side by side,
+      and the type steps down a little, so the whole conversation is one sheet
+      folded once rather than three loose pages. ─────────────────────────────── */
+.results-two { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; align-items: start; }
+.results-two .sub { font-size: 11.5pt; margin-bottom: 3mm; }
+.results-two .note-line { margin-top: 2.5mm; font-size: 8.5pt; }
+/* Narrower cards, so the statement gets the room and the rest gives it up. */
+.is-runsheet .results-two .res { padding: 2.2mm 3mm; gap: 2.4mm; align-items: flex-start; }
+.is-runsheet .results-two .res-b { display: block; }
+.is-runsheet .results-two .res-b h3 { font-size: 9pt; line-height: 1.35; margin: 0 0 1mm; }
+.is-runsheet .results-two .res-tag { font-size: 6.5pt; padding: .5mm 1.8mm; }
+.is-runsheet .results-two .is-win .res-tag { display: inline-block; }
+.is-runsheet .results-two .res-n { width: 5mm; height: 5mm; font-size: 7.5pt; margin-top: .4mm; }
+.is-runsheet .results-two .res-score {
+  min-width: 12mm; padding: .6mm 1.6mm; font-size: 9pt; margin-top: 0;
+}
+
+.starters-two { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; align-items: start; }
+.starters-two .starters { border-radius: 2.5mm; }
+.starters-two .st-r { grid-template-columns: 1fr; }
+.starters-two .st-k { padding: 2mm 3mm .6mm; background: none; font-size: 9pt; }
+.starters-two .st-v { padding: 0 3mm 2.2mm; font-size: 8.5pt; line-height: 1.45; }
+.starters-two .st-r:first-of-type { border-top: 0; }
+
+/* The agenda closes page one, so it gives up a little more height. */
+.is-runsheet .agenda.is-rows .ag { padding: 1.4mm 0; }
+.is-runsheet .agenda.is-rows .ag-b h3 { font-size: 9.5pt; }
+.is-runsheet .agenda.is-rows .ag-n { width: 5.4mm; height: 5.4mm; font-size: 8pt; }
+.is-runsheet .agenda.is-rows .ag-t { font-size: 8pt; padding: 1mm 2.6mm; }
+
+/* Compaction pass for the two page run sheet: the banner gives up its generous
+   lede, the prompt pairs and quote boxes tighten, and the supporting lines drop
+   a point. Nothing is removed, everything is simply set smaller. */
+.is-runsheet .intro { padding: 7mm 14mm 5mm; }
+.is-runsheet .intro-title { font-size: 17pt; margin: 1.5mm 0 2mm; }
+.is-runsheet .intro-lede { font-size: 9pt; max-width: 98mm; line-height: 1.5; }
+.is-runsheet .intro-meta { margin-top: 4mm; }
+.is-runsheet .principles.is-onnavy { margin-top: 3.5mm; }
+
+.is-compact .step { margin-bottom: 5mm; }
+.is-compact .step-head { margin-bottom: 2mm; }
+.is-compact .step-head h3 { font-size: 11pt; }
+.is-compact .step > p { font-size: 9pt; margin-bottom: 2.5mm; }
+.is-compact .pair { gap: 2.5mm; }
+.is-compact .pair-box { padding: 2.6mm 3mm; }
+.is-compact .pair-box .tag { font-size: 7pt; margin-bottom: 1mm; }
+.is-compact .pair-box p { font-size: 9pt; line-height: 1.45; }
+.is-compact .starter-box { padding: 2.6mm 3.4mm; }
+.is-compact .starter-box .lbl { margin-bottom: 1.4mm; font-size: 7.5pt; }
+.is-compact .starter-box p { font-size: 9pt; line-height: 1.45; }
+.is-compact .starter-box p + p { margin-top: 1.4mm; }
+.is-compact .note-line { font-size: 8.5pt; }
+.is-compact h2.sub { font-size: 11.5pt; }
+/* The second page carries everything from step one to the close, so the starters
+   and the closing prompts take the last few millimetres out of their padding. */
+.starters-two .st-k { padding: 1.6mm 2.6mm .4mm; font-size: 8.5pt; }
+.starters-two .st-v { padding: 0 2.6mm 1.8mm; font-size: 8pt; line-height: 1.4; }
+.is-compact .agree { font-size: 8pt; padding: 1.4mm 2mm; }
+.is-compact .triage { font-size: 8.5pt; padding: .6mm 2.2mm; }
+.steps-two { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; align-items: start; margin-bottom: 1mm; }
+.starters-two .st-k { padding: 1.4mm 2.4mm .3mm; }
+.starters-two .st-v { padding: 0 2.4mm 1.5mm; }
+.is-compact .step-head h3 { font-size: 10.5pt; }
+.is-compact h2.sub { font-size: 11pt; margin-bottom: 2.5mm; }
+/* Last squeeze for the second page. 8pt is the floor here: the sheet is read at
+   arm's length on a table, so nothing goes smaller than this. */
+.is-compact .step { margin-bottom: 4mm; }
+.is-compact .starter-box { padding: 2.2mm 3mm; }
+.is-compact .pair-box { padding: 2.2mm 2.8mm; }
+.steps-two { gap: 4mm; }
+.is-compact .agree-row { gap: 1.6mm; }

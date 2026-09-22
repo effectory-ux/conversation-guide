@@ -143,21 +143,38 @@ def cover(sub_title):
 """
 
 def results_block(compact=False):
+    """Side by side on the run sheet: the two lists are read together, and stacking
+       them cost a page on their own."""
     focus = "\n".join(res_card("focus", i + 1, f) for i, f in enumerate(FOCUS))
     wins = "\n".join(res_card("win", i + 1, w) for i, w in enumerate(WINS))
-    note = ('<p class="note-line">Present all three, check what resonates, then choose one together. '
-            'You guide the choice, the team makes it with you.</p>')
-    win_note = '<p class="note-line">Notice what is working well, and how the team can protect or build on it.</p>'
-    return f"""    <h2 class="sub">{I_TARGET} Three focus areas from your team results</h2>
+    if not compact:
+        return f"""    <h2 class="sub">{I_TARGET} Three focus areas from your team results</h2>
     <div class="results">
 {focus}
     </div>
-    {note}
+    <p class="note-line">Present all three, check what resonates, then choose one together.
+      You guide the choice, the team makes it with you.</p>
     <h2 class="sub" style="margin-top:7mm">{I_STAR} Celebration points from your team results</h2>
     <div class="results">
 {wins}
     </div>
-    {win_note}"""
+    <p class="note-line">Notice what is working well, and how the team can protect or build on it.</p>"""
+    return f"""    <div class="results-two">
+      <div>
+        <h2 class="sub">{I_TARGET} Three focus areas</h2>
+        <div class="results">
+{focus}
+        </div>
+        <p class="note-line">Present all three, check what resonates, then choose one together.</p>
+      </div>
+      <div>
+        <h2 class="sub">{I_STAR} Celebration points</h2>
+        <div class="results">
+{wins}
+        </div>
+        <p class="note-line">Notice what is working well, and how to protect or build on it.</p>
+      </div>
+    </div>"""
 
 def present_block():
     """How to actually get the results in front of the team. The guide sends a
@@ -173,12 +190,26 @@ def present_block():
       <div class="qr">{qr_svg()}<span>Scan to open<br>your focus areas</span></div>
     </div>"""
 
-def starters_table():
+def starters_table(two_up=False):
     rows = "\n".join(f'    <div class="st-r"><div class="st-k">{k}</div><div class="st-v">{v}</div></div>'
                      for k, v in STARTERS)
-    return f"""  <div class="starters">
+    if not two_up:
+        return f"""  <div class="starters">
     <div class="st-h"><span>Starter</span><span>Use it to explore</span></div>
 {rows}
+  </div>"""
+    # four and three, so the seven fit beside each other rather than down the page
+    left = "\n".join(f'    <div class="st-r"><div class="st-k">{k}</div><div class="st-v">{v}</div></div>'
+                     for k, v in STARTERS[:4])
+    right = "\n".join(f'    <div class="st-r"><div class="st-k">{k}</div><div class="st-v">{v}</div></div>'
+                      for k, v in STARTERS[4:])
+    return f"""  <div class="starters-two">
+    <div class="starters">
+{left}
+    </div>
+    <div class="starters">
+{right}
+    </div>
   </div>"""
 
 def capture_grid():
@@ -239,8 +270,7 @@ def build_full():
   <div class="step">
     <div class="step-head"><span class="step-n">1</span><h3>Open the conversation</h3></div>
     <p>Set the purpose: understand the experience behind the results before deciding what to do.
-      Create safety by agreeing to listen to understand, making room for different experiences,
-      and discussing patterns rather than individual responses.</p>
+      Agree to listen, make room for different experiences, and discuss patterns rather than individuals.</p>
     <div class="starter-box"><div class="lbl">{I_MSG} Conversation starter</div>
       <p>&ldquo;These results tell us where to look, not why they are what they are. I would like us
         to understand the experience behind them together.&rdquo;</p></div>
@@ -319,7 +349,7 @@ def build_condensed():
         f"""      <div class="ag"><span class="ag-n">{i+1}</span>
         <div class="ag-b"><h3>{t}</h3></div><span class="ag-t">{m}</span></div>"""
         for i, (t, d, m) in enumerate(AGENDA))
-    starters = starters_table()
+    starters = starters_table(two_up=True)
     triage = (f'<span class="triage is-improve">{I_TARGET} improve</span>, '
               f'<span class="triage is-monitor">{I_SEARCH} monitor</span> or '
               f'<span class="triage is-support">{I_FLAG} need support</span>')
@@ -347,15 +377,14 @@ def build_condensed():
   </div>
 {results_block(compact=True)}
 {present_block()}
+  <h2 class="sub" style="margin-top:5mm">{I_CLIP} The conversation, about 35 to 45 minutes</h2>
+  <div class="agenda is-rows">
+{agenda}
+  </div>
   <span class="pageno">1</span>
 </section>
 
 <section class="sheet is-compact">
-  <h2 class="sub">{I_CLIP} The conversation, about 35 to 45 minutes</h2>
-  <div class="agenda is-rows" style="margin-bottom:6mm">
-{agenda}
-  </div>
-
   <div class="step">
     <div class="step-head"><span class="step-n">1</span><h3>Open the conversation</h3></div>
     <p>Set the purpose: understand the experience behind the results before deciding what to do.
@@ -366,31 +395,26 @@ def build_condensed():
         to understand the experience behind them together.&rdquo;</p></div>
   </div>
 
-  <div class="step">
-    <div class="step-head"><span class="step-n">2</span><h3>Look at the results and select a focus area</h3></div>
-    <div class="pair">
+  <!-- Steps two and three share a row: selecting and celebrating are both short,
+       and stacking them cost the page more than they are worth apart. -->
+  <div class="steps-two">
+    <div class="step" style="margin-bottom:0">
+      <div class="step-head"><span class="step-n">2</span><h3>Look at the results, select one area</h3></div>
       <div class="pair-box"><span class="tag">Open the picture</span><p>What do you recognise in this picture?</p></div>
-      <div class="pair-box"><span class="tag">Check resonance</span><p>What feels incomplete or surprising?
-        Which focus area is most useful for us to explore?</p></div>
+      <div class="pair-box" style="margin-top:2.5mm"><span class="tag">Check resonance</span><p>What feels incomplete
+        or surprising? Which focus area is most useful for us to explore?</p></div>
     </div>
-  </div>
-
-  <div class="step" style="margin-bottom:0">
-    <div class="step-head"><span class="step-n">3</span><h3>Take a moment to celebrate</h3></div>
-    <div class="pair">
+    <div class="step" style="margin-bottom:0">
+      <div class="step-head"><span class="step-n">3</span><h3>Take a moment to celebrate</h3></div>
       <div class="pair-box"><span class="tag" style="color:var(--green)">Notice</span><p>What is helping this work well?
         When have you experienced this at its best?</p></div>
-      <div class="pair-box"><span class="tag" style="color:var(--green)">Build</span><p>What should we protect,
-        repeat or build on?</p></div>
+      <div class="pair-box" style="margin-top:2.5mm"><span class="tag" style="color:var(--green)">Build</span><p>What
+        should we protect, repeat or build on?</p></div>
     </div>
   </div>
-  <span class="pageno">2</span>
-</section>
 
-<section class="sheet is-compact">
-  <div class="step-head" style="margin-bottom:3mm"><span class="step-n">4</span><h3>Dive deeper, then agree a step</h3></div>
-  <p class="note-line" style="margin:0 0 4mm">Choose two or three starters, listen, ask a follow up where
-    useful, check whether others recognise the pattern, and summarise what you hear.</p>
+  <div class="step-head" style="margin:5mm 0 2mm"><span class="step-n">4</span><h3>Dive deeper, then agree a step</h3></div>
+  <p class="note-line" style="margin:0 0 3mm">Choose two or three, listen, ask a follow up, then summarise what you hear.</p>
 {starters}
 
   <div class="starter-box" style="margin-top:4mm"><div class="lbl">{I_LISTEN} Keep them talking</div>
@@ -398,8 +422,7 @@ def build_condensed():
       &middot; &ldquo;I am hearing &hellip; Did I capture that accurately?&rdquo;</p></div>
 
   <h2 class="sub" style="margin-top:6mm">{I_CHECK} What you agree together</h2>
-  <p class="note-line" style="margin:0 0 4mm">Decide whether to {triage}, then set one small, realistic step and
-    name who owns it.</p>
+  <p class="note-line" style="margin:0 0 3mm">Decide whether to {triage}, then set one small step and name who owns it.</p>
   <div class="agree-row" style="margin-bottom:6mm">
     <span class="agree">Shared focus</span>
     <span class="agree">What we learned</span>
@@ -415,10 +438,10 @@ def build_condensed():
       <p>&ldquo;Today we heard &hellip; We agreed to &hellip; The first step is &hellip;
         [name] will &hellip; by &hellip;&rdquo;</p>
       <p>&ldquo;What is the most important thing we should take forward?&rdquo;</p></div>
-    <p class="note-line" style="margin-top:3mm">Thank everyone for participating and being open. Make sure the
-      agreement and the follow up moment are visible to the team afterwards.</p>
+    <p class="note-line" style="margin-top:2.5mm">Thank everyone, and make sure the agreement and the follow up
+      moment are visible to the team afterwards.</p>
   </div>
-  """ + DOC_FOOT % (TEAM, PERIOD, "3") + """
+  """ + DOC_FOOT % (TEAM, PERIOD, "2") + """
 </section>
 </body></html>
 """

@@ -460,3 +460,6 @@ h2.sub svg { width: 5mm; height: 5mm; flex: none; }
 .is-compact .pair-box { padding: 2.2mm 2.8mm; }
 .steps-two { gap: 4mm; }
 .is-compact .agree-row { gap: 1.6mm; }
+/* The line that introduces each result list: above the cards, and held to one
+   line so the two columns line up card for card. */
+.results-two .note-line.is-intro { margin: 0 0 2.5mm; }

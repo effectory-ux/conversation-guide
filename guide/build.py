@@ -159,20 +159,22 @@ def results_block(compact=False):
 {wins}
     </div>
     <p class="note-line">Notice what is working well, and how the team can protect or build on it.</p>"""
+    # The line sits above its list and both are kept to one line, so the two
+    # columns start their cards at the same height.
     return f"""    <div class="results-two">
       <div>
         <h2 class="sub">{I_TARGET} Three focus areas</h2>
+        <p class="note-line is-intro">Present all three, then choose one to explore together</p>
         <div class="results">
 {focus}
         </div>
-        <p class="note-line">Present all three, check what resonates, then choose one together.</p>
       </div>
       <div>
         <h2 class="sub">{I_STAR} Celebration points</h2>
+        <p class="note-line is-intro">Notice what works, and how to protect or build on it</p>
         <div class="results">
 {wins}
         </div>
-        <p class="note-line">Notice what is working well, and how to protect or build on it.</p>
       </div>
     </div>"""
 

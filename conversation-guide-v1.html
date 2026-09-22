@@ -2667,11 +2667,11 @@
     var takes = ['Shared focus', 'What we learned', 'First step', 'Owner and timing', 'Support needed', 'Follow up moment'];
     return '<section class="cg-blk cg-takeaways">' +
       '<div class="cg-takeaways-main">' +
-        '<div class="cg-blk-head"><span class="cg-blk-label">What you walk away with</span></div>' +
+        '<div class="cg-blk-head"><span class="cg-blk-label">What you walk away with</span><span class="cg-blk-aside">Your results already in it</span></div>' +
         '<div class="cg-takes">' + takes.map(function(k){
           return '<span class="cg-take"><i data-icon="check"></i>' + k + '</span>';
         }).join('') + '</div>' +
-        '<p class="cg-takes-foot">Seven conversation starters get you there, then you decide together to improve, monitor or get support</p>' +
+        '<p class="cg-takes-foot">Two pages with your three focus areas, your celebration points and seven conversation starters, then you decide together to improve, monitor or get support</p>' +
       '</div>' +
       '<img class="cg-takeaways-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />' +
     '</section>';
@@ -2733,7 +2733,7 @@
   function downloadGuide(){
     var a = document.createElement('a');
     a.href = GUIDE_FILE;
-    a.download = 'Conversation guide for managers.pdf';
+    a.download = 'Conversation run sheet, Sales West.pdf';
     document.body.appendChild(a); a.click();
     setTimeout(function(){ if(a.parentNode) a.parentNode.removeChild(a); }, 800);
   }

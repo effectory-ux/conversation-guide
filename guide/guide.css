@@ -22,6 +22,8 @@
   --pink-100: #ffd5ff;
   --blue: #205bb9;
   --green: #236e41;
+  --bg-warning: #fa8324;   /* the Focus view score badge */
+  --bg-positive: #278747;
   --teal: #30b3af;   /* the rule under the guide's banner */
   --sans: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
@@ -139,7 +141,7 @@ h2.sub svg { width: 5mm; height: 5mm; flex: none; }
 /* ── Result cards: a focus area or a celebration point ─────────────────── */
 .results { display: flex; flex-direction: column; gap: 3mm; }
 .res {
-  display: flex; align-items: center; gap: 4mm;
+  display: flex; align-items: flex-start; gap: 4mm;
   background: var(--card); border-radius: 3mm; padding: 4mm 5mm;
   break-inside: avoid;
 }
@@ -158,12 +160,13 @@ h2.sub svg { width: 5mm; height: 5mm; flex: none; }
   color: var(--navy-80); background: var(--white); border: 1px solid var(--line);
 }
 .res-score {
-  flex: none; text-align: right; min-width: 20mm;
+  flex: none; min-width: 16mm; text-align: center;
+  padding: 1mm 2.4mm; border-radius: 2mm;
+  font-size: 11pt; font-weight: 600; line-height: 1.35; color: var(--white);
+  white-space: nowrap;
 }
-.res-score b { display: block; font-size: 16pt; font-weight: 700; line-height: 1; }
-.res-score span { font-size: 8pt; color: var(--navy-60); }
-.is-focus .res-score b { color: #b9252a; }
-.is-win .res-score b { color: #236e41; }
+.is-focus .res-score { background: var(--bg-warning); }
+.is-win .res-score { background: var(--bg-positive); }
 .note-line { margin: 3mm 0 0; font-size: 9.5pt; color: var(--navy-80); }
 
 /* ── Guidance ──────────────────────────────────────────────────────────── */
@@ -371,3 +374,17 @@ h2.sub svg { width: 5mm; height: 5mm; flex: none; }
 .present-link svg { flex: none; width: 4mm; height: 4mm; color: var(--blue); }
 .present-link a { color: var(--blue); font-weight: 600; text-decoration: none; word-break: break-all; }
 .qr span { line-height: 1.35; }
+
+/* The number and the score sit against the question's own line, not the middle of
+   the card, so a card with a theme tag under the question still lines up. */
+.res-n, .res-score { margin-top: .2mm; }
+
+/* What you agree together is a checklist of what to leave with, not a form. */
+.agree-row { display: flex; flex-wrap: nowrap; gap: 2mm; }
+.agree {
+  display: inline-flex; align-items: center; justify-content: center;
+  flex: 1 1 0; min-width: 0; white-space: nowrap;
+  padding: 1.6mm 2.4mm; border-radius: 2mm;
+  background: var(--card); color: var(--navy-80);
+  font-size: 8.5pt; font-weight: 500;
+}

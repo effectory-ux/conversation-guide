@@ -84,6 +84,7 @@ I_USERS  = svg('<circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><
 I_CAL    = svg('<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17"/>')
 I_BULB   = svg('<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.4.3.6.8.6 1.2h6c0-.4.2-.9.6-1.2A6 6 0 0 0 12 3z"/>')
 I_EAR    = svg('<path d="M4 12a8 8 0 0 1 16 0v5a3 3 0 0 1-3 3h-1"/><rect x="2.5" y="12" width="4" height="6" rx="2"/><rect x="17.5" y="12" width="4" height="6" rx="2"/>')
+I_LISTEN = svg('<path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.6-.8L3 20.5l1.4-4.2A8.2 8.2 0 0 1 3.6 12a8.4 8.4 0 0 1 8.4-8.4h.5A8.4 8.4 0 0 1 21 11.5z"/><circle cx="8.4" cy="11.8" r=".9" fill="currentColor"/><circle cx="12" cy="11.8" r=".9" fill="currentColor"/><circle cx="15.6" cy="11.8" r=".9" fill="currentColor"/>')
 I_PEN    = svg('<path d="M4 20h4L20 8a2.8 2.8 0 0 0-4-4L4 16z"/>')
 I_ARROW  = svg('<path d="M12 4v15M6.5 13.5L12 19.5l5.5-6"/>')
 I_CHECK  = svg('<path d="M20 6.5L9.5 17 4 11.5"/>')
@@ -113,7 +114,7 @@ def res_card(kind, n, item):
     return f"""      <div class="res is-{kind}">
         <span class="res-n">{n}</span>
         <div class="res-b"><h3>{text}</h3><span class="res-tag">{theme}</span></div>
-        <div class="res-score"><b>{score}</b><span>{label}</span></div>
+        <span class="res-score">{score}</span>
       </div>"""
 
 def cover(sub_title):
@@ -162,18 +163,12 @@ def present_block():
     """How to actually get the results in front of the team. The guide sends a
        manager to the platform first, because the live view is the only version
        that is current, and gives fallbacks for the day the screen share fails."""
-    alts = [
-        (I_PPT, "Export to PowerPoint from the same page and present from the deck"),
-        (I_IMG, "Or screenshot Focus view beforehand, so nothing depends on signing in"),
-    ]
-    items = "".join(f'<li>{ic}<span>{tx}</span></li>' for ic, tx in alts)
     return f"""    <div class="present">
       <div class="present-main">
         <h2 class="sub" style="margin-bottom:2mm">{I_SCREEN} Showing the results to your team</h2>
         <p class="present-lede">Put the results on the screen so everyone sees the same picture you do.
           This link opens your focus areas straight away, and the code does the same on your phone.</p>
         <p class="present-link">{I_LINK}<a href="{FOCUS_URL}">{FOCUS_LABEL}</a></p>
-        <ul class="alts">{items}</ul>
       </div>
       <div class="qr">{qr_svg()}<span>Scan to open<br>your focus areas</span></div>
     </div>"""
@@ -398,23 +393,20 @@ def build_condensed():
     useful, check whether others recognise the pattern, and summarise what you hear.</p>
 {starters}
 
-  <p class="note-line" style="display:flex;gap:2mm;align-items:flex-start">{I_EAR}
-    <span><b>Keep listening</b> &ldquo;Can you say a little more?&rdquo; &middot;
-    &ldquo;What else is important here?&rdquo; &middot;
-    &ldquo;I am hearing &hellip; Did I capture that accurately?&rdquo;</span></p>
+  <div class="starter-box" style="margin-top:4mm"><div class="lbl">{I_LISTEN} Keep them talking</div>
+    <p>&ldquo;Can you say a little more?&rdquo; &middot; &ldquo;What else is important here?&rdquo;
+      &middot; &ldquo;I am hearing &hellip; Did I capture that accurately?&rdquo;</p></div>
 
   <h2 class="sub" style="margin-top:6mm">{I_CHECK} What you agree together</h2>
   <p class="note-line" style="margin:0 0 4mm">Decide whether to {triage}, then set one small, realistic step and
     name who owns it.</p>
-  <div class="grid3" style="margin-bottom:3mm">
-    <div class="write"><div class="lbl">{I_PEN} Shared focus</div></div>
-    <div class="write"><div class="lbl">{I_PEN} What we learned</div></div>
-    <div class="write"><div class="lbl">{I_PEN} First step</div></div>
-  </div>
-  <div class="grid3" style="margin-bottom:6mm">
-    <div class="write"><div class="lbl">{I_PEN} Owner and timing</div></div>
-    <div class="write"><div class="lbl">{I_PEN} Support needed</div></div>
-    <div class="write"><div class="lbl">{I_PEN} Follow up moment</div></div>
+  <div class="agree-row" style="margin-bottom:6mm">
+    <span class="agree">Shared focus</span>
+    <span class="agree">What we learned</span>
+    <span class="agree">First step</span>
+    <span class="agree">Owner and timing</span>
+    <span class="agree">Support needed</span>
+    <span class="agree">Follow up moment</span>
   </div>
 
   <div class="step" style="margin-bottom:0">

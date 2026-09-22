@@ -8,7 +8,21 @@
    conversation-guide-v1.html), so the guide a manager downloads already carries
    their survey, their team and their numbers instead of blank lines.
 """
-import os, subprocess, sys, time, shutil, urllib.request
+import os, re, subprocess, sys, time, shutil, urllib.request
+import segno
+
+# Where a manager goes to put the results on the screen. Replace with the real
+# Focus view deep link once it exists; the QR is generated from this value.
+PLATFORM_URL = "https://my.effectory.com"
+PLATFORM_LABEL = "my.effectory.com"
+
+def qr_svg():
+    """A scannable code, inlined as SVG so the document carries no remote image.
+       segno emits fixed width and height and no viewBox, so the code would print at
+       its native module size; swapping those for a viewBox lets CSS size it."""
+    svg = segno.make(PLATFORM_URL, error="m").svg_inline(scale=1, border=2, dark="#192743", light=None)
+    m = re.match(r'<svg width="(\d+)" height="(\d+)"', svg)
+    return svg.replace(m.group(0), f'<svg viewBox="0 0 {m.group(1)} {m.group(2)}"', 1)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -41,7 +55,7 @@ STARTERS = [
 AGENDA = [
     ("Open the conversation", "Set the purpose and create a safe environment.", "5 min"),
     ("Look at the overall results and select a focus area",
-     "Present the overall picture and the three focus areas, check resonance and choose one together.", "5 to 10 min"),
+     "Put Focus view on the screen so the team sees the same picture, check what resonates, then choose one area together.", "5 to 10 min"),
     ("Take a moment to celebrate",
      "If there is a celebration point, notice what is going well and make it visible.", "5 min"),
     ("Dive deeper and set concrete agreements",
@@ -72,6 +86,9 @@ I_PEN    = svg('<path d="M4 20h4L20 8a2.8 2.8 0 0 0-4-4L4 16z"/>')
 I_ARROW  = svg('<path d="M12 4v15M6.5 13.5L12 19.5l5.5-6"/>')
 I_CHECK  = svg('<path d="M20 6.5L9.5 17 4 11.5"/>')
 I_FLAG   = svg('<path d="M5 21V4M5 4h13l-2.5 4L18 12H5"/>')
+I_SCREEN = svg('<rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M9 21h6M12 17v4"/>')
+I_PPT    = svg('<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h5a2.5 2.5 0 0 1 0 5H8zM8 13v4"/>')
+I_IMG    = svg('<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M4 17l4.5-4.5 3 3L15 12l5 5"/>')
 
 HEAD = """<!DOCTYPE html>
 <html lang="en">
@@ -137,6 +154,26 @@ def results_block(compact=False):
 {wins}
     </div>
     {win_note}"""
+
+def present_block():
+    """How to actually get the results in front of the team. The guide sends a
+       manager to the platform first, because the live view is the only version
+       that is current, and gives fallbacks for the day the screen share fails."""
+    alts = [
+        (I_PPT, "Export to PowerPoint from the same page and present from the deck"),
+        (I_IMG, "Or screenshot Focus view beforehand, so nothing depends on signing in"),
+        (I_CLIP, "Or work straight from this sheet, your numbers are already on it"),
+    ]
+    items = "".join(f'<li>{ic}<span>{tx}</span></li>' for ic, tx in alts)
+    return f"""    <div class="present">
+      <div class="present-main">
+        <h2 class="sub" style="margin-bottom:2mm">{I_SCREEN} Showing the results to your team</h2>
+        <p class="present-lede">Open <b>Focus view</b> in My Effectory and put it on the screen, so
+          everyone sees the same picture you do. Scan the code to open it on your phone.</p>
+        <ul class="alts">{items}</ul>
+      </div>
+      <div class="qr">{qr_svg()}<span>{PLATFORM_LABEL}</span></div>
+    </div>"""
 
 def starters_table():
     rows = "\n".join(f'    <div class="st-r"><div class="st-k">{k}</div><div class="st-v">{v}</div></div>'
@@ -214,13 +251,15 @@ def build_full():
 
   <div class="step">
     <div class="step-head"><span class="step-n">2</span><h3>Look at the overall results and select a focus area</h3></div>
-    <p>Present the overall picture first, then the three focus areas. Check whether they resonate,
-      and guide the team to select one area to explore further.</p>
+    <p>Put the results on the screen from Focus view in My Effectory, then walk through the overall
+      picture and the three focus areas. Check whether they resonate, and guide the team to select
+      one area to explore further.</p>
     <div class="pair">
       <div class="pair-box"><span class="tag">Open the picture</span><p>What do you recognise in this picture?</p></div>
       <div class="pair-box"><span class="tag">Check resonance</span><p>What feels incomplete or surprising?
         Which focus area is most useful for us to explore?</p></div>
     </div>
+{present_block()}
   </div>
 
   <div class="step">
@@ -292,7 +331,7 @@ def build_condensed():
           f'<span class="principle is-share">{I_GROUP} Share ownership</span>')
 
     return HEAD % "Conversation run sheet &mdash; Sales West" + f"""
-<section class="sheet">
+<section class="sheet is-runsheet">
   <p class="eyebrow">Conversation guide for managers &middot; run sheet</p>
   <h1 class="page-title">Understanding what drives results</h1>
   <div class="cover-rule" style="margin:4mm 0 5mm"></div>
@@ -304,6 +343,7 @@ def build_condensed():
   <div class="principles" style="margin:0 0 7mm">{pr}</div>
 
 {results_block(compact=True)}
+{present_block()}
   <span class="pageno">1</span>
 </section>
 

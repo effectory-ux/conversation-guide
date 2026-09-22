@@ -6,11 +6,19 @@ already carries their survey, their team and their numbers instead of blank line
 | File | What it is |
 |---|---|
 | `conversation-guide.pdf` | **The run sheet, 2 pages.** What the side panel's *Download guide* button hands over: the results and the principles on page one, the agenda, the starters and what you agree on page two |
-| `conversation-guide-full.pdf` | **The full guide, 6 pages.** The same content with the guidance for each agenda step written out |
+| `conversation-guide-full.pdf` | **The full guide, 7 pages.** The same content with the guidance for each agenda step written out. Not linked from the prototype, kept as the long form reference |
 | `build.py` | Builds both documents, and holds the team results they are populated with |
 | `guide.css` | The shared print stylesheet |
 | `conversation-guide*.html` | The build output. Do not edit by hand, they are overwritten |
 | `conversation-guide-source.docx` | The original content brief, before the design pass |
+
+## The platform link and the QR code
+
+`build.py` holds `PLATFORM_URL`, which is where a manager goes to put the results
+on the screen. The QR code on the run sheet is generated from it at build time
+with `segno` and inlined as SVG, so the document carries no remote image. It
+currently points at `my.effectory.com`; swap it for the real Focus view deep link
+once that exists and the code regenerates itself.
 
 ## Changing the results
 

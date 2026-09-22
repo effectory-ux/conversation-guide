@@ -5,7 +5,7 @@ already carries their survey, their team and their numbers instead of blank line
 
 | File | What it is |
 |---|---|
-| `conversation-guide.pdf` | **The run sheet, 2 pages.** What *Download a copy* hands over: the results and the principles on page one, the agenda, the starters and what you agree on page two |
+| `conversation-guide.pdf` | **The run sheet, 3 pages.** What *Download a copy* hands over: the results and the principles on page one, the agenda, the starters and what you agree on page two |
 | `conversation-guide-full.pdf` | **The full guide, 7 pages.** The same content with the guidance for each agenda step written out. Not linked from the prototype, kept as the long form reference |
 | `build.py` | Builds both documents, and holds the team results they are populated with |
 | `guide.css` | The shared print stylesheet |
@@ -14,11 +14,12 @@ already carries their survey, their team and their numbers instead of blank line
 
 ## The platform link and the QR code
 
-`build.py` holds `PLATFORM_URL`, which is where a manager goes to put the results
-on the screen. The QR code on the run sheet is generated from it at build time
-with `segno` and inlined as SVG, so the document carries no remote image. It
-currently points at `my.effectory.com`; swap it for the real Focus view deep link
-once that exists and the code regenerates itself.
+`build.py` holds `FOCUS_URL`, which should land on this team's focus areas
+directly rather than the platform front door. The run sheet links to it and the QR
+code encodes it, generated at build time with `segno` and inlined as SVG so the
+document carries no remote image. Both it and `PLATFORM_URL` are placeholders
+under `my.effectory.com`; swap them for the real deep link and the code
+regenerates itself.
 
 ## Changing the results
 
@@ -55,4 +56,4 @@ narrow dialog, so a screen-only `zoom` scales the page down. Print is untouched.
 ## Keeping the side panel honest
 
 The panel is a trailer for the run sheet. When the guide changes, re-check
-`guideStepsHTML()` and `guideTakeawaysHTML()` in both prototype files.
+`guideStepsHTML()` and `guideTakeawaysHTML()` in all three prototype files.

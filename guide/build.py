@@ -189,7 +189,7 @@ def starters_table():
 def capture_grid():
     big = CAPTURE[2]
     def box(label, rules=2):
-        return f'<div class="write"><div class="lbl">{I_PEN} {label}</div></div>'"''"
+        return f'<div class="write"><div class="lbl">{I_PEN} {label}</div></div>'
     return f"""  <div class="grid2" style="margin-bottom:3mm">{box(CAPTURE[0])}{box(CAPTURE[1])}</div>
   {box(big, 2)}
   <div class="grid2" style="margin:3mm 0">{box(CAPTURE[3])}{box(CAPTURE[4])}</div>

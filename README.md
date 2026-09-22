@@ -10,11 +10,13 @@ Moved here from `effectory-design/effectory-design-documentation` on 2026-09-16.
 
 | File | What it is |
 |---|---|
-| `conversation-guide-v1.html` | **Version 1**: the entry card sits in the page, above the focus cards |
-| `conversation-guide-v2.html` | **Version 2**: a popup appears from the bottom right two seconds after landing |
+| `conversation-guide-v1.html` | **Version 1**: a full width band between At first glance and What needs focus, so the guide is offered before the focus areas |
+| `conversation-guide-v2.html` | **Version 2**: a card inside the focus stack, after the three focus areas and the areas Explore more opens |
+| `conversation-guide-v3.html` | **Version 3**: a popup from the bottom right, two seconds after landing |
 
-The two are the A/B pair for user testing: same title and description, one entry
-point each, no variant switcher. Everything else about them is identical.
+The three are the set for user testing: same title, description and call to
+action, one entry point each, no variant switcher. Everything else about them is
+identical, so a difference in the results is a difference in placement.
 
 `ac-overview-embed.html` is the Overview fragment both load in an iframe; it is
 not a prototype on its own.

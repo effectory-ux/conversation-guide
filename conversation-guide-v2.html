@@ -868,9 +868,9 @@
       padding: var(--spacing-loose); margin-bottom: var(--spacing-base);
     }
     .cg-entry .cg-entry-close { position: absolute; top: var(--spacing-tight); right: var(--spacing-tight); }
-    /* Full width row at the foot of the block: it spans the heading column as well as
-       the cards, which is what keeps it from reading as a fourth focus area. */
-    .cg-entry-tile { grid-column: 1 / -1; margin: 0; }
+    /* As a tile in the focus stack it takes the stack's own width and gap, and the
+       artwork stays inside the card like every other card's content. */
+    .cg-entry-tile { margin: var(--spacing-base-tight) 0 0; }
     .cg-entry-tile .cg-entry-main { flex: 1; min-width: 0; }
 
     /* Version 4: guide nudge inside the stepper success screen. Stacked, because the
@@ -1187,21 +1187,20 @@
             <div class="fv-cards" id="cards"></div>
             <button class="fv-explore-more" id="explore-more" onclick="toggleMore()"><span id="explore-more-label">Explore more areas</span> <i data-icon="chevron-down"></i></button>
             <div class="fv-more" id="more-block"><div class="fv-more-inner"><div class="fv-cards" id="cards-more"></div></div></div>
-          </div>
-          <!-- Spans both columns of the block, under the cards and under the heading
-               beside them, so the guide reads as the block's closing row rather than
-               as another focus area. -->
-          <div class="cg-entry cg-entry-tile" id="cg-entry-band" hidden>
-            <div class="cg-tt cg-entry-close"><button class="ib ib-24 ib-tertiary" aria-label="Dismiss" onclick="dismissEntry()"><i data-icon="cross"></i></button><div class="tooltip is-left">Dismiss</div></div>
-            <div class="cg-entry-main">
-              <span class="cg-entry-kicker">Talk it through first</span>
-              <h3 class="cg-entry-title">Bring these results to your team before you choose</h3>
-              <p class="cg-entry-text">A light agenda and listening questions to help you run the conversation, ready in about five minutes.</p>
-              <div class="cg-entry-actions">
-                <button class="btn btn-primary" onclick="openGuide()"><i data-icon="message"></i> See details</button>
+            <!-- Last in the stack, below Explore more areas and the areas it opens, so the
+                 guide stays the closing tile whether or not the extra areas are expanded. -->
+            <div class="cg-entry cg-entry-tile" id="cg-entry-band" hidden>
+              <div class="cg-tt cg-entry-close"><button class="ib ib-24 ib-tertiary" aria-label="Dismiss" onclick="dismissEntry()"><i data-icon="cross"></i></button><div class="tooltip is-left">Dismiss</div></div>
+              <div class="cg-entry-main">
+                <span class="cg-entry-kicker">Talk it through first</span>
+                <h3 class="cg-entry-title">Bring these results to your team before you choose</h3>
+                <p class="cg-entry-text">A light agenda and listening questions to help you run the conversation, ready in about five minutes.</p>
+                <div class="cg-entry-actions">
+                  <button class="btn btn-primary" onclick="openGuide()"><i data-icon="message"></i> See details</button>
+                </div>
               </div>
+              <img class="cg-entry-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />
             </div>
-            <img class="cg-entry-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />
           </div>
         </div>
 

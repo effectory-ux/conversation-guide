@@ -20,6 +20,8 @@
   --blue-100: #e6f0fe;
   --blue-200: #d6e6ff;
   --pink-100: #ffd5ff;
+  --blue: #205bb9;
+  --green: #236e41;
   --teal: #30b3af;   /* the rule under the guide's banner */
   --sans: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
@@ -215,7 +217,7 @@ h2.sub svg { width: 5mm; height: 5mm; flex: none; }
 .st-v { padding: 3mm 4mm; font-size: 10pt; }
 
 /* ── Write-on areas ────────────────────────────────────────────────────── */
-.write { background: var(--card); border-radius: 3mm; padding: 4mm 5mm; break-inside: avoid; }
+.write { background: var(--card); border-radius: 3mm; padding: 4mm 5mm; min-height: 20mm; break-inside: avoid; }
 .write .lbl {
   display: flex; align-items: center; gap: 2mm;
   font-size: 8pt; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
@@ -262,7 +264,7 @@ h2.sub svg { width: 5mm; height: 5mm; flex: none; }
 .is-compact .starter-box { padding: 3mm 4mm; }
 .is-compact .starter-box p { font-size: 9.5pt; }
 .is-compact .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; }
-.is-compact .write { padding: 3mm 4mm; }
+.is-compact .write { padding: 3mm 4mm; min-height: 17mm; }
 .is-compact .write .lbl { margin-bottom: 4mm; }
 .is-compact .write .rule { margin-bottom: 0; }
 
@@ -314,7 +316,7 @@ h2.sub svg { width: 5mm; height: 5mm; flex: none; }
       coloured rule that picks up one of the three principle colours. ──────── */
 .intro {
   position: relative; overflow: hidden;
-  margin: -12mm -14mm 5mm; padding: 9mm 14mm 6mm;
+  margin: -12mm -14mm 5mm; padding: 8mm 14mm 5mm;
   background: var(--navy); color: var(--white);
   border-bottom: 1.2mm solid var(--teal);
 }
@@ -323,17 +325,17 @@ h2.sub svg { width: 5mm; height: 5mm; flex: none; }
 .intro-cut {
   position: absolute; inset: 0; z-index: 0;
   background: var(--white);
-  clip-path: polygon(64% 0, 100% 0, 100% 100%);
+  clip-path: polygon(46% 0, 100% 0, 100% 100%);
 }
 /* Inside the wedge, clear of the diagonal on its left and the edge on its right. */
-.intro-art { position: absolute; z-index: 1; top: 9mm; right: 6mm; width: 46mm; }
+.intro-art { position: absolute; z-index: 1; top: 8mm; right: 6mm; width: 48mm; }
 .intro-body { position: relative; z-index: 2; max-width: 112mm; }
 .intro-title {
   margin: 2mm 0 2.5mm; font-size: 19pt; font-weight: 600; letter-spacing: -.01em; line-height: 1.2;
 }
 .intro-lede { margin: 0; max-width: 104mm; font-size: 9.5pt; line-height: 1.55; color: rgba(255, 255, 255, .86); }
 
-.intro-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; margin-top: 5mm; }
+.intro-meta { display: grid; grid-template-columns: 52mm 30mm 52mm; gap: 6mm; margin-top: 5mm; width: 152mm; max-width: none; }
 .im-rule { display: block; width: 8mm; height: .9mm; border-radius: 1mm; margin-bottom: 2mm; }
 .im-rule.is-a { background: var(--yellow-200); }
 .im-rule.is-b { background: var(--pink-100); }
@@ -342,7 +344,7 @@ h2.sub svg { width: 5mm; height: 5mm; flex: none; }
   display: block; font-size: 7.5pt; font-weight: 600; letter-spacing: .12em;
   text-transform: uppercase; color: rgba(255, 255, 255, .62); margin-bottom: 1.2mm;
 }
-.im strong { display: block; font-size: 9.5pt; font-weight: 600; line-height: 1.3; color: var(--white); }
+.im strong { display: block; font-size: 9.5pt; font-weight: 600; line-height: 1.3; color: var(--white); white-space: nowrap; }
 .principles.is-onnavy { margin: 4mm 0 0; gap: 2mm; }
 .principles.is-onnavy .principle { padding: 1.2mm 3mm; font-size: 8.5pt; gap: 1.4mm; }
 .principles.is-onnavy .principle svg { width: 3.2mm; height: 3.2mm; }
@@ -363,3 +365,9 @@ h2.sub svg { width: 5mm; height: 5mm; flex: none; }
 @media screen and (max-width: 860px) { body { zoom: .70; } }
 @media screen and (max-width: 620px) { body { zoom: .52; } }
 @media screen and (max-width: 460px) { body { zoom: .40; } }
+
+/* The link straight to the focus areas, the primary route in the how-to block. */
+.present-link { display: flex; align-items: center; gap: 2mm; margin: 0 0 3mm; font-size: 9.5pt; }
+.present-link svg { flex: none; width: 4mm; height: 4mm; color: var(--blue); }
+.present-link a { color: var(--blue); font-weight: 600; text-decoration: none; word-break: break-all; }
+.qr span { line-height: 1.35; }

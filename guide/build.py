@@ -11,16 +11,18 @@
 import os, re, subprocess, sys, time, shutil, urllib.request
 import segno
 
-# Where a manager goes to put the results on the screen. Replace with the real
-# Focus view deep link once it exists; the QR is generated from this value.
+# Where a manager goes to put the results on the screen. FOCUS_URL should land on
+# this team's focus areas directly rather than the platform front door; both are
+# placeholders until the real deep link exists, and the QR is built from FOCUS_URL.
 PLATFORM_URL = "https://my.effectory.com"
-PLATFORM_LABEL = "my.effectory.com"
+FOCUS_URL = "https://my.effectory.com/results/focus-areas"
+FOCUS_LABEL = "my.effectory.com/results/focus-areas"
 
 def qr_svg():
     """A scannable code, inlined as SVG so the document carries no remote image.
        segno emits fixed width and height and no viewBox, so the code would print at
        its native module size; swapping those for a viewBox lets CSS size it."""
-    svg = segno.make(PLATFORM_URL, error="m").svg_inline(scale=1, border=2, dark="#192743", light=None)
+    svg = segno.make(FOCUS_URL, error="m").svg_inline(scale=1, border=2, dark="#192743", light=None)
     m = re.match(r'<svg width="(\d+)" height="(\d+)"', svg)
     return svg.replace(m.group(0), f'<svg viewBox="0 0 {m.group(1)} {m.group(2)}"', 1)
 
@@ -87,6 +89,7 @@ I_ARROW  = svg('<path d="M12 4v15M6.5 13.5L12 19.5l5.5-6"/>')
 I_CHECK  = svg('<path d="M20 6.5L9.5 17 4 11.5"/>')
 I_FLAG   = svg('<path d="M5 21V4M5 4h13l-2.5 4L18 12H5"/>')
 I_SCREEN = svg('<rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M9 21h6M12 17v4"/>')
+I_LINK   = svg('<path d="M10 13.5a4 4 0 0 0 6 .5l2.5-2.5a4 4 0 0 0-5.7-5.7L11.5 7"/><path d="M14 10.5a4 4 0 0 0-6-.5L5.5 12.5a4 4 0 0 0 5.7 5.7L12.5 17"/>')
 I_PPT    = svg('<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h5a2.5 2.5 0 0 1 0 5H8zM8 13v4"/>')
 I_IMG    = svg('<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M4 17l4.5-4.5 3 3L15 12l5 5"/>')
 
@@ -167,11 +170,12 @@ def present_block():
     return f"""    <div class="present">
       <div class="present-main">
         <h2 class="sub" style="margin-bottom:2mm">{I_SCREEN} Showing the results to your team</h2>
-        <p class="present-lede">Open <b>Focus view</b> in My Effectory and put it on the screen, so
-          everyone sees the same picture you do. Scan the code to open it on your phone.</p>
+        <p class="present-lede">Put the results on the screen so everyone sees the same picture you do.
+          This link opens your focus areas straight away, and the code does the same on your phone.</p>
+        <p class="present-link">{I_LINK}<a href="{FOCUS_URL}">{FOCUS_LABEL}</a></p>
         <ul class="alts">{items}</ul>
       </div>
-      <div class="qr">{qr_svg()}<span>{PLATFORM_LABEL}</span></div>
+      <div class="qr">{qr_svg()}<span>Scan to open<br>your focus areas</span></div>
     </div>"""
 
 def starters_table():
@@ -185,8 +189,7 @@ def starters_table():
 def capture_grid():
     big = CAPTURE[2]
     def box(label, rules=2):
-        return (f'<div class="write"><div class="lbl">{I_PEN} {label}</div>'
-                + '<div class="rule"></div>' * rules + '</div>')
+        return f'<div class="write"><div class="lbl">{I_PEN} {label}</div></div>'"''"
     return f"""  <div class="grid2" style="margin-bottom:3mm">{box(CAPTURE[0])}{box(CAPTURE[1])}</div>
   {box(big, 2)}
   <div class="grid2" style="margin:3mm 0">{box(CAPTURE[3])}{box(CAPTURE[4])}</div>
@@ -354,11 +357,45 @@ def build_condensed():
 
 <section class="sheet is-compact">
   <h2 class="sub">{I_CLIP} The conversation, about 35 to 45 minutes</h2>
-  <div class="agenda is-rows" style="margin-bottom:5mm">
+  <div class="agenda is-rows" style="margin-bottom:6mm">
 {agenda}
   </div>
 
-  <h2 class="sub">{I_MSG} Conversation starters, choose two or three</h2>
+  <div class="step">
+    <div class="step-head"><span class="step-n">1</span><h3>Open the conversation</h3></div>
+    <p>Set the purpose: understand the experience behind the results before deciding what to do.
+      Agree to listen to understand, make room for different experiences, and discuss patterns
+      rather than individual responses.</p>
+    <div class="starter-box"><div class="lbl">{I_MSG} Say something like</div>
+      <p>&ldquo;These results tell us where to look, not why they are what they are. I would like us
+        to understand the experience behind them together.&rdquo;</p></div>
+  </div>
+
+  <div class="step">
+    <div class="step-head"><span class="step-n">2</span><h3>Look at the results and select a focus area</h3></div>
+    <div class="pair">
+      <div class="pair-box"><span class="tag">Open the picture</span><p>What do you recognise in this picture?</p></div>
+      <div class="pair-box"><span class="tag">Check resonance</span><p>What feels incomplete or surprising?
+        Which focus area is most useful for us to explore?</p></div>
+    </div>
+  </div>
+
+  <div class="step" style="margin-bottom:0">
+    <div class="step-head"><span class="step-n">3</span><h3>Take a moment to celebrate</h3></div>
+    <div class="pair">
+      <div class="pair-box"><span class="tag" style="color:var(--green)">Notice</span><p>What is helping this work well?
+        When have you experienced this at its best?</p></div>
+      <div class="pair-box"><span class="tag" style="color:var(--green)">Build</span><p>What should we protect,
+        repeat or build on?</p></div>
+    </div>
+  </div>
+  <span class="pageno">2</span>
+</section>
+
+<section class="sheet is-compact">
+  <div class="step-head" style="margin-bottom:3mm"><span class="step-n">4</span><h3>Dive deeper, then agree a step</h3></div>
+  <p class="note-line" style="margin:0 0 4mm">Choose two or three starters, listen, ask a follow up where
+    useful, check whether others recognise the pattern, and summarise what you hear.</p>
 {starters}
 
   <p class="note-line" style="display:flex;gap:2mm;align-items:flex-start">{I_EAR}
@@ -366,19 +403,30 @@ def build_condensed():
     &ldquo;What else is important here?&rdquo; &middot;
     &ldquo;I am hearing &hellip; Did I capture that accurately?&rdquo;</span></p>
 
-  <h2 class="sub" style="margin-top:7mm">{I_CHECK} What you agree together</h2>
-  <p class="note-line" style="margin:0 0 4mm">Decide whether to {triage}, then set one small, realistic step and name who owns it.</p>
+  <h2 class="sub" style="margin-top:6mm">{I_CHECK} What you agree together</h2>
+  <p class="note-line" style="margin:0 0 4mm">Decide whether to {triage}, then set one small, realistic step and
+    name who owns it.</p>
   <div class="grid3" style="margin-bottom:3mm">
-    <div class="write"><div class="lbl">{I_PEN} Shared focus</div><div class="rule"></div></div>
-    <div class="write"><div class="lbl">{I_PEN} What we learned</div><div class="rule"></div></div>
-    <div class="write"><div class="lbl">{I_PEN} First step</div><div class="rule"></div></div>
+    <div class="write"><div class="lbl">{I_PEN} Shared focus</div></div>
+    <div class="write"><div class="lbl">{I_PEN} What we learned</div></div>
+    <div class="write"><div class="lbl">{I_PEN} First step</div></div>
   </div>
-  <div class="grid3">
-    <div class="write"><div class="lbl">{I_PEN} Owner and timing</div><div class="rule"></div></div>
-    <div class="write"><div class="lbl">{I_PEN} Support needed</div><div class="rule"></div></div>
-    <div class="write"><div class="lbl">{I_PEN} Follow up moment</div><div class="rule"></div></div>
+  <div class="grid3" style="margin-bottom:6mm">
+    <div class="write"><div class="lbl">{I_PEN} Owner and timing</div></div>
+    <div class="write"><div class="lbl">{I_PEN} Support needed</div></div>
+    <div class="write"><div class="lbl">{I_PEN} Follow up moment</div></div>
   </div>
-  """ + DOC_FOOT % (TEAM, PERIOD, "2") + """
+
+  <div class="step" style="margin-bottom:0">
+    <div class="step-head"><span class="step-n">5</span><h3>Close off the meeting</h3></div>
+    <div class="starter-box"><div class="lbl">{I_MSG} Summarise and close</div>
+      <p>&ldquo;Today we heard &hellip; We agreed to &hellip; The first step is &hellip;
+        [name] will &hellip; by &hellip;&rdquo;</p>
+      <p>&ldquo;What is the most important thing we should take forward?&rdquo;</p></div>
+    <p class="note-line" style="margin-top:3mm">Thank everyone for participating and being open. Make sure the
+      agreement and the follow up moment are visible to the team afterwards.</p>
+  </div>
+  """ + DOC_FOOT % (TEAM, PERIOD, "3") + """
 </section>
 </body></html>
 """

@@ -20,6 +20,7 @@
   --blue-100: #e6f0fe;
   --blue-200: #d6e6ff;
   --pink-100: #ffd5ff;
+  --teal: #30b3af;   /* the rule under the guide's banner */
   --sans: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -306,3 +307,59 @@ h2.sub svg { width: 5mm; height: 5mm; flex: none; }
 .is-runsheet .present { padding: 4mm; gap: 5mm; margin-top: 5mm; }
 .is-runsheet .qr svg { width: 22mm; height: 22mm; }
 .sheet.is-runsheet { padding-top: 12mm; }
+
+/* ── Run sheet intro: the navy banner from the guide's own cover, bled to the
+      page edges, with the illustration on the right behind a diagonal cut.
+      The survey, team and period sit inside it in white, each under a short
+      coloured rule that picks up one of the three principle colours. ──────── */
+.intro {
+  position: relative; overflow: hidden;
+  margin: -12mm -14mm 5mm; padding: 9mm 14mm 6mm;
+  background: var(--navy); color: var(--white);
+  border-bottom: 1.2mm solid var(--teal);
+}
+/* The white wedge the artwork sits in: a triangle across the top right, its
+   diagonal running down to the bottom right corner, as on the guide's cover. */
+.intro-cut {
+  position: absolute; inset: 0; z-index: 0;
+  background: var(--white);
+  clip-path: polygon(64% 0, 100% 0, 100% 100%);
+}
+/* Inside the wedge, clear of the diagonal on its left and the edge on its right. */
+.intro-art { position: absolute; z-index: 1; top: 9mm; right: 6mm; width: 46mm; }
+.intro-body { position: relative; z-index: 2; max-width: 112mm; }
+.intro-title {
+  margin: 2mm 0 2.5mm; font-size: 19pt; font-weight: 600; letter-spacing: -.01em; line-height: 1.2;
+}
+.intro-lede { margin: 0; max-width: 104mm; font-size: 9.5pt; line-height: 1.55; color: rgba(255, 255, 255, .86); }
+
+.intro-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; margin-top: 5mm; }
+.im-rule { display: block; width: 8mm; height: .9mm; border-radius: 1mm; margin-bottom: 2mm; }
+.im-rule.is-a { background: var(--yellow-200); }
+.im-rule.is-b { background: var(--pink-100); }
+.im-rule.is-c { background: var(--blue-200); }
+.im span {
+  display: block; font-size: 7.5pt; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: rgba(255, 255, 255, .62); margin-bottom: 1.2mm;
+}
+.im strong { display: block; font-size: 9.5pt; font-weight: 600; line-height: 1.3; color: var(--white); }
+.principles.is-onnavy { margin: 4mm 0 0; gap: 2mm; }
+.principles.is-onnavy .principle { padding: 1.2mm 3mm; font-size: 8.5pt; gap: 1.4mm; }
+.principles.is-onnavy .principle svg { width: 3.2mm; height: 3.2mm; }
+.is-runsheet .present { padding: 3.6mm 4mm; margin-top: 4mm; }
+.is-runsheet .alts li { font-size: 9pt; }
+.is-runsheet .present-lede { font-size: 9.5pt; margin-bottom: 2.4mm; }
+/* Celebration points are the supporting half of page one, so on the run sheet
+   they drop the theme tag and sit on one tight line each. */
+.is-runsheet .is-win { padding: 2mm 4mm; }
+.is-runsheet .is-win .res-tag { display: none; }
+.is-runsheet .is-win .res-b h3 { font-size: 10pt; }
+/* One line here, so page one closes on the how-to block rather than spilling. */
+.is-runsheet .note-line { font-size: 9pt; }
+
+/* The sheet is a fixed 210mm so the print stays exact. On screen that is wider
+   than a narrow viewer or a phone, so scale the whole page down rather than let
+   it clip or scroll sideways. Screen only: print is untouched. */
+@media screen and (max-width: 860px) { body { zoom: .70; } }
+@media screen and (max-width: 620px) { body { zoom: .52; } }
+@media screen and (max-width: 460px) { body { zoom: .40; } }

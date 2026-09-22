@@ -142,7 +142,7 @@ def results_block(compact=False):
     focus = "\n".join(res_card("focus", i + 1, f) for i, f in enumerate(FOCUS))
     wins = "\n".join(res_card("win", i + 1, w) for i, w in enumerate(WINS))
     note = ('<p class="note-line">Present all three, check what resonates, then choose one together. '
-            'You guide the selection, but do not decide in isolation.</p>')
+            'You guide the choice, the team makes it with you.</p>')
     win_note = '<p class="note-line">Notice what is working well, and how the team can protect or build on it.</p>'
     return f"""    <h2 class="sub">{I_TARGET} Three focus areas from your team results</h2>
     <div class="results">
@@ -162,7 +162,6 @@ def present_block():
     alts = [
         (I_PPT, "Export to PowerPoint from the same page and present from the deck"),
         (I_IMG, "Or screenshot Focus view beforehand, so nothing depends on signing in"),
-        (I_CLIP, "Or work straight from this sheet, your numbers are already on it"),
     ]
     items = "".join(f'<li>{ic}<span>{tx}</span></li>' for ic, tx in alts)
     return f"""    <div class="present">
@@ -332,16 +331,22 @@ def build_condensed():
 
     return HEAD % "Conversation run sheet &mdash; Sales West" + f"""
 <section class="sheet is-runsheet">
-  <p class="eyebrow">Conversation guide for managers &middot; run sheet</p>
-  <h1 class="page-title">Understanding what drives results</h1>
-  <div class="cover-rule" style="margin:4mm 0 5mm"></div>
-  <div class="cover-meta" style="margin-bottom:6mm">
-    <div class="meta-card" style="background:var(--card)"><span>{I_CLIP} Survey</span><strong>{SURVEY}</strong></div>
-    <div class="meta-card" style="background:var(--card)"><span>{I_USERS} Team</span><strong>{TEAM}</strong></div>
-    <div class="meta-card" style="background:var(--card)"><span>{I_CAL} Results period</span><strong>{PERIOD}</strong></div>
+  <div class="intro">
+    <div class="intro-cut"></div>
+    <img class="intro-art" src="../assets/illustrations/follow-up-guide.svg" alt="">
+    <div class="intro-body">
+      <p class="eyebrow-light">Conversation guide for managers</p>
+      <h1 class="intro-title">Understanding what drives results</h1>
+      <p class="intro-lede">You are a facilitator and listener. Open with the team&rsquo;s overall
+        results and create a shared picture before you discuss the focus areas.</p>
+      <div class="intro-meta">
+        <div class="im"><i class="im-rule is-a"></i><span>Survey</span><strong>{SURVEY}</strong></div>
+        <div class="im"><i class="im-rule is-b"></i><span>Team</span><strong>{TEAM}</strong></div>
+        <div class="im"><i class="im-rule is-c"></i><span>Results period</span><strong>{PERIOD}</strong></div>
+      </div>
+      <div class="principles is-onnavy">{pr}</div>
+    </div>
   </div>
-  <div class="principles" style="margin:0 0 7mm">{pr}</div>
-
 {results_block(compact=True)}
 {present_block()}
   <span class="pageno">1</span>

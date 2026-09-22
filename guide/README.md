@@ -5,11 +5,11 @@ already carries their survey, their team and their numbers instead of blank line
 
 | File | What it is |
 |---|---|
-| `conversation-guide.pdf` | **The run sheet, 2 pages.** What the side panel's *Download guide* button hands over: the results and the principles on page one, the agenda, the starters and what you agree on page two |
+| `conversation-guide.pdf` | **The run sheet, 2 pages.** What *Download a copy* hands over: the results and the principles on page one, the agenda, the starters and what you agree on page two |
 | `conversation-guide-full.pdf` | **The full guide, 7 pages.** The same content with the guidance for each agenda step written out. Not linked from the prototype, kept as the long form reference |
 | `build.py` | Builds both documents, and holds the team results they are populated with |
 | `guide.css` | The shared print stylesheet |
-| `conversation-guide*.html` | The build output. Do not edit by hand, they are overwritten |
+| `conversation-guide.html` | The build output, and what the prototype's **View the guide** dialog shows in an iframe. Do not edit by hand, it is overwritten |
 | `conversation-guide-source.docx` | The original content brief, before the design pass |
 
 ## The platform link and the QR code
@@ -41,6 +41,16 @@ Repeat the last command for `conversation-guide-full`. Two things to keep in
 mind: `print-color-adjust: exact` is what stops the brand colours being dropped,
 and each `.sheet` is one A4 page, so check the page count after any edit rather
 than trusting it.
+
+## How the prototype uses these
+
+**View the guide** in the side panel opens `conversation-guide.html` in a dialog,
+so a manager reads the guide in the platform; **Download a copy** inside that
+dialog serves the PDF. The HTML is used rather than the PDF because a PDF in an
+iframe is unreliable on mobile, and the two are built from the same source.
+
+The `.sheet` is a fixed 210mm so the print stays exact, which is wider than a
+narrow dialog, so a screen-only `zoom` scales the page down. Print is untouched.
 
 ## Keeping the side panel honest
 

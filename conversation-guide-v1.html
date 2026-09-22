@@ -991,6 +991,33 @@
     .cg-take i { flex-shrink: 0; width: 13px; height: 13px; display: flex; color: var(--content-base); }
     .cg-takes-foot { margin: var(--spacing-base) 0 0; font-size: 12px; line-height: 1.5; color: var(--content-secondary); }
 
+    /* Guide viewer: the guide read inside the platform, so downloading is a choice
+       rather than the only way to see it. Sits above the side panel that opened it. */
+    .cg-viewer { z-index: 1200; }
+    .cg-viewer-box {
+      position: relative; display: flex; flex-direction: column;
+      width: min(940px, 94vw); height: calc(100dvh - 6rem);
+      background: var(--bg-base); border-radius: var(--radius-lg);
+      box-shadow: var(--sh-popovers, 0 20px 48px rgba(0, 0, 0, .25));
+      overflow: hidden;
+    }
+    .cg-viewer-head {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--spacing-base); padding: var(--spacing-loose) var(--spacing-loose) var(--spacing-base);
+    }
+    .cg-viewer-head h3 { margin: 0; font-size: 20px; font-weight: 600; color: var(--content-base); }
+    .cg-viewer-head p { margin: var(--spacing-extra-tight) 0 0; font-size: 13px; color: var(--content-secondary); }
+    /* The document renders on its own grey ground, so the frame needs no padding. */
+    .cg-viewer-frame {
+      flex: 1; min-height: 0; width: 100%; border: 0;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-base); border-bottom: 1px solid var(--border-base);
+    }
+    .cg-viewer-foot {
+      display: flex; justify-content: flex-end; gap: var(--spacing-tight);
+      padding: var(--spacing-base) var(--spacing-loose);
+    }
+
     /* What you walk away with — the payoff block. Same white surface as the block
        above it, so the two read as one system; the yellow chips carry the accent.
        Content left, illustration right. */
@@ -1169,7 +1196,7 @@
                 <h3 class="cg-entry-title">Bring these results to your team before you choose</h3>
                 <p class="cg-entry-text">A light agenda and listening questions to help you run the conversation, ready in about five minutes.</p>
                 <div class="cg-entry-actions">
-                  <button class="btn btn-primary" onclick="openGuide()"><i data-icon="message"></i> View conversation guide</button>
+                  <button class="btn btn-primary" onclick="openGuide()"><i data-icon="message"></i> See details</button>
                 </div>
               </div>
               <img class="cg-entry-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />
@@ -2655,7 +2682,7 @@
   }
   function guideFooterHTML(){
     return '<button class="btn btn-secondary" onclick="closeGuide()">Close</button>' +
-      '<button class="btn btn-primary" onclick="downloadGuide()"><i data-icon="download"></i> Download guide</button>';
+      '<button class="btn btn-primary" onclick="openGuideViewer()"><i data-icon="book-open"></i> View the guide</button>';
   }
   function ensureGuideOverlay(){
     var ov = document.getElementById('guide-overlay');
@@ -2666,7 +2693,7 @@
     ov.hidden = true;
     document.body.appendChild(ov);
     ov.addEventListener('click', function(e){ if(e.target === ov) closeGuide(); });
-    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !ov.hidden) closeGuide(); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !ov.hidden && !guideViewerOpen()) closeGuide(); });
     return ov;
   }
   function renderGuidePanel(){
@@ -2704,6 +2731,49 @@
   // on the fly: a tester downloads exactly the PDF a manager would get, so their
   // feedback is about the actual guide.
   var GUIDE_FILE = 'guide/conversation-guide.pdf';
+  // The same document as the PDF, rendered as a page: a PDF in an iframe is
+  // unreliable on mobile, and this is what a manager reads before deciding
+  // whether they want a copy to put on the table.
+  var GUIDE_VIEW = 'guide/conversation-guide.html';
+  function guideViewerOpen(){
+    var ov = document.getElementById('guide-viewer');
+    return !!(ov && !ov.hidden);
+  }
+  function ensureGuideViewer(){
+    var ov = document.getElementById('guide-viewer');
+    if(ov) return ov;
+    ov = document.createElement('div');
+    ov.className = 'overlay cg-viewer';
+    ov.id = 'guide-viewer';
+    ov.hidden = true;
+    ov.innerHTML =
+      '<div class="cg-viewer-box" role="dialog" aria-modal="true" aria-labelledby="cg-viewer-title">' +
+        '<div class="cg-viewer-head">' +
+          '<div><h3 id="cg-viewer-title">Your conversation guide</h3>' +
+          '<p>Two pages, with your results already in them</p></div>' +
+          '<button class="ib ib-36 ib-secondary" aria-label="Close" onclick="closeGuideViewer()"><i data-icon="cross"></i></button>' +
+        '</div>' +
+        '<iframe class="cg-viewer-frame" title="Conversation guide" src="about:blank"></iframe>' +
+        '<div class="cg-viewer-foot">' +
+          '<button class="btn btn-secondary" onclick="closeGuideViewer()">Close</button>' +
+          '<button class="btn btn-primary" onclick="downloadGuide()"><i data-icon="download"></i> Download a copy</button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(ov);
+    ov.addEventListener('click', function(e){ if(e.target === ov) closeGuideViewer(); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !ov.hidden) closeGuideViewer(); });
+    return ov;
+  }
+  function openGuideViewer(){
+    var ov = ensureGuideViewer();
+    var fr = ov.querySelector('.cg-viewer-frame');
+    if(fr.getAttribute('src') !== GUIDE_VIEW) fr.setAttribute('src', GUIDE_VIEW);
+    ov.hidden = false;
+    if(window.Icons) window.Icons.render(ov);
+  }
+  function closeGuideViewer(){
+    var ov = document.getElementById('guide-viewer'); if(ov) ov.hidden = true;
+  }
   function downloadGuide(){
     var a = document.createElement('a');
     a.href = GUIDE_FILE;

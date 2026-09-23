@@ -43,10 +43,34 @@
        the white content below it. */
     .breadcrumb { padding-left: var(--results-side); padding-right: var(--results-side);
       background: var(--bg-secondary); }
-    /* The breadcrumb is a flex row, so the hub sits at the far end of it,
-       opposite Back, without needing its own bar. */
-    .bc-hub { margin-left: auto; flex: none; }
-    @media (max-width: 720px) { .bc-hub { display: none; } }
+    /* The hub sits on the results title row, opposite the page title, as in the
+       design. It belongs to the results page rather than the app chrome. */
+    .results-title-row {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--spacing-base); margin-bottom: var(--spacing-base);
+    }
+    .results-title-row .results-title { margin: 0; }
+    .hub-btn { flex: none; }
+    .hub-btn i { display: flex; width: 16px; height: 16px; }
+
+    /* What is left behind when the guide is dismissed: one line, in the place the
+       card was, answering the only question a dismissal raises. */
+    .cg-note {
+      display: flex; align-items: center; gap: var(--spacing-tight);
+      padding: var(--spacing-base-tight) var(--spacing-base);
+      background: var(--bg-secondary); border-radius: var(--radius-md);
+      font-size: 13px; line-height: 1.5; color: var(--content-secondary);
+    }
+    .cg-note[hidden] { display: none; }
+    .cg-note > i { flex: none; display: flex; width: 16px; height: 16px; color: var(--content-positive); }
+    .cg-note .link-inline { font-size: 13px; }
+    /* The popup has no slot to collapse into, so its note takes the same corner. */
+    .cg-note.is-corner {
+      position: fixed; right: var(--spacing-loose); bottom: var(--spacing-loose); z-index: 140;
+      width: 260px; background: var(--bg-base);
+      border: 1px solid var(--border-base); box-shadow: var(--sh-card);
+      animation: cg-pop-in var(--motion-slow) var(--ease-out);
+    }
 
     .results-head { padding: var(--results-top) var(--results-side) 0; background: var(--bg-base); }
     .results-title { margin: 0 0 var(--spacing-base); }
@@ -1148,13 +1172,15 @@
         <li><a class="bc-link" href="#">Your voice — Employee listening '25</a></li>
         <li><span class="bc-current" aria-current="page">Results</span></li>
       </ol>
-      <button class="btn btn-secondary bc-hub" type="button" onclick="openHub()">Manager Hub</button>
     </nav>
 
     <div class="main-scroll">
 
       <div class="results-head">
-        <h1 class="text-l3 results-title" id="results-title">Focus view</h1>
+        <div class="results-title-row">
+          <h1 class="text-l3 results-title" id="results-title">Focus view</h1>
+          <button class="btn btn-secondary hub-btn" type="button" onclick="openHub()"><i data-icon="book-open"></i> Manager&rsquo;s Hub</button>
+        </div>
         <div class="results-filters">
           <button class="sel-btn" type="button">
             <i data-icon="filter"></i>
@@ -2791,7 +2817,30 @@
       }, 2000);
     }
   }
-  function dismissEntry(){ ssSet('cg-entry-dismissed'); applyEntryState(); }
+  // A dismissal raises exactly one question: where did it go. The answer belongs
+  // in the place the card just left, not in a new corner of the screen. It lasts
+  // the page view; a reload clears it, because by then the question is gone.
+  function showEntryNote(){
+    var card = document.getElementById('cg-entry-band') || document.getElementById('cg-entry-pop');
+    if(!card || !card.parentNode) return;
+    var note = document.getElementById('cg-entry-note');
+    if(!note){
+      note = document.createElement('div');
+      note.id = 'cg-entry-note';
+      note.className = 'cg-note' + (card.id === 'cg-entry-pop' ? ' is-corner' : '');
+      note.innerHTML = '<i data-icon="check"></i><span>Hidden. You will find the conversation guide in ' +
+        '<button class="link-inline" onclick="openHub()">Manager\u2019s Hub</button></span>';
+      card.parentNode.insertBefore(note, card.nextSibling);
+    }
+    note.hidden = false;
+    if(window.Icons) window.Icons.render(note);
+    // A floating note is the thing that was just dismissed, so it does not linger.
+    if(note.classList.contains('is-corner')){
+      setTimeout(function(){ note.hidden = true; }, 8000);
+    }
+  }
+
+  function dismissEntry(){ ssSet('cg-entry-dismissed'); applyEntryState(); showEntryNote(); }
   // Version 4 only: nudge the guide from the stepper success screen, for the areas just chosen
   function stepGuideNudgeHTML(){
     if(entryVariant !== 'e') return '';
@@ -2812,6 +2861,7 @@
   // The x hides the popup for now; the link below the button keeps it away for the session
   function dismissEntryPop(){
     var pop = document.getElementById('cg-entry-pop'); if(pop) pop.hidden = true;
+    showEntryNote();
   }
   function neverShowEntryPop(){
     ssSet('cg-entry-pop-never');

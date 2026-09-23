@@ -39,6 +39,10 @@
     .main-scroll.is-actions-bg { background: var(--bg-secondary); }
 
     .breadcrumb { padding-left: var(--results-side); padding-right: var(--results-side); }
+    /* The breadcrumb is a flex row, so the hub sits at the far end of it,
+       opposite Back, without needing its own bar. */
+    .bc-hub { margin-left: auto; flex: none; }
+    @media (max-width: 720px) { .bc-hub { display: none; } }
 
     .results-head { padding: var(--results-top) var(--results-side) 0; background: var(--bg-base); }
     .results-title { margin: 0 0 var(--spacing-base); }
@@ -1098,6 +1102,7 @@
         <li><a class="bc-link" href="#">Your voice — Employee listening '25</a></li>
         <li><span class="bc-current" aria-current="page">Results</span></li>
       </ol>
+      <button class="btn btn-secondary bc-hub" type="button">Manager Hub</button>
     </nav>
 
     <div class="main-scroll">

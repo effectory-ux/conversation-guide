@@ -1037,16 +1037,15 @@
     .hub-title { margin: 0 0 var(--spacing-tight); }
     .hub-lede { margin: 0 0 var(--spacing-extra-loose); font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
 
-    /* One card, rows divided by a hairline, as in the design. */
-    .hub-list {
-      background: var(--bg-base); border: 1px solid var(--border-base);
-      border-radius: var(--radius-lg); box-shadow: var(--sh-card); overflow: hidden;
-    }
+    /* Each resource is its own card: they are unrelated things a manager picks
+       between, not steps in one list. */
+    .hub-list { display: flex; flex-direction: column; gap: var(--spacing-base); }
     .hub-row {
       display: flex; align-items: center; gap: var(--spacing-loose);
       padding: var(--spacing-loose);
+      background: var(--bg-base); border: 1px solid var(--border-base);
+      border-radius: var(--radius-lg); box-shadow: var(--sh-card);
     }
-    .hub-row + .hub-row { border-top: 1px solid var(--border-base); }
     /* The toolkit row carries its own sub cards, so its artwork sits at the top. */
     .hub-row.is-stacked { align-items: flex-start; }
     .hub-illo { flex: none; display: block; }
@@ -1223,7 +1222,7 @@
                 <h2 class="hub-row-title">Conversation guide</h2>
                 <p class="hub-row-text">Bring your results to the team with a light agenda, listening questions and space to agree one step</p>
               </div>
-              <button class="btn btn-secondary" onclick="openGuideViewer()">View</button>
+              <button class="btn btn-secondary" onclick="downloadGuide()"><i data-icon="download"></i> Download</button>
             </section>
 
             <section class="hub-row">

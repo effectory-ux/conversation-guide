@@ -362,12 +362,15 @@ h2.sub svg { width: 5mm; height: 5mm; flex: none; }
 /* One line here, so page one closes on the how-to block rather than spilling. */
 .is-runsheet .note-line { font-size: 9pt; }
 
-/* The sheet is a fixed 210mm so the print stays exact. On screen that is wider
-   than a narrow viewer or a phone, so scale the whole page down rather than let
-   it clip or scroll sideways. Screen only: print is untouched. */
+/* The sheet is a fixed 210mm so the print stays exact, which means on screen it
+   is scaled to whatever space there is: down on a phone or a narrow viewer, and
+   up in the wide viewer, where there is more room than an A4 page needs. Screen
+   only, so print is untouched either way. */
 @media screen and (max-width: 900px) { body { zoom: .78; } }
 @media screen and (max-width: 620px) { body { zoom: .52; } }
 @media screen and (max-width: 460px) { body { zoom: .40; } }
+@media screen and (min-width: 1000px) { body { zoom: 1.18; } }
+@media screen and (min-width: 1140px) { body { zoom: 1.34; } }
 
 /* The link straight to the focus areas, the primary route in the how-to block. */
 .present-link { display: flex; align-items: center; gap: 2mm; margin: 0 0 3mm; font-size: 9.5pt; }

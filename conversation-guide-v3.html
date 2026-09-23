@@ -1074,6 +1074,19 @@
     }
     /* The toolkit row carries its own sub cards, so its artwork sits at the top. */
     .hub-row.is-stacked { align-items: flex-start; }
+    /* The artwork keeps its own size and sits on a tinted panel, clear of the edge
+       on every side. The panel is square so rows with 56x48 and 56x56 artwork line
+       up; the tints are the design system's subtle set, one per resource. */
+    .hub-illo-box {
+      flex: none; box-sizing: border-box;
+      display: flex; align-items: center; justify-content: center;
+      width: 80px; height: 80px; padding: 12px;
+      border-radius: var(--radius-md);
+    }
+    .hub-illo-box.is-guide   { background: var(--bg-info-subtle); }
+    .hub-illo-box.is-toolkit { background: var(--bg-highlight-subtle); }
+    .hub-illo-box.is-report  { background: var(--bg-positive-subtle); }
+    .hub-illo-box.is-compass { background: var(--bg-warning-subtle); }
     .hub-illo { flex: none; display: block; }
     .hub-main { flex: 1; min-width: 0; }
     .hub-row-title { margin: 0; font-size: 14px; font-weight: 600; line-height: 22.4px; color: var(--content-base); }
@@ -1222,18 +1235,35 @@
           <div class="hub-list">
 
             <!-- Added to the design, and first: it is the resource about the results
-                 the manager has just been looking at. -->
-            <section class="hub-row">
-              <img class="hub-illo" src="assets/illustrations/follow-up-guide.svg" width="56" height="48" alt="" />
+                 the manager has just been looking at. The follow-up guide lives here
+                 too, because running the conversation and following it up are two
+                 halves of one job and shared one illustration when they were apart. -->
+            <section class="hub-row is-stacked">
+              <span class="hub-illo-box is-guide">
+                <img class="hub-illo" src="assets/illustrations/follow-up-guide.svg" width="56" height="48" alt="" />
+              </span>
               <div class="hub-main">
                 <h2 class="hub-row-title">Conversation guide</h2>
-                <p class="hub-row-text">Bring your results to the team with a light agenda, listening questions and space to agree one step</p>
+                <p class="hub-row-text">Run the conversation with your team, then turn what you agreed into a plan.</p>
+                <div class="hub-subs">
+                  <div class="hub-sub">
+                    <h3>For the conversation</h3>
+                    <p>A light agenda, listening questions and space to agree one step.</p>
+                    <button class="btn btn-secondary" onclick="downloadGuide()"><i data-icon="download"></i> Download</button>
+                  </div>
+                  <div class="hub-sub">
+                    <h3>For the follow up</h3>
+                    <p>Turn insights into action with a plan tailored to your goals.</p>
+                    <button class="btn btn-secondary"><i data-icon="download"></i> Download</button>
+                  </div>
+                </div>
               </div>
-              <button class="btn btn-secondary" onclick="downloadGuide()"><i data-icon="download"></i> Download</button>
             </section>
 
             <section class="hub-row is-stacked">
-              <img class="hub-illo" src="assets/illustrations/manager-toolkit.svg" width="56" height="56" alt="" />
+              <span class="hub-illo-box is-toolkit">
+                <img class="hub-illo" src="assets/illustrations/manager-toolkit.svg" width="56" height="56" alt="" />
+              </span>
               <div class="hub-main">
                 <h2 class="hub-row-title">Manager Toolkit</h2>
                 <p class="hub-row-text">Get practical guidance on how to use survey results to drive meaningful conversations and actions with your team.</p>
@@ -1253,7 +1283,9 @@
             </section>
 
             <section class="hub-row">
-              <img class="hub-illo" src="assets/illustrations/example-report.svg" width="56" height="48" alt="" />
+              <span class="hub-illo-box is-report">
+                <img class="hub-illo" src="assets/illustrations/example-report.svg" width="56" height="48" alt="" />
+              </span>
               <div class="hub-main">
                 <h2 class="hub-row-title">Example report</h2>
                 <p class="hub-row-text">Get a feel of what to expect from your results</p>
@@ -1261,17 +1293,10 @@
               <button class="btn btn-secondary"><i data-icon="download"></i> Download</button>
             </section>
 
-            <section class="hub-row">
-              <img class="hub-illo" src="assets/illustrations/follow-up-guide.svg" width="56" height="48" alt="" />
-              <div class="hub-main">
-                <h2 class="hub-row-title">Follow-up guide</h2>
-                <p class="hub-row-text">Turn insights into action with a follow-up plan tailored to your goals</p>
-              </div>
-              <button class="btn btn-secondary"><i data-icon="download"></i> Download</button>
-            </section>
-
             <section class="hub-row is-stacked">
-              <img class="hub-illo" src="assets/illustrations/leadership-compass.svg" width="56" height="56" alt="" />
+              <span class="hub-illo-box is-compass">
+                <img class="hub-illo" src="assets/illustrations/leadership-compass.svg" width="56" height="56" alt="" />
+              </span>
               <div class="hub-main">
                 <h2 class="hub-row-title">Leadership Roll Compass</h2>
                 <p class="hub-row-text">Transform the way your managers lead with easy-to-run, insightful 360&deg; feedback surveys</p>

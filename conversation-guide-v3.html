@@ -38,7 +38,10 @@
     /* Actions is the only view that keeps the interface-grey page background. */
     .main-scroll.is-actions-bg { background: var(--bg-secondary); }
 
-    .breadcrumb { padding-left: var(--results-side); padding-right: var(--results-side); }
+    /* The header sits on the interface grey so it reads as chrome, separate from
+       the white content below it. */
+    .breadcrumb { padding-left: var(--results-side); padding-right: var(--results-side);
+      background: var(--bg-secondary); }
     /* The breadcrumb is a flex row, so the hub sits at the far end of it,
        opposite Back, without needing its own bar. */
     .bc-hub { margin-left: auto; flex: none; }
@@ -1030,10 +1033,6 @@
     .hub-page { padding: var(--results-top) var(--results-side) var(--spacing-super-extra-loose); }
     .hub-page[hidden] { display: none; }
     .hub-wrap { max-width: 880px; margin: 0 auto; }
-    .hub-back { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight);
-      margin-bottom: var(--spacing-extra-loose); }
-    /* .link-inline leaves its icon unsized, and an unsized svg fills its box. */
-    .hub-back i { display: flex; width: 16px; height: 16px; }
     .hub-title { margin: 0 0 var(--spacing-tight); }
     .hub-lede { margin: 0 0 var(--spacing-extra-loose); font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
 
@@ -1146,7 +1145,7 @@
   <div class="main">
 
     <nav class="breadcrumb" aria-label="Breadcrumb">
-      <button class="btn btn-secondary"><i data-icon="arrow-left"></i> Back</button>
+      <button class="btn btn-secondary" onclick="goBack()"><i data-icon="arrow-left"></i> Back</button>
       <ol class="bc-trail">
         <li><a class="bc-link" href="#">Your voice — Employee listening '25</a></li>
         <li><span class="bc-current" aria-current="page">Results</span></li>
@@ -1188,11 +1187,21 @@
            guide is added as a row of its own; everything else is the design. -->
       <div class="hub-page" id="hub-page" hidden>
         <div class="hub-wrap">
-          <button class="link-inline hub-back" onclick="closeHub()"><i data-icon="arrow-left"></i> Back</button>
           <h1 class="text-l2 hub-title">Manager&rsquo;s Hub</h1>
           <p class="hub-lede">Find all the relevant resources in one centralized place.</p>
 
           <div class="hub-list">
+
+            <!-- Added to the design, and first: it is the resource about the results
+                 the manager has just been looking at. -->
+            <section class="hub-row">
+              <img class="hub-illo" src="assets/illustrations/follow-up-guide.svg" width="56" height="48" alt="" />
+              <div class="hub-main">
+                <h2 class="hub-row-title">Conversation guide</h2>
+                <p class="hub-row-text">Bring your results to the team with a light agenda, listening questions and space to agree one step</p>
+              </div>
+              <button class="btn btn-secondary" onclick="downloadGuide()"><i data-icon="download"></i> Download</button>
+            </section>
 
             <section class="hub-row is-stacked">
               <img class="hub-illo" src="assets/illustrations/manager-toolkit.svg" width="56" height="56" alt="" />
@@ -1212,17 +1221,6 @@
                   </div>
                 </div>
               </div>
-            </section>
-
-            <!-- Added to the design: the conversation guide, opened in the same
-                 viewer the Focus view card opens. -->
-            <section class="hub-row">
-              <img class="hub-illo" src="assets/illustrations/follow-up-guide.svg" width="56" height="48" alt="" />
-              <div class="hub-main">
-                <h2 class="hub-row-title">Conversation guide</h2>
-                <p class="hub-row-text">Bring your results to the team with a light agenda, listening questions and space to agree one step</p>
-              </div>
-              <button class="btn btn-secondary" onclick="downloadGuide()"><i data-icon="download"></i> Download</button>
             </section>
 
             <section class="hub-row">
@@ -2440,6 +2438,10 @@
     hub.hidden = false;
     if(window.Icons) window.Icons.render(hub);
     var sc = document.querySelector('.main-scroll'); if(sc) sc.scrollTop = 0;
+  }
+  // The header's Back is the only way out of the hub now, so it has to know.
+  function goBack(){
+    if(!document.getElementById('hub-page').hidden) closeHub();
   }
   function closeHub(){
     document.getElementById('hub-page').hidden = true;

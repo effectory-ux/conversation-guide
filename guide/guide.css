@@ -365,7 +365,7 @@ h2.sub svg { width: 5mm; height: 5mm; flex: none; }
 /* The sheet is a fixed 210mm so the print stays exact. On screen that is wider
    than a narrow viewer or a phone, so scale the whole page down rather than let
    it clip or scroll sideways. Screen only: print is untouched. */
-@media screen and (max-width: 860px) { body { zoom: .70; } }
+@media screen and (max-width: 900px) { body { zoom: .78; } }
 @media screen and (max-width: 620px) { body { zoom: .52; } }
 @media screen and (max-width: 460px) { body { zoom: .40; } }
 

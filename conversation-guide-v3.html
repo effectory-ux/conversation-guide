@@ -1024,12 +1024,62 @@
     .cg-take i { flex-shrink: 0; width: 13px; height: 13px; display: flex; color: var(--content-base); }
     .cg-takes-foot { margin: var(--spacing-base) 0 0; font-size: 12px; line-height: 1.5; color: var(--content-secondary); }
 
+    /* ═══ Manager's Hub (Figma bWkM8vgPSv9AcOZ2NwfgSO, node 6004:1209) ═══════ */
+    /* The design puts the page in an 880px column; everything below follows its
+       measurements, expressed in design-system tokens where one exists. */
+    .hub-page { padding: var(--results-top) var(--results-side) var(--spacing-super-extra-loose); }
+    .hub-page[hidden] { display: none; }
+    .hub-wrap { max-width: 880px; margin: 0 auto; }
+    .hub-back { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight);
+      margin-bottom: var(--spacing-extra-loose); }
+    /* .link-inline leaves its icon unsized, and an unsized svg fills its box. */
+    .hub-back i { display: flex; width: 16px; height: 16px; }
+    .hub-title { margin: 0 0 var(--spacing-tight); }
+    .hub-lede { margin: 0 0 var(--spacing-extra-loose); font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
+
+    /* One card, rows divided by a hairline, as in the design. */
+    .hub-list {
+      background: var(--bg-base); border: 1px solid var(--border-base);
+      border-radius: var(--radius-lg); box-shadow: var(--sh-card); overflow: hidden;
+    }
+    .hub-row {
+      display: flex; align-items: center; gap: var(--spacing-loose);
+      padding: var(--spacing-loose);
+    }
+    .hub-row + .hub-row { border-top: 1px solid var(--border-base); }
+    /* The toolkit row carries its own sub cards, so its artwork sits at the top. */
+    .hub-row.is-stacked { align-items: flex-start; }
+    .hub-illo { flex: none; display: block; }
+    .hub-main { flex: 1; min-width: 0; }
+    .hub-row-title { margin: 0; font-size: 14px; font-weight: 600; line-height: 22.4px; color: var(--content-base); }
+    .hub-row-text { margin: 0; font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
+    .hub-row .btn { flex: none; }
+
+    .hub-subs { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-base-tight); margin-top: var(--spacing-base); }
+    .hub-sub { background: var(--bg-secondary); border-radius: var(--radius-md); padding: var(--spacing-base); }
+    .hub-sub h3 { margin: 0; font-size: 14px; font-weight: 600; line-height: 22.4px; color: var(--content-base); }
+    .hub-sub p { margin: var(--spacing-extra-tight) 0 var(--spacing-base); font-size: 12px; line-height: 1.65; color: var(--content-secondary); }
+
+    /* Leadership Roll Compass: bullets under the copy, buttons below, scene right. */
+    .hub-checks { list-style: none; margin: var(--spacing-base) 0 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    .hub-checks li { display: flex; align-items: flex-start; gap: var(--spacing-tight); font-size: 14px; line-height: 1.45; color: var(--content-base); }
+    .hub-checks i { flex: none; display: flex; width: 16px; height: 16px; color: var(--content-base); margin-top: 2px; }
+    .hub-actions { display: flex; gap: var(--spacing-tight); margin-top: var(--spacing-loose); }
+    .hub-scene { flex: none; align-self: center; display: block; }
+    @media (max-width: 900px) {
+      .hub-subs { grid-template-columns: 1fr; }
+      .hub-scene { display: none; }
+      .hub-row { flex-wrap: wrap; }
+    }
+
     /* Guide viewer: the guide read inside the platform, so downloading is a choice
        rather than the only way to see it. Sits above the side panel that opened it. */
     .cg-viewer { z-index: 1200; }
     .cg-viewer-box {
       position: relative; display: flex; flex-direction: column;
-      width: min(940px, 94vw); height: calc(100dvh - 6rem);
+      /* Wide enough for the guide's 210mm sheet at full size with room around it;
+         the reading happens by scrolling, so height takes what the viewport has. */
+      width: min(1180px, 96vw); height: calc(100dvh - 3rem);
       background: var(--bg-base); border-radius: var(--radius-lg);
       box-shadow: var(--sh-popovers, 0 20px 48px rgba(0, 0, 0, .25));
       overflow: hidden;
@@ -1102,7 +1152,7 @@
         <li><a class="bc-link" href="#">Your voice — Employee listening '25</a></li>
         <li><span class="bc-current" aria-current="page">Results</span></li>
       </ol>
-      <button class="btn btn-secondary bc-hub" type="button">Manager Hub</button>
+      <button class="btn btn-secondary bc-hub" type="button" onclick="openHub()">Manager Hub</button>
     </nav>
 
     <div class="main-scroll">
@@ -1130,6 +1180,89 @@
           <a class="tab">Topics &amp; Ideas</a>
           <a class="tab">Reports</a>
           <a class="tab" data-view="actions">Actions <span class="tab-badge" id="actions-tab-count" hidden></span></a>
+        </div>
+      </div>
+
+
+      <!-- ═══════════════ MANAGER'S HUB ═══════════════
+           From Figma bWkM8vgPSv9AcOZ2NwfgSO, node 6004:1209. The conversation
+           guide is added as a row of its own; everything else is the design. -->
+      <div class="hub-page" id="hub-page" hidden>
+        <div class="hub-wrap">
+          <button class="link-inline hub-back" onclick="closeHub()"><i data-icon="arrow-left"></i> Back</button>
+          <h1 class="text-l2 hub-title">Manager&rsquo;s Hub</h1>
+          <p class="hub-lede">Find all the relevant resources in one centralized place.</p>
+
+          <div class="hub-list">
+
+            <section class="hub-row is-stacked">
+              <img class="hub-illo" src="assets/illustrations/manager-toolkit.svg" width="56" height="56" alt="" />
+              <div class="hub-main">
+                <h2 class="hub-row-title">Manager Toolkit</h2>
+                <p class="hub-row-text">Get practical guidance on how to use survey results to drive meaningful conversations and actions with your team.</p>
+                <div class="hub-subs">
+                  <div class="hub-sub">
+                    <h3>For online meetings</h3>
+                    <p>Useful when remote or hybrid working is the norm.</p>
+                    <button class="btn btn-secondary"><i data-icon="download"></i> Download</button>
+                  </div>
+                  <div class="hub-sub">
+                    <h3>For offline meetings</h3>
+                    <p>Useful for meeting with the team in person.</p>
+                    <button class="btn btn-secondary"><i data-icon="download"></i> Download</button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Added to the design: the conversation guide, opened in the same
+                 viewer the Focus view card opens. -->
+            <section class="hub-row">
+              <img class="hub-illo" src="assets/illustrations/follow-up-guide.svg" width="56" height="48" alt="" />
+              <div class="hub-main">
+                <h2 class="hub-row-title">Conversation guide</h2>
+                <p class="hub-row-text">Bring your results to the team with a light agenda, listening questions and space to agree one step</p>
+              </div>
+              <button class="btn btn-secondary" onclick="openGuideViewer()">View</button>
+            </section>
+
+            <section class="hub-row">
+              <img class="hub-illo" src="assets/illustrations/example-report.svg" width="56" height="48" alt="" />
+              <div class="hub-main">
+                <h2 class="hub-row-title">Example report</h2>
+                <p class="hub-row-text">Get a feel of what to expect from your results</p>
+              </div>
+              <button class="btn btn-secondary"><i data-icon="download"></i> Download</button>
+            </section>
+
+            <section class="hub-row">
+              <img class="hub-illo" src="assets/illustrations/follow-up-guide.svg" width="56" height="48" alt="" />
+              <div class="hub-main">
+                <h2 class="hub-row-title">Follow-up guide</h2>
+                <p class="hub-row-text">Turn insights into action with a follow-up plan tailored to your goals</p>
+              </div>
+              <button class="btn btn-secondary"><i data-icon="download"></i> Download</button>
+            </section>
+
+            <section class="hub-row is-stacked">
+              <img class="hub-illo" src="assets/illustrations/leadership-compass.svg" width="56" height="56" alt="" />
+              <div class="hub-main">
+                <h2 class="hub-row-title">Leadership Roll Compass</h2>
+                <p class="hub-row-text">Transform the way your managers lead with easy-to-run, insightful 360&deg; feedback surveys</p>
+                <ul class="hub-checks">
+                  <li><i data-icon="check"></i> Develop your managers into better leaders</li>
+                  <li><i data-icon="check"></i> Align leadership with team expectations</li>
+                  <li><i data-icon="check"></i> Boost team dynamics, engagement, and retention</li>
+                </ul>
+                <div class="hub-actions">
+                  <button class="btn btn-secondary"><i data-icon="play"></i> Learn more</button>
+                  <button class="btn btn-primary">Get in touch</button>
+                </div>
+              </div>
+              <img class="hub-scene" src="assets/illustrations/leadership-compass-scene.svg" width="158" height="162" alt="" />
+            </section>
+
+          </div>
         </div>
       </div>
 
@@ -2299,6 +2432,22 @@
   window.addEventListener('resize', function(){ if(typeof sizeEmptyIllo === 'function') sizeEmptyIllo(); });
   // Export is a stub in this prototype: it only confirms the export has started.
   function exportActions(){ var st = notifyStack(); var n = document.createElement('div'); n.className = 'sysnotif'; n.innerHTML = '<div class="sysnotif-title">Preparing your export\u2026</div><button class="sysnotif-close" aria-label="Close"><i data-icon="cross"></i></button>'; n.querySelector('.sysnotif-close').addEventListener('click', function(){ n.remove(); }); st.appendChild(n); if(window.Icons) window.Icons.render(n); setTimeout(function(){ n.remove(); }, 3200); }
+  // ── Manager's Hub: a destination rather than a tab, so the results chrome goes
+  //    away with it and Back brings the whole page back. ──
+  function openHub(){
+    document.querySelector('.results-head').hidden = true;
+    document.querySelector('.focus-wrap').hidden = true;
+    var hub = document.getElementById('hub-page');
+    hub.hidden = false;
+    if(window.Icons) window.Icons.render(hub);
+    var sc = document.querySelector('.main-scroll'); if(sc) sc.scrollTop = 0;
+  }
+  function closeHub(){
+    document.getElementById('hub-page').hidden = true;
+    document.querySelector('.results-head').hidden = false;
+    document.querySelector('.focus-wrap').hidden = false;
+  }
+
   // Tab switching — Overview / Focus view / Actions (other tabs stay inert in this prototype)
   (function wireViewTabs(){
     var VIEWS = ['overview', 'focus', 'actions'];

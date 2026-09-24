@@ -1395,7 +1395,7 @@
                 <h3 class="cg-entry-title">Bring these results to your team</h3>
                 <p class="cg-entry-text">A light agenda and listening questions to help you run the conversation, ready in about five minutes.</p>
                 <div class="cg-entry-actions">
-                  <button class="btn btn-primary" onclick="openGuide()">See details</button>
+                  <button class="btn btn-primary" onclick="openGuideViewer()">View the guide</button>
                 </div>
               </div>
               <img class="cg-entry-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />
@@ -2420,7 +2420,7 @@
         '<h3 class="cg-entry-title">Talk these actions through with your team</h3>' +
         '<p class="cg-entry-text">Your conversation guide helps you hear the why behind each focus area and agree on next steps together.</p>' +
         '<div class="cg-entry-actions">' +
-          '<button class="btn btn-primary" onclick="openGuide()"><i data-icon="message"></i> View conversation guide</button>' +
+          '<button class="btn btn-primary" onclick="openGuideViewer()"><i data-icon="message"></i> View the guide</button>' +
         '</div>' +
       '</div>' +
       '<img class="cg-entry-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />' +
@@ -2866,7 +2866,7 @@
   // The stepper dialog sits above the side panel, so close it before opening the guide
   function openGuideFromStep(){
     if(typeof stepClose === 'function') stepClose();
-    openGuide();
+    openGuideViewer();
   }
   // The x hides the popup for now; the link below the button keeps it away for the session
   function dismissEntryPop(){
@@ -2879,96 +2879,10 @@
   }
   function openGuideFromPop(){
     dismissEntryPop();
-    openGuide();
+    openGuideViewer();
   }
   applyEntryState();
 
-  // ── Panel body: a five-second trailer for the downloadable guide, not the guide itself ──
-  function guideStepsHTML(){
-    // Three high-level moves, condensed from the guide's five agenda points. The
-    // timings are the guide's own, bucketed so they still add up to 35 to 45 minutes.
-    var steps = [
-      ['barchart-2', 'Look at the results together', 'Open up and choose one focus area', '10 to 15 min'],
-      ['message', 'Explore what sits behind it', 'Use the conversation starters to listen', '20 to 25 min'],
-      ['check', 'Agree what happens next', 'One realistic step, owner and follow up', '3 min']
-    ];
-    return '<section class="cg-blk">' +
-      '<div class="cg-blk-head"><span class="cg-blk-label">What’s inside</span><span class="cg-blk-aside">Five steps, about 40 minutes</span></div>' +
-      '<div class="cg-steps">' + steps.map(function(s){
-        return '<div class="cg-step">' +
-          '<span class="cg-step-ico"><i data-icon="' + s[0] + '"></i></span>' +
-          '<span class="cg-step-t">' + s[1] + '</span>' +
-          '<span class="cg-step-d">' + s[2] + '</span>' +
-          '<span class="cg-step-time">' + s[3] + '</span>' +
-        '</div>';
-      }).join('') + '</div>' +
-    '</section>';
-  }
-  // The payoff, from the guide's last page: six things the team fills in, and a
-  // decision that is the same improve / monitor / need support the Action Center uses.
-  // This is the block that earns the download, so it shows the outcome, not the method.
-  function guideTakeawaysHTML(){
-    var takes = ['Shared focus', 'What we learned', 'First step', 'Owner and timing', 'Support needed', 'Follow up moment'];
-    return '<section class="cg-blk cg-takeaways">' +
-      '<div class="cg-takeaways-main">' +
-        '<div class="cg-blk-head"><span class="cg-blk-label">What you walk away with</span></div>' +
-        '<div class="cg-takes">' + takes.map(function(k){
-          return '<span class="cg-take"><i data-icon="check"></i>' + k + '</span>';
-        }).join('') + '</div>' +
-        '<p class="cg-takes-foot">Two pages with your three focus areas, your celebration points and seven conversation starters, then you decide together to improve, monitor or get support</p>' +
-      '</div>' +
-      '<img class="cg-takeaways-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />' +
-    '</section>';
-  }
-  function guidePanelBodyHTML(){
-    return guideStepsHTML() + guideTakeawaysHTML();
-  }
-  function guideFooterHTML(){
-    return '<button class="btn btn-secondary" onclick="closeGuide()">Close</button>' +
-      '<button class="btn btn-primary" onclick="openGuideViewer()"><i data-icon="book-open"></i> View the guide</button>';
-  }
-  function ensureGuideOverlay(){
-    var ov = document.getElementById('guide-overlay');
-    if(ov) return ov;
-    ov = document.createElement('div');
-    ov.className = 'overlay is-right';
-    ov.id = 'guide-overlay';
-    ov.hidden = true;
-    document.body.appendChild(ov);
-    ov.addEventListener('click', function(e){ if(e.target === ov) closeGuide(); });
-    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !ov.hidden && !guideViewerOpen()) closeGuide(); });
-    return ov;
-  }
-  function renderGuidePanel(){
-    var ov = ensureGuideOverlay();
-    ov.innerHTML =
-      '<div class="sidepanel cg-guide" role="dialog" aria-modal="true" aria-labelledby="cg-guide-title">' +
-        '<div class="sp-header">' +
-          '<div class="sp-toolbar"><div class="sp-actions">' +
-            '<div class="cg-tt"><button class="ib ib-36 ib-secondary" id="cg-guide-close" aria-label="Close" onclick="closeGuide()"><i data-icon="cross"></i></button><div class="tooltip is-left">Close</div></div>' +
-          '</div></div>' +
-          '<div class="sp-heading"><h3 class="sp-title" id="cg-guide-title">Your conversation guide:<span class="cg-title-sub">Understand what drives results</span></h3></div>' +
-        '</div>' +
-        '<div class="sp-body cg-guide-body">' + guidePanelBodyHTML() + '</div>' +
-        '<div class="sp-footer cg-guide-footer" id="cg-guide-footer">' + guideFooterHTML() + '</div>' +
-      '</div>';
-    if(window.Icons) window.Icons.render(ov);
-  }
-  function openGuide(){
-    renderGuidePanel();
-    ensureGuideOverlay().hidden = false;
-  }
-  function closeGuide(){
-    var ov = document.getElementById('guide-overlay');
-    if(!ov || ov.hidden) return;
-    var panel = ov.querySelector('.sidepanel');
-    var closed = false;
-    var fin = function(){ if(closed) return; closed = true; ov.hidden = true; ov.classList.remove('is-closing'); };
-    ov.classList.add('is-closing');
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if(panel && !reduce){ panel.addEventListener('animationend', fin, { once: true }); setTimeout(fin, 400); }
-    else fin();
-  }
 
   // The guide is a real document that ships with the prototype, not something built
   // on the fly: a tester downloads exactly the PDF a manager would get, so their

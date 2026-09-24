@@ -60,7 +60,9 @@ is the floor for a sheet read at arm's length on a table. Measure
 `sheet.scrollHeight` in millimetres against 297 after any edit here, because one
 extra line spills a whole page.
 
-## Keeping the side panel honest
+## How the prototype shows this
 
-The panel is a trailer for the run sheet. When the guide changes, re-check
-`guideStepsHTML()` and `guideTakeawaysHTML()` in all three prototype files.
+Every entry point opens `conversation-guide.html` in a dialog, at its own size,
+with a zoom control and *Download a copy* serving the PDF. There is no longer a
+panel summarising the guide, so nothing in the prototype restates its contents
+and nothing goes stale when the guide changes.

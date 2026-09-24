@@ -12,11 +12,18 @@ Moved here from `effectory-design/effectory-design-documentation` on 2026-09-16.
 |---|---|
 | `conversation-guide-v1.html` | **Version 1**: a full width band between At first glance and What needs focus, so the guide is offered before the focus areas |
 | `conversation-guide-v2.html` | **Version 2**: a card inside the focus stack, after the three focus areas and the areas Explore more opens, at the cards' own width |
-| `conversation-guide-v3.html` | **Version 3**: a popup from the bottom right, two seconds after landing |
+| `conversation-guide-v3.html` | **Version 3**: the same band as version 1, but the card opens the guide itself in a dialog rather than the side panel that describes it |
+| `conversation-guide-v4.html` | **Version 4**: a popup from the bottom right, two seconds after landing |
 
-The three are the set for user testing: same title, description and call to
-action, one entry point each, no variant switcher. Everything else about them is
-identical, so a difference in the results is a difference in placement.
+Versions 1, 2 and 4 differ only in **where** the guide is offered; the card copy
+and call to action are the same in all three, so a difference between them is a
+difference in placement.
+
+Version 3 changes **what the card opens**, not where it sits: it shares version
+1's placement so the two can be compared directly. Its call to action reads *View
+guide* rather than *See details*, because it delivers the guide rather than an
+explanation of it, and the dialog carries *Download a copy* for anyone who wants
+the file.
 
 `ac-overview-embed.html` is the Overview fragment both load in an iframe; it is
 not a prototype on its own.

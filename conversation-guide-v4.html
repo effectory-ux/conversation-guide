@@ -4,8 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Conversation Guide &mdash; Manager</title>
-  <!-- User-testing build C: same band as build A, but the tile opens the guide
-       itself rather than the panel that describes it. -->
+  <!-- User-testing build D: popup two seconds after landing -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="tokens.css" />
@@ -963,9 +962,15 @@
     @media (prefers-reduced-motion: reduce) { .cg-pop { animation: none; } }
     .cg-pop[hidden] { display: none; }
     .cg-pop .announcement { width: 260px; max-width: 260px; }
-    .cg-pop .ann-title { display: flex; align-items: flex-start; gap: var(--spacing-tight); }
-    .cg-pop-title-ico { flex-shrink: 0; width: 18px; height: 18px; display: flex; color: var(--content-brand); margin-top: 2px; }
-    .cg-pop-never { padding: 0; margin-top: var(--spacing-tight); font-size: 13px; }
+    /* Media slot follows the announcement playground's Card design: full-bleed
+       illustration on the accent of the card's colour set. .ann-media crops photos
+       with object-fit: cover, so the SVG is contained and inset instead. */
+    .cg-pop .ann-media { height: 140px; background: var(--bg-info-subtle-hover); }
+    .cg-pop .ann-media img { object-fit: contain; padding: var(--spacing-base); box-sizing: border-box; }
+    /* Sits under the full-width call to action, so it centres on it rather than
+       hanging off the left edge. */
+    .cg-pop-never { display: block; width: 100%; padding: 0; margin-top: var(--spacing-tight);
+      font-size: 13px; text-align: center; }
 
     /* Actions page variant: educational guide card shown only once actions exist */
     .cg-actions-guide { margin: 0 0 var(--spacing-loose); }
@@ -1388,19 +1393,18 @@
           </div>
         </div>
 
-        <!-- Version 1: full width between At first glance and What needs focus, so the
-             guide is offered before the focus areas rather than after them. -->
-        <div class="cg-entry cg-entry-band" id="cg-entry-band" hidden>
-          <div class="cg-tt cg-entry-close"><button class="ib ib-24 ib-tertiary" aria-label="Dismiss" onclick="dismissEntry()"><i data-icon="cross"></i></button><div class="tooltip is-left">Dismiss</div></div>
-          <div class="cg-entry-main">
-            <span class="cg-entry-kicker">Talk it through first</span>
-            <h3 class="cg-entry-title">Bring these results to your team</h3>
-            <p class="cg-entry-text">A light agenda and listening questions to help you run the conversation, ready in about five minutes.</p>
-            <div class="cg-entry-actions">
-              <button class="btn btn-primary" onclick="openGuideViewer()">View guide</button>
+        <!-- Popup versions 2 and 4: appears from the bottom right 2 seconds after landing, copy set per version -->
+        <div class="cg-pop" id="cg-entry-pop" hidden>
+          <div class="announcement is-blue">
+            <button class="ann-close ib ib-24 ib-secondary" aria-label="Dismiss" onclick="dismissEntryPop()"><i data-icon="cross"></i></button>
+            <div class="ann-media"><img src="assets/illustrations/follow-up-guide.svg" alt="" /></div>
+            <div class="ann-body">
+              <p class="ann-title" id="cg-pop-title">Bring these results to your team</p>
+              <p class="ann-text" id="cg-pop-text">A light agenda and listening questions to help you run the conversation, ready in about five minutes.</p>
+              <div class="ann-actions"><button class="btn btn-primary" onclick="openGuideFromPop()">See details</button></div>
+              <button class="btn btn-link cg-pop-never" onclick="neverShowEntryPop()">Do not show this again</button>
             </div>
           </div>
-          <img class="cg-entry-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />
         </div>
 
         <!-- What needs focus (design-system Focus View block) -->
@@ -2814,7 +2818,7 @@
   // popup with copy aimed at managers who are unsure what to do with the results.
   // A prototype control switches versions; dismissals are remembered for the session.
   // User-testing build: the entry point is fixed, there is no switcher.
-  var entryVariant = 'd';
+  var entryVariant = 'c';
   // Both popup versions share one element; only the copy differs
   var POP_COPY = {
     c: { title: 'Bring these results to your team',

@@ -1048,6 +1048,22 @@
     .cg-take i { flex-shrink: 0; width: 13px; height: 13px; display: flex; color: var(--content-base); }
     .cg-takes-foot { margin: var(--spacing-base) 0 0; font-size: 12px; line-height: 1.5; color: var(--content-secondary); }
 
+    /* ═══ Test tag ═══════════════════════════════════════════════════════════
+       The name a participant says out loud to tell the recordings apart, so it
+       stays put while the page scrolls and stays visible over the guide dialog
+       (z-index 1200). It never takes a click. */
+    .proto-tag {
+      position: fixed; top: var(--spacing-base-tight); right: var(--spacing-base-tight); z-index: 1300;
+      padding: var(--spacing-extra-tight) var(--spacing-base);
+      border-radius: var(--radius-full);
+      font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--content-inverse); box-shadow: var(--sh-card);
+      pointer-events: none; user-select: none;
+    }
+    .proto-tag.is-oak { background: var(--p-color-yellow-800); }
+    .proto-tag.is-river { background: var(--bg-info); }
+    .proto-tag.is-pine { background: var(--bg-positive); }
+
     /* ═══ Manager's Hub (Figma bWkM8vgPSv9AcOZ2NwfgSO, node 6004:1209) ═══════ */
     /* The design puts the page in an 880px column; everything below follows its
        measurements, expressed in design-system tokens where one exists. */
@@ -1159,6 +1175,8 @@
   </style>
 </head>
 <body>
+
+<span class="proto-tag is-oak">oak</span>
 
 <div class="app">
 

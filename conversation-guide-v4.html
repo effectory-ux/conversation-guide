@@ -1414,7 +1414,7 @@
             <div class="ann-body">
               <p class="ann-title" id="cg-pop-title">Bring these results to your team</p>
               <p class="ann-text" id="cg-pop-text">A light agenda and listening questions to help you run the conversation, ready in about five minutes.</p>
-              <div class="ann-actions"><button class="btn btn-primary" onclick="openGuideFromPop()">See details</button></div>
+              <div class="ann-actions"><button class="btn btn-primary" onclick="openGuideFromPop()">View the guide</button></div>
               <button class="btn btn-link cg-pop-never" onclick="neverShowEntryPop()">Do not show this again</button>
             </div>
           </div>
@@ -2911,7 +2911,7 @@
   }
   function openGuideFromPop(){
     dismissEntryPop();
-    openGuide();
+    openGuideViewer();   // the button says View the guide, so it opens the guide
   }
   applyEntryState();
 

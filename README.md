@@ -13,17 +13,16 @@ Moved here from `effectory-design/effectory-design-documentation` on 2026-09-16.
 | `conversation-guide-v1.html` | **Version 1**: a full width band between At first glance and What needs focus, so the guide is offered before the focus areas |
 | `conversation-guide-v2.html` | **Version 2**: a card inside the focus stack, after the three focus areas and the areas Explore more opens, at the cards' own width |
 | `conversation-guide-v3.html` | **Version 3**: the same band as version 1, but the card opens the guide itself in a dialog rather than the side panel that describes it |
-| `conversation-guide-v4.html` | **Version 4**: a popup from the bottom right, two seconds after landing |
+| `conversation-guide-v4.html` | **Version 4**: a popup from the bottom right, two seconds after landing, opening the guide itself |
 
-Versions 1, 2 and 4 differ only in **where** the guide is offered; the card copy
-and call to action are the same in all three, so a difference between them is a
-difference in placement.
+Versions 1 and 2 differ only in **where** the guide is offered, so a difference
+between them is a difference in placement. Both open the side panel, and their
+call to action reads *See details*.
 
-Version 3 changes **what the card opens**, not where it sits: it shares version
-1's placement so the two can be compared directly. Its call to action reads *View
-guide* rather than *See details*, because it delivers the guide rather than an
-explanation of it, and the dialog carries *Download a copy* for anyone who wants
-the file.
+Versions 3 and 4 open **the guide itself** in a dialog, skipping the panel, and
+say so: *View guide* in version 3, *View the guide* in version 4. The dialog
+carries *Download a copy* for anyone who wants the file. Version 3 shares version
+1's placement, so that pair isolates what the card opens from where it sits.
 
 `ac-overview-embed.html` is the Overview fragment both load in an iframe; it is
 not a prototype on its own.

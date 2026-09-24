@@ -1122,6 +1122,19 @@
       gap: var(--spacing-base); padding: var(--spacing-loose) var(--spacing-loose) var(--spacing-base);
     }
     .cg-viewer-head h3 { margin: 0; font-size: 20px; font-weight: 600; color: var(--content-base); }
+    .cg-viewer-tools { display: flex; align-items: center; gap: var(--spacing-base); flex: none; }
+    /* The guide opens at its own size; this is for readers who want it larger. */
+    .cg-zoom {
+      display: flex; align-items: center; gap: var(--spacing-extra-tight);
+      padding: var(--spacing-extra-tight); border-radius: var(--radius-full);
+      background: var(--bg-secondary);
+    }
+    .cg-zoom span {
+      min-width: 44px; text-align: center;
+      font-size: 12px; font-weight: 600; color: var(--content-secondary);
+      font-variant-numeric: tabular-nums;
+    }
+    .cg-zoom .ib[disabled] { opacity: .4; pointer-events: none; }
     .cg-viewer-head p { margin: var(--spacing-extra-tight) 0 0; font-size: 13px; color: var(--content-secondary); }
     /* The document renders on its own grey ground, so the frame needs no padding. */
     .cg-viewer-frame {
@@ -3009,7 +3022,14 @@
         '<div class="cg-viewer-head">' +
           '<div><h3 id="cg-viewer-title">Your conversation guide</h3>' +
           '<p>Two pages, with your results already in them</p></div>' +
-          '<button class="ib ib-36 ib-secondary" aria-label="Close" onclick="closeGuideViewer()"><i data-icon="cross"></i></button>' +
+          '<div class="cg-viewer-tools">' +
+            '<div class="cg-zoom">' +
+              '<button class="ib ib-24 ib-secondary" id="cg-zoom-out" aria-label="Zoom out" onclick="guideZoom(-1)"><i data-icon="minus"></i></button>' +
+              '<span id="cg-zoom-label">100%</span>' +
+              '<button class="ib ib-24 ib-secondary" id="cg-zoom-in" aria-label="Zoom in" onclick="guideZoom(1)"><i data-icon="plus"></i></button>' +
+            '</div>' +
+            '<button class="ib ib-36 ib-secondary" aria-label="Close" onclick="closeGuideViewer()"><i data-icon="cross"></i></button>' +
+          '</div>' +
         '</div>' +
         '<iframe class="cg-viewer-frame" title="Conversation guide" src="about:blank"></iframe>' +
         '<div class="cg-viewer-foot">' +
@@ -3022,12 +3042,42 @@
     document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !ov.hidden) closeGuideViewer(); });
     return ov;
   }
+  // The guide opens at the size it was designed at. Zooming is the reader's call,
+  // and at 100% the inline value is dropped so the document's own fit rules apply
+  // again on a narrow viewer.
+  var GUIDE_ZOOM_STEPS = [0.75, 1, 1.25, 1.5, 2];
+  var guideZoomIdx = 1;
+  function guideZoomApply(){
+    var fr = document.querySelector('#guide-viewer .cg-viewer-frame');
+    var z = GUIDE_ZOOM_STEPS[guideZoomIdx];
+    if(fr && fr.contentDocument && fr.contentDocument.body){
+      var b = fr.contentDocument.body;
+      if(z === 1) b.style.removeProperty('zoom'); else b.style.zoom = z;
+    }
+    var lbl = document.getElementById('cg-zoom-label');
+    if(lbl) lbl.textContent = Math.round(z * 100) + '%';
+    var out = document.getElementById('cg-zoom-out');
+    var inn = document.getElementById('cg-zoom-in');
+    if(out) out.disabled = guideZoomIdx === 0;
+    if(inn) inn.disabled = guideZoomIdx === GUIDE_ZOOM_STEPS.length - 1;
+  }
+  function guideZoom(dir){
+    var i = guideZoomIdx + dir;
+    guideZoomIdx = i < 0 ? 0 : (i > GUIDE_ZOOM_STEPS.length - 1 ? GUIDE_ZOOM_STEPS.length - 1 : i);
+    guideZoomApply();
+  }
+
   function openGuideViewer(){
     var ov = ensureGuideViewer();
     var fr = ov.querySelector('.cg-viewer-frame');
-    if(fr.getAttribute('src') !== GUIDE_VIEW) fr.setAttribute('src', GUIDE_VIEW);
+    if(fr.getAttribute('src') !== GUIDE_VIEW){
+      fr.addEventListener('load', guideZoomApply);
+      fr.setAttribute('src', GUIDE_VIEW);
+    }
     ov.hidden = false;
     if(window.Icons) window.Icons.render(ov);
+    guideZoomIdx = 1;          // every opening starts at the designed size
+    guideZoomApply();
   }
   function closeGuideViewer(){
     var ov = document.getElementById('guide-viewer'); if(ov) ov.hidden = true;

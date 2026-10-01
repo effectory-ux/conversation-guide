@@ -1136,12 +1136,11 @@
     .cg-entry-block .cg-entry-text { margin-bottom: var(--spacing-loose); }
     .cg-entry-block .cg-entry-illo { -webkit-mask-image: none; mask-image: none; }
     .cg-entry-block .cg-entry-actions .btn i { display: flex; width: 16px; height: 16px; }
-    .cg-entry-meta { font-size: 13px; line-height: 1.5; color: var(--content-secondary); }
     /* What the card shrinks to. It keeps the way back in one click and says where
        else the guide lives, and it lasts, because the question it answers does. */
     .cg-entry-line {
       display: flex; align-items: center; gap: var(--spacing-base-tight);
-      padding: var(--spacing-base-tight) var(--spacing-base) var(--spacing-base-tight) var(--spacing-loose);
+      padding: var(--spacing-base-tight) var(--spacing-base) var(--spacing-base-tight) calc(var(--spacing-base) + var(--spacing-extra-tight));
       margin-bottom: var(--spacing-loose);
       background: var(--bg-info-subtle); border-radius: var(--radius-lg);
     }
@@ -1149,8 +1148,16 @@
     /* The chevron sits in the same corner, at the same size, in both states, so
        collapsing and expanding never moves it: top and right as on the card, and
        room on the right so the button never runs under it. */
-    .cg-entry-line { position: relative; padding-right: calc(var(--spacing-tight) + 24px + var(--spacing-base-tight)); }
-    .cg-entry-line .cg-entry-close { position: absolute; top: var(--spacing-tight); right: var(--spacing-tight); }
+    .cg-entry-line { position: relative; padding-right: calc(var(--spacing-base-tight) + 24px + var(--spacing-base-tight)); }
+    .cg-entry-line .cg-entry-close,
+    .cg-entry-block .cg-entry-close { position: absolute; top: var(--spacing-base-tight); right: var(--spacing-base-tight); }
+    /* The guide's own action is blue, on its blue block, so it stands apart from
+       the teal score chips above it (the button one participant read as a label). */
+    .cg-entry-block .btn-primary, .cg-entry-line .btn-primary {
+      --bg-brand: var(--bg-info-hover); --border-brand: var(--border-info-hover);
+      --bg-brand-hover: var(--p-color-blue-900); --bg-brand-pressed: var(--p-color-blue-1000);
+      --border-brand-pressed: var(--p-color-blue-1000);
+    }
     .cg-entry-line > i { flex: none; display: flex; width: 20px; height: 20px; color: var(--content-info); }
     .cg-entry-line p { flex: 1; min-width: 0; margin: 0; font-size: 14px; line-height: 1.5; color: var(--content-base); }
     .cg-entry-line .btn { flex: none; }
@@ -1520,7 +1527,6 @@
             <div class="cg-entry-actions">
               <button class="btn btn-primary" onclick="openGuideViewer()"><i data-icon="book-open"></i> View the guide</button>
               <button class="btn btn-tertiary" onclick="downloadGuide()"><i data-icon="download"></i> Download PDF</button>
-              <span class="cg-entry-meta" id="cg-entry-meta">Stays here, and is always in Manager&rsquo;s Hub</span>
             </div>
           </div>
           <img class="cg-entry-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />
@@ -1528,7 +1534,7 @@
         <div class="cg-entry-line" id="cg-entry-line" hidden>
           <i data-icon="book-open"></i>
           <p><strong>Conversation guide.</strong> It stays here, and is always in <button class="link-inline" onclick="openHub()">Manager&rsquo;s Hub</button></p>
-          <button class="btn btn-secondary" onclick="openGuideViewer()"><i data-icon="book-open"></i> View the guide</button>
+          <button class="btn btn-primary" onclick="openGuideViewer()"><i data-icon="book-open"></i> View the guide</button>
           <div class="cg-tt cg-entry-close"><button class="ib ib-24 ib-tertiary" aria-label="Expand" aria-expanded="false" aria-controls="cg-entry-band" onclick="showEntryCard()"><i data-icon="chevron-down"></i></button><div class="tooltip is-left">Expand</div></div>
         </div>
 
@@ -2955,26 +2961,16 @@
   var entryPopTimer = null;
   function ssFlag(key){ try { return sessionStorage.getItem(key) === '1'; } catch(e){ return false; } }
   function ssSet(key){ try { sessionStorage.setItem(key, '1'); } catch(e){} }
-  // Version 4 keeps its state across reloads and visits: the card was hidden, or
-  // the guide was opened, and both stay true until the manager changes them.
+  // Version 4 keeps the collapsed state across reloads and visits, until the
+  // manager expands the card again.
   // Add ?reset to the URL to start over (for testing).
   function lsGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
   function lsSet(k, v){ try { if(v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch(e){} }
-  if(/[?&]reset\b/.test(location.search)){ lsSet('cg4-entry-hidden', null); lsSet('cg4-guide-opened', null); }
+  if(/[?&]reset\b/.test(location.search)){ lsSet('cg4-entry-hidden', null); }
   function entryDismissed(){ return lsGet('cg4-entry-hidden') === '1'; }
-  function entryMetaApply(){
-    var m = document.getElementById('cg-entry-meta'); if(!m) return;
-    var d = lsGet('cg4-guide-opened');
-    if(!d){ m.textContent = 'Stays here, and is always in Manager\u2019s Hub'; return; }
-    var today = new Date().toISOString().slice(0, 10);
-    var when = d === today ? 'Opened today'
-      : 'Opened ' + new Date(d + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-    m.textContent = when + '. It stays here until you hide it';
-  }
   function applyEntryState(){
     var d = document.getElementById('cg-entry-band'); if(d) d.hidden = entryDismissed() || entryVariant !== 'd';
     var ln = document.getElementById('cg-entry-line'); if(ln){ ln.hidden = !(entryDismissed() && entryVariant === 'd'); if(!ln.hidden && window.Icons) window.Icons.render(ln); }
-    entryMetaApply();
     var pop = document.getElementById('cg-entry-pop');
     if(entryPopTimer){ clearTimeout(entryPopTimer); entryPopTimer = null; }
     if(pop && !isPopVariant(entryVariant)) pop.hidden = true;
@@ -3195,8 +3191,6 @@
     guideTab('prep');          // every opening starts on the guide itself
     guideZoomIdx = 1;          // at the designed size
     guideZoomApply();
-    lsSet('cg4-guide-opened', new Date().toISOString().slice(0, 10));
-    entryMetaApply();
   }
   function closeGuideViewer(){
     var ov = document.getElementById('guide-viewer'); if(ov) ov.hidden = true;

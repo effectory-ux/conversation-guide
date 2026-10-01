@@ -32,14 +32,14 @@ the only one nobody failed to find again. Version 4 builds on it and matches
 
 - **Same place as oak**, right under At first glance, but its own block on the info
   tint, so it cannot pass for a focus card (river's problem).
-- **The button reads as a button**: a book icon, a *Download PDF* action beside it and
-  a line saying where else the guide lives. One participant read oak's small teal
-  button as information, like the teal chips in the matrix above it.
+- **The button reads as a button**: blue on the blue block, with a book icon and a
+  *Download PDF* action beside it. One participant read oak's small teal button as
+  information, like the teal chips in the matrix above it.
 - **Reading first, download second**: the dialog keeps the guide in the page; *Download
   a copy* is the footer link.
 - **Show your team**: a second tab with a page to put on screen, with the focus areas,
   wins and today's plan but no facilitator notes, and *Present full screen*.
-- **The card stays**: after *Done* it is where it was and says when it was opened.
+- **The card stays**: after *Done* it is exactly where it was.
 - **Collapsing shrinks it to one line** in the same place: the card's chevron up
   collapses it, the line's chevron down expands it again, and *View the guide* stays on
   the line. It lasts across reloads and visits (localStorage), so add `?reset` to the URL

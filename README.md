@@ -40,9 +40,10 @@ the only one nobody failed to find again. Version 4 builds on it and matches
 - **Show your team**: a second tab with a page to put on screen, with the focus areas,
   wins and today's plan but no facilitator notes, and *Present full screen*.
 - **The card stays**: after *Done* it is where it was and says when it was opened.
-- **Hiding shrinks it to one line** in the same place, with *View the guide* and *Show
-  the card*. It lasts across reloads and visits (localStorage), so add `?reset` to the
-  URL to start a session fresh.
+- **Collapsing shrinks it to one line** in the same place: the card's chevron up
+  collapses it, the line's chevron down expands it again, and *View the guide* stays on
+  the line. It lasts across reloads and visits (localStorage), so add `?reset` to the URL
+  to start a session fresh.
 - **No popup**, and no *Do not show this again*.
 
 `ac-overview-embed.html` is the Overview fragment both load in an iframe; it is

@@ -1148,7 +1148,7 @@
     .cg-entry-line[hidden] { display: none; }
     .cg-entry-line > i { flex: none; display: flex; width: 20px; height: 20px; color: var(--content-info); }
     .cg-entry-line p { flex: 1; min-width: 0; margin: 0; font-size: 14px; line-height: 1.5; color: var(--content-base); }
-    .cg-entry-line .btn { flex: none; }
+    .cg-entry-line .btn, .cg-entry-line .cg-tt { flex: none; }
     .cg-entry-line .btn i { display: flex; width: 16px; height: 16px; }
     @media (max-width: 720px) {
       .cg-entry-block { padding: var(--spacing-loose); }
@@ -1503,10 +1503,11 @@
         <!-- Version 4 (Flow A in Figma): oak's place, right under At first glance, which
              7 of 11 managers ranked first. It is its own block on the info tint so it
              cannot pass for a focus card, the button carries an icon and sits beside a
-             second action so it reads as something to click, and hiding it shrinks it
-             to one line in the same place instead of removing it. -->
+             second action so it reads as something to click, and its chevron collapses
+             it to one line in the same place instead of removing it. The line's chevron
+             expands it again. -->
         <div class="cg-entry cg-entry-band cg-entry-block" id="cg-entry-band" hidden>
-          <div class="cg-tt cg-entry-close"><button class="ib ib-24 ib-tertiary" aria-label="Hide" onclick="dismissEntry()"><i data-icon="cross"></i></button><div class="tooltip is-left">Hide</div></div>
+          <div class="cg-tt cg-entry-close"><button class="ib ib-24 ib-tertiary" aria-label="Collapse" aria-expanded="true" aria-controls="cg-entry-band" onclick="dismissEntry()"><i data-icon="chevron-up"></i></button><div class="tooltip is-left">Collapse</div></div>
           <div class="cg-entry-main">
             <span class="cg-entry-kicker">Talk it through first</span>
             <h3 class="cg-entry-title">Bring these results to your team</h3>
@@ -1523,7 +1524,7 @@
           <i data-icon="book-open"></i>
           <p><strong>Conversation guide.</strong> It stays here, and is always in <button class="link-inline" onclick="openHub()">Manager&rsquo;s Hub</button></p>
           <button class="btn btn-secondary" onclick="openGuideViewer()"><i data-icon="book-open"></i> View the guide</button>
-          <button class="btn btn-link" onclick="showEntryCard()">Show the card</button>
+          <div class="cg-tt"><button class="ib ib-36 ib-tertiary" aria-label="Expand" aria-expanded="false" aria-controls="cg-entry-band" onclick="showEntryCard()"><i data-icon="chevron-down"></i></button><div class="tooltip is-left">Expand</div></div>
         </div>
 
         <!-- What needs focus (design-system Focus View block) -->
@@ -3005,7 +3006,7 @@
     }
   }
 
-  // Hiding shrinks the card to a line in the same place; nothing disappears
+  // The chevron collapses the card to a line in the same place; nothing disappears
   function dismissEntry(){ lsSet('cg4-entry-hidden', '1'); applyEntryState(); }
   function showEntryCard(){ lsSet('cg4-entry-hidden', null); applyEntryState(); }
   // Version 4 only: nudge the guide from the stepper success screen, for the areas just chosen

@@ -13,6 +13,7 @@ Moved here from `effectory-design/effectory-design-documentation` on 2026-09-16.
 | `conversation-guide-v1.html` | **Version 1**: a full width band between At first glance and What needs focus, so the guide is offered before the focus areas |
 | `conversation-guide-v2.html` | **Version 2**: a card inside the focus stack, after the three focus areas and the areas Explore more opens, at the cards' own width |
 | `conversation-guide-v3.html` | **Version 3**: a popup from the bottom right, two seconds after landing |
+| `conversation-guide-v4.html` | **Version 4** (*birch*): the next version after the usability test. Flow A in Figma. See below |
 
 The three differ only in **where** the guide is offered. Every route into it, the
 card, the Actions page and the success screen alike, opens the guide itself in a
@@ -21,6 +22,28 @@ versions is a difference in placement and nothing else.
 
 There is no side panel: it described the guide instead of showing it, and once
 the dialog could show the real thing there was nothing left for it to do.
+
+## Version 4, after the usability test
+
+Versions 1 to 3 (tags *oak*, *river*, *pine*) were tested with 11 managers on
+UserTesting, 24 to 28 Sep 2026. Oak, version 1, was ranked first by 7 of 11 and was
+the only one nobody failed to find again. Version 4 builds on it and matches
+**Flow A · Conversation guide v02** in the Figma Conversation Guide file:
+
+- **Same place as oak**, right under At first glance, but its own block on the info
+  tint, so it cannot pass for a focus card (river's problem).
+- **The button reads as a button**: a book icon, a *Download PDF* action beside it and
+  a line saying where else the guide lives. One participant read oak's small teal
+  button as information, like the teal chips in the matrix above it.
+- **Reading first, download second**: the dialog keeps the guide in the page; *Download
+  a copy* is the footer link.
+- **Show your team**: a second tab with a page to put on screen, with the focus areas,
+  wins and today's plan but no facilitator notes, and *Present full screen*.
+- **The card stays**: after *Done* it is where it was and says when it was opened.
+- **Hiding shrinks it to one line** in the same place, with *View the guide* and *Show
+  the card*. It lasts across reloads and visits (localStorage), so add `?reset` to the
+  URL to start a session fresh.
+- **No popup**, and no *Do not show this again*.
 
 `ac-overview-embed.html` is the Overview fragment both load in an iframe; it is
 not a prototype on its own.

@@ -1146,9 +1146,14 @@
       background: var(--bg-info-subtle); border-radius: var(--radius-lg);
     }
     .cg-entry-line[hidden] { display: none; }
+    /* The chevron sits in the same corner, at the same size, in both states, so
+       collapsing and expanding never moves it: top and right as on the card, and
+       room on the right so the button never runs under it. */
+    .cg-entry-line { position: relative; padding-right: calc(var(--spacing-tight) + 24px + var(--spacing-base-tight)); }
+    .cg-entry-line .cg-entry-close { position: absolute; top: var(--spacing-tight); right: var(--spacing-tight); }
     .cg-entry-line > i { flex: none; display: flex; width: 20px; height: 20px; color: var(--content-info); }
     .cg-entry-line p { flex: 1; min-width: 0; margin: 0; font-size: 14px; line-height: 1.5; color: var(--content-base); }
-    .cg-entry-line .btn, .cg-entry-line .cg-tt { flex: none; }
+    .cg-entry-line .btn { flex: none; }
     .cg-entry-line .btn i { display: flex; width: 16px; height: 16px; }
     @media (max-width: 720px) {
       .cg-entry-block { padding: var(--spacing-loose); }
@@ -1524,7 +1529,7 @@
           <i data-icon="book-open"></i>
           <p><strong>Conversation guide.</strong> It stays here, and is always in <button class="link-inline" onclick="openHub()">Manager&rsquo;s Hub</button></p>
           <button class="btn btn-secondary" onclick="openGuideViewer()"><i data-icon="book-open"></i> View the guide</button>
-          <div class="cg-tt"><button class="ib ib-36 ib-tertiary" aria-label="Expand" aria-expanded="false" aria-controls="cg-entry-band" onclick="showEntryCard()"><i data-icon="chevron-down"></i></button><div class="tooltip is-left">Expand</div></div>
+          <div class="cg-tt cg-entry-close"><button class="ib ib-24 ib-tertiary" aria-label="Expand" aria-expanded="false" aria-controls="cg-entry-band" onclick="showEntryCard()"><i data-icon="chevron-down"></i></button><div class="tooltip is-left">Expand</div></div>
         </div>
 
         <!-- What needs focus (design-system Focus View block) -->

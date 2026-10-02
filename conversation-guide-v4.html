@@ -1149,8 +1149,14 @@
        collapsing and expanding never moves it: top and right as on the card, and
        room on the right so the button never runs under it. */
     .cg-entry-line { position: relative; padding-right: calc(var(--spacing-base-tight) + 24px + var(--spacing-base-tight)); }
+    /* Measured from the collapsed line: there the chevron is centred on the row of
+       36px controls (12 padding + (36 - 24) / 2 = 18 from the top). The card uses the
+       same offset, so the chevron never moves between the two states. */
     .cg-entry-line .cg-entry-close,
-    .cg-entry-block .cg-entry-close { position: absolute; top: var(--spacing-base-tight); right: var(--spacing-base-tight); }
+    .cg-entry-block .cg-entry-close {
+      position: absolute; right: var(--spacing-base-tight);
+      top: calc(var(--spacing-base-tight) + (36px - 24px) / 2);
+    }
     /* The guide's own action is blue, on its blue block, so it stands apart from
        the teal score chips above it (the button one participant read as a label). */
     .cg-entry-block .btn-primary, .cg-entry-line .btn-primary {

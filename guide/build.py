@@ -95,6 +95,8 @@ I_PPT    = svg('<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h5
 I_IMG    = svg('<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M4 17l4.5-4.5 3 3L15 12l5 5"/>')
 
 I_DOWNLOAD = svg('<path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/>', ' width="16" height="16"')
+I_MINUS    = svg('<path d="M5 12h14"/>', ' width="16" height="16"')
+I_PLUS     = svg('<path d="M12 5v14"/><path d="M5 12h14"/>', ' width="16" height="16"')
 
 # Version 4 of the prototype opens this page in its own tab, so the page carries
 # the one action a reader needs there. It only shows when the page is the whole
@@ -103,9 +105,29 @@ TAB_BAR = """<script>if (window.self !== window.top) document.documentElement.cl
 <header class="tab-bar">
   <div class="tab-bar-in">
     <div class="tab-bar-id"><strong>Conversation guide</strong><span>%s &middot; %s</span></div>
-    <a class="tab-bar-dl" href="conversation-guide.pdf" download="Conversation run sheet, %s.pdf">%s Download a copy</a>
+    <div class="tab-bar-actions">
+      <div class="tab-zoom" role="group" aria-label="Zoom">
+        <button type="button" id="tab-zoom-out" aria-label="Zoom out" onclick="guideZoom(-1)">%s</button>
+        <span id="tab-zoom-label" aria-live="polite">100%%</span>
+        <button type="button" id="tab-zoom-in" aria-label="Zoom in" onclick="guideZoom(1)">%s</button>
+      </div>
+      <a class="tab-bar-dl" href="conversation-guide.pdf" download="Conversation run sheet, %s.pdf">%s Download a copy</a>
+    </div>
   </div>
 </header>
+<script>
+  // Zoom belongs to the reader: the pages scale, the bar stays. Same steps as
+  // the dialog in versions 1 to 3, starting at the designed size.
+  var GUIDE_ZOOM = [0.75, 1, 1.25, 1.5, 2], guideZoomAt = 1;
+  function guideZoom(dir){
+    guideZoomAt = Math.max(0, Math.min(GUIDE_ZOOM.length - 1, guideZoomAt + dir));
+    var z = GUIDE_ZOOM[guideZoomAt];
+    document.documentElement.style.setProperty('--guide-zoom', z);
+    document.getElementById('tab-zoom-label').textContent = Math.round(z * 100) + '%%';
+    document.getElementById('tab-zoom-out').disabled = guideZoomAt === 0;
+    document.getElementById('tab-zoom-in').disabled = guideZoomAt === GUIDE_ZOOM.length - 1;
+  }
+</script>
 """
 
 import hashlib
@@ -376,7 +398,7 @@ def build_condensed():
           f'<span class="principle is-listen">{I_MSG} Listen before deciding</span>'
           f'<span class="principle is-share">{I_GROUP} Share ownership</span>')
 
-    return HEAD % ("Conversation guide, Sales West", CSS_REV) + TAB_BAR % (TEAM, SURVEY, TEAM, I_DOWNLOAD) + f"""
+    return HEAD % ("Conversation guide, Sales West", CSS_REV) + TAB_BAR % (TEAM, SURVEY, I_MINUS, I_PLUS, TEAM, I_DOWNLOAD) + f"""
 <section class="sheet is-runsheet">
   <div class="intro">
     <div class="intro-cut"></div>

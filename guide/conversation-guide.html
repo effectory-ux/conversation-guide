@@ -7,16 +7,36 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="guide.css?v=32f6e30a">
+<link rel="stylesheet" href="guide.css?v=2da0ddfd">
 </head>
 <body>
 <script>if (window.self !== window.top) document.documentElement.classList.add('is-framed');</script>
 <header class="tab-bar">
   <div class="tab-bar-in">
     <div class="tab-bar-id"><strong>Conversation guide</strong><span>Sales West &middot; Employee listening &rsquo;25</span></div>
-    <a class="tab-bar-dl" href="conversation-guide.pdf" download="Conversation run sheet, Sales West.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="16" height="16"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg> Download a copy</a>
+    <div class="tab-bar-actions">
+      <div class="tab-zoom" role="group" aria-label="Zoom">
+        <button type="button" id="tab-zoom-out" aria-label="Zoom out" onclick="guideZoom(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="16" height="16"><path d="M5 12h14"/></svg></button>
+        <span id="tab-zoom-label" aria-live="polite">100%</span>
+        <button type="button" id="tab-zoom-in" aria-label="Zoom in" onclick="guideZoom(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="16" height="16"><path d="M12 5v14"/><path d="M5 12h14"/></svg></button>
+      </div>
+      <a class="tab-bar-dl" href="conversation-guide.pdf" download="Conversation run sheet, Sales West.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="16" height="16"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg> Download a copy</a>
+    </div>
   </div>
 </header>
+<script>
+  // Zoom belongs to the reader: the pages scale, the bar stays. Same steps as
+  // the dialog in versions 1 to 3, starting at the designed size.
+  var GUIDE_ZOOM = [0.75, 1, 1.25, 1.5, 2], guideZoomAt = 1;
+  function guideZoom(dir){
+    guideZoomAt = Math.max(0, Math.min(GUIDE_ZOOM.length - 1, guideZoomAt + dir));
+    var z = GUIDE_ZOOM[guideZoomAt];
+    document.documentElement.style.setProperty('--guide-zoom', z);
+    document.getElementById('tab-zoom-label').textContent = Math.round(z * 100) + '%';
+    document.getElementById('tab-zoom-out').disabled = guideZoomAt === 0;
+    document.getElementById('tab-zoom-in').disabled = guideZoomAt === GUIDE_ZOOM.length - 1;
+  }
+</script>
 
 <section class="sheet is-runsheet">
   <div class="intro">

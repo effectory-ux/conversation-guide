@@ -9,7 +9,7 @@ already carries their survey, their team and their numbers instead of blank line
 | `conversation-guide-full.pdf` | **The full guide, 7 pages.** The same content with the guidance for each agenda step written out. Not linked from the prototype, kept as the long form reference |
 | `build.py` | Builds both documents, and holds the team results they are populated with |
 | `guide.css` | The shared print stylesheet |
-| `conversation-guide.html` | The build output. Versions 1 to 3 show it in the **View the guide** dialog; version 4 opens it in its own tab, where a bar with *Download a copy* appears (hidden when framed or printed). Do not edit by hand, it is overwritten |
+| `conversation-guide.html` | The build output. Versions 1 to 3 show it in the **View the guide** dialog; version 4 opens it in its own tab, where a bar with a zoom control (75 to 200%) and *Download a copy* appears (hidden when framed or printed; the zoom scales the pages only). Do not edit by hand, it is overwritten |
 | `conversation-guide-source.docx` | The original content brief, before the design pass |
 
 ## The platform link and the QR code

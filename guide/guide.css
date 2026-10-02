@@ -268,6 +268,26 @@ h2.sub svg { width: 5mm; height: 5mm; flex: none; }
     border-radius: 6px; background: #205bb9; color: #ffffff;
     font-size: 14px; font-weight: 500; text-decoration: none; white-space: nowrap;
   }
+  .tab-bar-actions { display: flex; align-items: center; gap: 16px; }
+  .tab-zoom {
+    display: flex; align-items: center; gap: 4px; padding: 4px;
+    border-radius: 999px; background: #f8f8f9;
+  }
+  .tab-zoom button {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 24px; height: 24px; padding: 0; cursor: pointer;
+    border: 1px solid #e1e4e8; border-radius: 4px; background: #ffffff; color: #192743;
+  }
+  .tab-zoom button:hover { background: #f1f2f4; }
+  .tab-zoom button:focus-visible { outline: 2px solid #205bb9; outline-offset: 1px; }
+  .tab-zoom button:disabled { opacity: .4; cursor: default; }
+  .tab-zoom svg { width: 16px; height: 16px; }
+  .tab-zoom span {
+    min-width: 44px; text-align: center; font-size: 12px; font-weight: 600;
+    color: rgba(25, 39, 67, .8); font-variant-numeric: tabular-nums;
+  }
+  /* only the pages scale; framed (versions 1 to 3) the dialog has its own zoom */
+  html:not(.is-framed) .sheet { zoom: var(--guide-zoom, 1); }
   .tab-bar-dl:hover { background: #19417f; }
   .tab-bar-dl:focus-visible { outline: 2px solid #205bb9; outline-offset: 2px; }
   .tab-bar-dl svg { width: 16px; height: 16px; flex: none; }

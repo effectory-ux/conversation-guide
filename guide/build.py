@@ -94,7 +94,7 @@ I_LINK   = svg('<path d="M10 13.5a4 4 0 0 0 6 .5l2.5-2.5a4 4 0 0 0-5.7-5.7L11.5 
 I_PPT    = svg('<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h5a2.5 2.5 0 0 1 0 5H8zM8 13v4"/>')
 I_IMG    = svg('<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M4 17l4.5-4.5 3 3L15 12l5 5"/>')
 
-I_DOWNLOAD = svg('<path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/>')
+I_DOWNLOAD = svg('<path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/>', ' width="16" height="16"')
 
 # Version 4 of the prototype opens this page in its own tab, so the page carries
 # the one action a reader needs there. It only shows when the page is the whole
@@ -108,6 +108,9 @@ TAB_BAR = """<script>if (window.self !== window.top) document.documentElement.cl
 </header>
 """
 
+import hashlib
+CSS_REV = hashlib.sha1(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "guide.css"), "rb").read()).hexdigest()[:8]
+
 HEAD = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -117,7 +120,7 @@ HEAD = """<!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="guide.css">
+<link rel="stylesheet" href="guide.css?v=%s">
 </head>
 <body>
 """
@@ -252,7 +255,7 @@ def build_full():
               f'<span class="triage is-monitor">{I_SEARCH} monitor</span> or '
               f'<span class="triage is-support">{I_FLAG} need support</span>')
 
-    return HEAD % "Understanding what drives results &mdash; Conversation guide" + cover(
+    return HEAD % ("Understanding what drives results &mdash; Conversation guide", CSS_REV) + cover(
         "Use with your team results, a one pager or a slide deck") + f"""
 <section class="sheet">
   <h1 class="page-title">Suggested agenda at a glance</h1>
@@ -373,7 +376,7 @@ def build_condensed():
           f'<span class="principle is-listen">{I_MSG} Listen before deciding</span>'
           f'<span class="principle is-share">{I_GROUP} Share ownership</span>')
 
-    return HEAD % "Conversation guide, Sales West" + TAB_BAR % (TEAM, SURVEY, TEAM, I_DOWNLOAD) + f"""
+    return HEAD % ("Conversation guide, Sales West", CSS_REV) + TAB_BAR % (TEAM, SURVEY, TEAM, I_DOWNLOAD) + f"""
 <section class="sheet is-runsheet">
   <div class="intro">
     <div class="intro-cut"></div>

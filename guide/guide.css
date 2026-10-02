@@ -250,6 +250,28 @@ h2.sub svg { width: 5mm; height: 5mm; flex: none; }
 @media print {
   .sheet { margin: 0; }
 }
+/* The bar on top when the guide is opened in its own tab (prototype version 4) */
+.tab-bar { display: none; }
+@media screen {
+  html:not(.is-framed) .tab-bar {
+    display: block; position: sticky; top: 0; z-index: 10;
+    margin: -10mm 0 10mm; background: #ffffff; border-bottom: 1px solid #e1e4e8;
+  }
+  .tab-bar-in {
+    width: 210mm; margin: 0 auto; padding: 12px 0;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .tab-bar-id strong { display: block; font-size: 16px; font-weight: 600; line-height: 1.5; color: #192743; }
+  .tab-bar-id span { display: block; font-size: 13px; line-height: 1.5; color: rgba(25, 39, 67, .8); }
+  .tab-bar-dl {
+    display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px;
+    border-radius: 6px; background: #205bb9; color: #ffffff;
+    font-size: 14px; font-weight: 500; text-decoration: none; white-space: nowrap;
+  }
+  .tab-bar-dl:hover { background: #19417f; }
+  .tab-bar-dl:focus-visible { outline: 2px solid #205bb9; outline-offset: 2px; }
+  .tab-bar-dl svg { width: 16px; height: 16px; flex: none; }
+}
 @media screen {
   body { background: #e9eaee; padding: 10mm 0; }
   .sheet { box-shadow: 0 2px 14px rgba(25,39,67,.16); margin-bottom: 8mm; }

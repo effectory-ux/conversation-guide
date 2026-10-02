@@ -94,6 +94,20 @@ I_LINK   = svg('<path d="M10 13.5a4 4 0 0 0 6 .5l2.5-2.5a4 4 0 0 0-5.7-5.7L11.5 
 I_PPT    = svg('<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h5a2.5 2.5 0 0 1 0 5H8zM8 13v4"/>')
 I_IMG    = svg('<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M4 17l4.5-4.5 3 3L15 12l5 5"/>')
 
+I_DOWNLOAD = svg('<path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/>')
+
+# Version 4 of the prototype opens this page in its own tab, so the page carries
+# the one action a reader needs there. It only shows when the page is the whole
+# tab: framed (the dialog in versions 1 to 3) or printed, it is not there.
+TAB_BAR = """<script>if (window.self !== window.top) document.documentElement.classList.add('is-framed');</script>
+<header class="tab-bar">
+  <div class="tab-bar-in">
+    <div class="tab-bar-id"><strong>Conversation guide</strong><span>%s &middot; %s</span></div>
+    <a class="tab-bar-dl" href="conversation-guide.pdf" download="Conversation run sheet, %s.pdf">%s Download a copy</a>
+  </div>
+</header>
+"""
+
 HEAD = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -359,7 +373,7 @@ def build_condensed():
           f'<span class="principle is-listen">{I_MSG} Listen before deciding</span>'
           f'<span class="principle is-share">{I_GROUP} Share ownership</span>')
 
-    return HEAD % "Conversation run sheet &mdash; Sales West" + f"""
+    return HEAD % "Conversation guide, Sales West" + TAB_BAR % (TEAM, SURVEY, TEAM, I_DOWNLOAD) + f"""
 <section class="sheet is-runsheet">
   <div class="intro">
     <div class="intro-cut"></div>

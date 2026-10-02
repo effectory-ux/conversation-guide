@@ -35,14 +35,13 @@ the only one nobody failed to find again. Version 4 builds on it and matches
 - **The button reads as a button**: blue on the blue block, with a book icon and a
   *Download PDF* action beside it. One participant read oak's small teal button as
   information, like the teal chips in the matrix above it.
-- **Reading first, download second**: the dialog keeps the guide in the page; *Download
-  a copy* is the footer link.
-- **Show your team**: a second tab with a page to put on screen, with the focus areas,
-  wins and today's plan but no facilitator notes, and *Present full screen*.
+- **The guide opens in its own browser tab**, at full size, instead of a dialog. A bar
+  on top of it carries *Download a copy*. The bar only shows when the guide is the whole
+  tab, so the dialog in versions 1 to 3 (which frames the same page) is unchanged.
 - **The card stays**: after *Done* it is exactly where it was.
 - **Collapsing shrinks it to one line** in the same place: the card's chevron up
-  collapses it, the line's chevron down expands it again, and *View the guide* stays on
-  the line. It lasts across reloads and visits (localStorage), so add `?reset` to the URL
+  collapses it, and *Show details* on the line expands it again. The two chevrons sit on
+  the same spot, so the control does not move between the states. It lasts across reloads and visits (localStorage), so add `?reset` to the URL
   to start a session fresh.
 - **No popup**, and no *Do not show this again*.
 

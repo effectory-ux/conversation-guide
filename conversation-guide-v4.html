@@ -1140,87 +1140,37 @@
        else the guide lives, and it lasts, because the question it answers does. */
     .cg-entry-line {
       display: flex; align-items: center; gap: var(--spacing-base-tight);
-      padding: var(--spacing-base-tight) var(--spacing-base) var(--spacing-base-tight) calc(var(--spacing-base) + var(--spacing-extra-tight));
+      padding: var(--spacing-base-tight) calc(var(--spacing-base) + var(--spacing-extra-tight));
       margin-bottom: var(--spacing-loose);
       background: var(--bg-info-subtle); border-radius: var(--radius-lg);
     }
     .cg-entry-line[hidden] { display: none; }
-    /* The chevron sits in the same corner, at the same size, in both states, so
-       collapsing and expanding never moves it: top and right as on the card, and
-       room on the right so the button never runs under it. */
-    .cg-entry-line { position: relative; padding-right: calc(var(--spacing-base-tight) + 24px + var(--spacing-base-tight)); }
-    /* Measured from the collapsed line: there the chevron is centred on the row of
-       36px controls (12 padding + (36 - 24) / 2 = 18 from the top). The card uses the
-       same offset, so the chevron never moves between the two states. */
-    .cg-entry-line .cg-entry-close,
+    /* The collapsed line is the reference: its chevron is the one inside Show
+       details, centred on the row. The card's chevron sits on that same spot, so it
+       does not move between the states: 18 from the top (12 padding + (36 - 24) / 2)
+       and 29 from the right (20 padding + 1 border + 12 button padding - 4 icon
+       button inset). */
     .cg-entry-block .cg-entry-close {
-      position: absolute; right: var(--spacing-base-tight);
+      position: absolute;
       top: calc(var(--spacing-base-tight) + (36px - 24px) / 2);
+      right: calc(var(--spacing-base) + var(--spacing-base-tight) + 1px);
     }
     /* The guide's own action is blue, on its blue block, so it stands apart from
        the teal score chips above it (the button one participant read as a label). */
-    .cg-entry-block .btn-primary, .cg-entry-line .btn-primary {
+    .cg-entry-block .btn-primary {
       --bg-brand: var(--bg-info-hover); --border-brand: var(--border-info-hover);
       --bg-brand-hover: var(--p-color-blue-900); --bg-brand-pressed: var(--p-color-blue-1000);
       --border-brand-pressed: var(--p-color-blue-1000);
     }
     .cg-entry-line > i { flex: none; display: flex; width: 20px; height: 20px; color: var(--content-info); }
     .cg-entry-line p { flex: 1; min-width: 0; margin: 0; font-size: 14px; line-height: 1.5; color: var(--content-base); }
-    .cg-entry-line .btn { flex: none; }
+    .cg-entry-line .btn-tertiary { flex: none; color: var(--content-info); }
     .cg-entry-line .btn i { display: flex; width: 16px; height: 16px; }
     @media (max-width: 720px) {
       .cg-entry-block { padding: var(--spacing-loose); }
       .cg-entry-line { flex-wrap: wrap; }
       .cg-entry-line p { flex-basis: calc(100% - 32px); }
     }
-
-    /* ═══ Version 4: the viewer gets a page for the team ════════════════════════ */
-    .cg-viewer-tabs { padding: 0 var(--spacing-loose); }
-    .cg-viewer-pane[hidden] { display: none !important; }
-    .cg-zoom[hidden] { display: none; }
-    .cg-viewer-foot.is-split { justify-content: space-between; align-items: center; }
-    .cg-viewer-foot.is-split .btn-link { padding-left: 0; padding-right: 0; }
-    .cg-viewer-foot .btn i { display: flex; width: 16px; height: 16px; }
-    .cg-viewer-foot-group { display: flex; gap: var(--spacing-tight); }
-    .cg-viewer-foot-group[hidden] { display: none; }
-    .cg-team-stage {
-      flex: 1; min-height: 0; overflow: auto;
-      display: flex; align-items: center; justify-content: center;
-      padding: var(--spacing-extra-loose) var(--spacing-loose);
-      background: var(--bg-secondary);
-      border-top: 1px solid var(--border-base); border-bottom: 1px solid var(--border-base);
-    }
-    .cg-team-sheet {
-      width: min(960px, 100%); box-sizing: border-box;
-      display: flex; flex-direction: column; gap: var(--spacing-loose);
-      padding: var(--spacing-super-loose) var(--spacing-super-loose);
-      background: var(--bg-base); border-radius: var(--radius-lg); box-shadow: var(--sh-card);
-    }
-    .cg-team-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--content-info); }
-    .cg-team-title { margin: var(--spacing-tight) 0 0; font-size: 30px; font-weight: 600; line-height: 1.3; color: var(--content-base); }
-    .cg-team-cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-super-loose); }
-    .cg-team-col h3, .cg-team-plan h3 { margin: 0; font-size: 16px; font-weight: 600; line-height: 1.5; color: var(--content-base); }
-    .cg-team-col > p { margin: var(--spacing-extra-tight) 0 var(--spacing-base-tight); font-size: 13px; line-height: 1.5; color: var(--content-secondary); }
-    .cg-team-rows { display: flex; flex-direction: column; gap: var(--spacing-base-tight); }
-    .cg-team-row {
-      display: flex; align-items: center; gap: var(--spacing-base-tight);
-      padding: 10px var(--spacing-base-tight); background: var(--bg-secondary); border-radius: var(--radius-md);
-      font-size: 13px; font-weight: 500; line-height: 1.5; color: var(--content-base);
-    }
-    .cg-team-row span:first-child { flex: 1; min-width: 0; }
-    .cg-team-chips { display: flex; flex-wrap: wrap; gap: var(--spacing-tight); margin-top: 10px; }
-    .cg-team-chips span {
-      padding: 6px var(--spacing-base-tight); border-radius: var(--radius-full);
-      background: var(--bg-info-subtle); color: var(--content-info);
-      font-size: 12px; font-weight: 500; line-height: 1.5;
-    }
-    /* On the big screen the sheet is the whole picture, scaled to fit (see presentTeam) */
-    .cg-team-sheet:fullscreen {
-      width: 100vw; height: 100vh; max-width: none; border-radius: 0; box-shadow: none;
-      justify-content: center; padding: 0 calc((100vw - 880px) / 2);
-    }
-    .cg-team-sheet:fullscreen > * { zoom: var(--cg-present-zoom, 1); }
-    @media (max-width: 720px) { .cg-team-cols { grid-template-columns: 1fr; gap: var(--spacing-loose); } }
 
     .cg-viewer { z-index: 1200; }
     .cg-viewer-box {
@@ -1539,9 +1489,8 @@
         </div>
         <div class="cg-entry-line" id="cg-entry-line" hidden>
           <i data-icon="book-open"></i>
-          <p><strong>Conversation guide.</strong> It stays here, and is always in <button class="link-inline" onclick="openHub()">Manager&rsquo;s Hub</button></p>
-          <button class="btn btn-primary" onclick="openGuideViewer()"><i data-icon="book-open"></i> View the guide</button>
-          <div class="cg-tt cg-entry-close"><button class="ib ib-24 ib-tertiary" aria-label="Expand" aria-expanded="false" aria-controls="cg-entry-band" onclick="showEntryCard()"><i data-icon="chevron-down"></i></button><div class="tooltip is-left">Expand</div></div>
+          <p><strong>Conversation Guide:</strong> A light agenda, listening questions and your own focus areas.</p>
+          <button class="btn btn-tertiary" aria-expanded="false" aria-controls="cg-entry-band" onclick="showEntryCard()">Show details <i data-icon="chevron-down"></i></button>
         </div>
 
         <!-- What needs focus (design-system Focus View block) -->
@@ -3072,9 +3021,9 @@
       '<div class="cg-viewer-box" role="dialog" aria-modal="true" aria-labelledby="cg-viewer-title">' +
         '<div class="cg-viewer-head">' +
           '<div><h3 id="cg-viewer-title">Your conversation guide</h3>' +
-          '<p>Sales West, Employee listening \u201925. Your results are already in it</p></div>' +
+          '<p>Two pages, with your results already in them</p></div>' +
           '<div class="cg-viewer-tools">' +
-            '<div class="cg-zoom" id="cg-zoom">' +
+            '<div class="cg-zoom">' +
               '<button class="ib ib-24 ib-secondary" id="cg-zoom-out" aria-label="Zoom out" onclick="guideZoom(-1)"><i data-icon="minus"></i></button>' +
               '<span id="cg-zoom-label">100%</span>' +
               '<button class="ib ib-24 ib-secondary" id="cg-zoom-in" aria-label="Zoom in" onclick="guideZoom(1)"><i data-icon="plus"></i></button>' +
@@ -3082,26 +3031,15 @@
             '<button class="ib ib-36 ib-secondary" aria-label="Close" onclick="closeGuideViewer()"><i data-icon="cross"></i></button>' +
           '</div>' +
         '</div>' +
-        '<div class="tabs cg-viewer-tabs" role="tablist">' +
-          '<button class="tab is-active" role="tab" id="cg-tab-prep" aria-selected="true" aria-controls="cg-pane-prep" onclick="guideTab(\'prep\')">Prepare</button>' +
-          '<button class="tab" role="tab" id="cg-tab-team" aria-selected="false" aria-controls="cg-pane-team" onclick="guideTab(\'team\')">Show your team</button>' +
-        '</div>' +
-        '<iframe class="cg-viewer-frame cg-viewer-pane" id="cg-pane-prep" role="tabpanel" aria-labelledby="cg-tab-prep" title="Conversation guide" src="about:blank"></iframe>' +
-        '<div class="cg-team-stage cg-viewer-pane" id="cg-pane-team" role="tabpanel" aria-labelledby="cg-tab-team" hidden>' + teamSheetHTML() + '</div>' +
-        '<div class="cg-viewer-foot is-split">' +
-          '<button class="btn btn-link" onclick="downloadGuide()"><i data-icon="download"></i> Download a copy</button>' +
-          '<div class="cg-viewer-foot-group" id="cg-foot-prep">' +
-            '<button class="btn btn-primary" onclick="closeGuideViewer()">Done</button>' +
-          '</div>' +
-          '<div class="cg-viewer-foot-group" id="cg-foot-team" hidden>' +
-            '<button class="btn btn-secondary" onclick="closeGuideViewer()">Done</button>' +
-            '<button class="btn btn-primary" onclick="presentTeam()"><i data-icon="maximize"></i> Present full screen</button>' +
-          '</div>' +
+        '<iframe class="cg-viewer-frame" title="Conversation guide" src="about:blank"></iframe>' +
+        '<div class="cg-viewer-foot">' +
+          '<button class="btn btn-secondary" onclick="closeGuideViewer()">Close</button>' +
+          '<button class="btn btn-primary" onclick="downloadGuide()"><i data-icon="download"></i> Download a copy</button>' +
         '</div>' +
       '</div>';
     document.body.appendChild(ov);
     ov.addEventListener('click', function(e){ if(e.target === ov) closeGuideViewer(); });
-    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !ov.hidden && !document.fullscreenElement) closeGuideViewer(); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !ov.hidden) closeGuideViewer(); });
     return ov;
   }
   // The guide opens at the size it was designed at. Zooming is the reader's call,
@@ -3129,63 +3067,15 @@
     guideZoomApply();
   }
 
-  // ── Version 4: a page the manager can put on screen ──
-  // The guide is a script for the manager; managers said they would not show it.
-  // This is the same content for the team: their focus areas, their wins and
-  // today's plan, with none of the facilitator notes.
-  var TEAM_FOCUS = [
-    ['Within my organization, the work processes are well organized', '36%'],
-    ['My manager gives me feedback that helps me improve', '41%'],
-    ['I have opportunities to grow within this organization', '48%']
-  ];
-  var TEAM_WINS = [
-    ['I feel comfortable within the team', '88%'],
-    ['Our team trusts one another', '85%'],
-    ['I enjoy my work', '82%']
-  ];
-  var TEAM_PLAN = ['Open \u00b7 5 min', 'Results and one focus \u00b7 10 min', 'Celebrate \u00b7 5 min',
-                   'Dive deeper and agree a step \u00b7 20 min', 'Close \u00b7 3 min'];
-  function teamSheetHTML(){
-    function rows(list, cls){
-      return list.map(function(r){ return '<div class="cg-team-row"><span>' + esc(r[0]) + '</span><span class="fv-score ' + cls + '">' + esc(r[1]) + '</span></div>'; }).join('');
-    }
-    return '<div class="cg-team-sheet" id="cg-team-sheet">' +
-      '<div><span class="cg-team-eyebrow">Sales West \u00b7 Employee listening \u201925</span>' +
-      '<h2 class="cg-team-title">Our results, and what we do with them</h2></div>' +
-      '<div class="cg-team-cols">' +
-        '<section class="cg-team-col"><h3>Where we want to improve</h3><p>We choose one of these together today</p><div class="cg-team-rows">' + rows(TEAM_FOCUS, 'is-focus') + '</div></section>' +
-        '<section class="cg-team-col"><h3>What is going well</h3><p>Worth keeping, and building on</p><div class="cg-team-rows">' + rows(TEAM_WINS, 'is-win') + '</div></section>' +
-      '</div>' +
-      '<div class="cg-team-plan"><h3>Today, about 40 minutes</h3><div class="cg-team-chips">' +
-        TEAM_PLAN.map(function(c){ return '<span>' + c + '</span>'; }).join('') + '</div></div>' +
-    '</div>';
-  }
-  function guideTab(which){
-    var team = which === 'team';
-    var tp = document.getElementById('cg-tab-prep'), tt = document.getElementById('cg-tab-team');
-    tp.classList.toggle('is-active', !team); tp.setAttribute('aria-selected', String(!team));
-    tt.classList.toggle('is-active', team);  tt.setAttribute('aria-selected', String(team));
-    document.getElementById('cg-pane-prep').hidden = team;
-    document.getElementById('cg-pane-team').hidden = !team;
-    document.getElementById('cg-foot-prep').hidden = team;
-    document.getElementById('cg-foot-team').hidden = !team;
-    document.getElementById('cg-zoom').hidden = team;     // zoom belongs to the document
-  }
-  function presentFit(){
-    var s = document.getElementById('cg-team-sheet'); if(!s) return;
-    if(document.fullscreenElement !== s){ s.style.removeProperty('--cg-present-zoom'); return; }
-    // the sheet was designed at 960 by 540; scale it to the screen, keeping a margin
-    var z = Math.min(window.innerWidth / 960, window.innerHeight / 540) * 0.9;
-    s.style.setProperty('--cg-present-zoom', z.toFixed(3));
-  }
-  document.addEventListener('fullscreenchange', presentFit);
-  window.addEventListener('resize', presentFit);
-  function presentTeam(){
-    var s = document.getElementById('cg-team-sheet');
-    if(s && s.requestFullscreen) s.requestFullscreen().catch(function(){});
-  }
-
+  // Version 4 opens the guide in its own browser tab at full size. The manager
+  // reads it there and downloads a copy from the bar on top of it; this page stays
+  // as it was, so there is nothing to come back to.
   function openGuideViewer(){
+    var w = window.open(GUIDE_VIEW, '_blank');
+    if(w) w.opener = null;
+  }
+  // The dialog the other versions open, left in place so the shared code is intact
+  function openGuideDialog(){
     var ov = ensureGuideViewer();
     var fr = ov.querySelector('.cg-viewer-frame');
     if(fr.getAttribute('src') !== GUIDE_VIEW){
@@ -3194,8 +3084,7 @@
     }
     ov.hidden = false;
     if(window.Icons) window.Icons.render(ov);
-    guideTab('prep');          // every opening starts on the guide itself
-    guideZoomIdx = 1;          // at the designed size
+    guideZoomIdx = 1;          // every opening starts at the designed size
     guideZoomApply();
   }
   function closeGuideViewer(){

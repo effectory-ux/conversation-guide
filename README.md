@@ -14,6 +14,7 @@ Moved here from `effectory-design/effectory-design-documentation` on 2026-09-16.
 | `conversation-guide-v2.html` | **Version 2**: a card inside the focus stack, after the three focus areas and the areas Explore more opens, at the cards' own width |
 | `conversation-guide-v3.html` | **Version 3**: a popup from the bottom right, two seconds after landing |
 | `conversation-guide-v4.html` | **Version 4** (*birch*): the next version after the usability test. Flow A in Figma. See below |
+| `conversation-guide-v5.html` | **Version 5** (*maple*): version 4, except *View the guide* opens the PDF itself in a new tab, shown by the browser's own PDF viewer (its zoom, download and print). Flow A frame 2a in Figma |
 
 The three differ only in **where** the guide is offered. Every route into it, the
 card, the Actions page and the success screen alike, opens the guide itself in a

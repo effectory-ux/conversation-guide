@@ -1,0 +1,12 @@
+{
+  "name": "Conversation Guide",
+  "description": "A guide for the team conversation after the survey.",
+  "owner": "Eray",
+  "track": "Leadership enablement",
+  "pages": [
+    {
+      "label": "Conversation Guide",
+      "path": "conversation-guide-v1.html"
+    }
+  ]
+}

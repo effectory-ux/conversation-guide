@@ -32,6 +32,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SURVEY = "Employee listening &rsquo;25"
 TEAM = "Sales West"
 PERIOD = "22 Jul to 22 Aug 2025"
+SURVEY_DATE = "22 Aug 2025"
 
 FOCUS = [
     ("Within my organization, the work processes are well organized", "Managing systems", "36%"),
@@ -202,15 +203,15 @@ def results_block(compact=False):
     # columns start their cards at the same height.
     return f"""    <div class="results-two">
       <div>
-        <h2 class="sub">{I_TARGET} Three focus areas</h2>
-        <p class="note-line is-intro">Present all three, then choose one to explore together</p>
+        <h2 class="sub">{I_TARGET} Focus areas</h2>
+        <p class="note-line is-intro">Share the focus areas with the team, then agree on one to explore together.</p>
         <div class="results">
 {focus}
         </div>
       </div>
       <div>
-        <h2 class="sub">{I_STAR} Celebration points</h2>
-        <p class="note-line is-intro">Notice what works, and how to protect or build on it</p>
+        <h2 class="sub">{I_STAR} Team strengths</h2>
+        <p class="note-line is-intro">Celebrate what your team does well and keep building on its strengths.</p>
         <div class="results">
 {wins}
         </div>
@@ -388,7 +389,7 @@ def build_condensed():
        beforehand."""
     agenda = "\n".join(
         f"""      <div class="ag"><span class="ag-n">{i+1}</span>
-        <div class="ag-b"><h3>{t}</h3></div><span class="ag-t">{m}</span></div>"""
+        <div class="ag-b"><h3>{t}</h3><span class="ag-t">{m}</span></div></div>"""
         for i, (t, d, m) in enumerate(AGENDA))
     starters = starters_table(two_up=True)
     triage = (f'<span class="triage is-improve">{I_TARGET} improve</span>, '
@@ -401,17 +402,15 @@ def build_condensed():
     return HEAD % ("Conversation guide, Sales West", CSS_REV) + TAB_BAR % (TEAM, SURVEY, I_MINUS, I_PLUS, TEAM, I_DOWNLOAD) + f"""
 <section class="sheet is-runsheet">
   <div class="intro">
-    <div class="intro-cut"></div>
-    <img class="intro-art" src="../assets/illustrations/follow-up-guide.svg" alt="">
     <div class="intro-body">
       <p class="eyebrow-light">Conversation guide for managers</p>
-      <h1 class="intro-title">Understanding what drives results</h1>
-      <p class="intro-lede">You are a facilitator and listener. Open with the team&rsquo;s overall
-        results and create a shared picture before you discuss the focus areas.</p>
+      <h1 class="intro-title">Guide the conversation and<br>listen actively.</h1>
+      <p class="intro-lede">Start with the team&rsquo;s overall survey results to build a shared
+        understanding before exploring the focus areas.</p>
       <div class="intro-meta">
-        <div class="im"><i class="im-rule is-a"></i><span>Survey</span><strong>{SURVEY}</strong></div>
-        <div class="im"><i class="im-rule is-b"></i><span>Team</span><strong>{TEAM}</strong></div>
-        <div class="im"><i class="im-rule is-c"></i><span>Results period</span><strong>{PERIOD}</strong></div>
+        <div class="im"><span>Survey</span><strong>{SURVEY}</strong></div>
+        <div class="im"><span>Team</span><strong>{TEAM}</strong></div>
+        <div class="im"><span>Survey date</span><strong>{SURVEY_DATE}</strong></div>
       </div>
       <div class="principles is-onnavy">{pr}</div>
     </div>
@@ -482,7 +481,7 @@ def build_condensed():
     <p class="note-line" style="margin-top:2.5mm">Thank everyone, and make sure the agreement and the follow up
       moment are visible to the team afterwards.</p>
   </div>
-  """ + DOC_FOOT % (TEAM, PERIOD, "2") + """
+  <span class="pageno">2</span>
 </section>
 </body></html>
 """

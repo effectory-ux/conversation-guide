@@ -507,3 +507,24 @@ h2.sub svg { width: 5mm; height: 5mm; flex: none; }
 /* The line that introduces each result list: above the cards, and held to one
    line so the two columns line up card for card. */
 .results-two .note-line.is-intro { margin: 0 0 2.5mm; }
+
+/* ── Run sheet, synced from the Figma pages (21 Oct 2026) ──────────────────
+      The banner is navy only, with no illustration or cut. The survey, team and
+      date sit in a row 32px apart, the survey taking whatever room its name
+      needs. Each agenda time sits right after its step, the quotes read
+      upright, the triage tags are a weight lighter, and both pages carry only
+      a centred page number. */
+.is-runsheet .intro-body { max-width: none; }
+.is-runsheet .intro-title { max-width: 106mm; }
+.is-runsheet .intro-meta { display: flex; gap: 8.5mm; width: auto; }
+.is-runsheet .im { flex: none; }
+.is-runsheet .im:first-child { flex: 0 1 auto; min-width: 0; }
+.is-runsheet .im strong { white-space: normal; }
+.is-runsheet .agenda.is-rows .ag { align-items: center; }
+.is-runsheet .agenda.is-rows .ag-b { flex: 0 1 auto; display: flex; align-items: center; gap: 2.1mm; flex-wrap: wrap; }
+.is-runsheet .agenda.is-rows .ag-b h3 { margin: 0; }
+.is-runsheet .agenda.is-rows .ag-t { padding: .6mm 2.4mm; }
+.is-runsheet > .pageno, .is-compact > .pageno { left: 0; right: 0; bottom: 6.6mm; text-align: center; color: var(--navy); }
+.is-compact .starter-box p { font-style: normal; }
+.is-compact .triage { font-weight: 500; }
+.is-runsheet .intro-title { line-height: 1.5; margin: 2mm 0 1mm; }

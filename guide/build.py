@@ -402,6 +402,8 @@ def build_condensed():
     return HEAD % ("Conversation guide, Sales West", CSS_REV) + TAB_BAR % (TEAM, SURVEY, I_MINUS, I_PLUS, TEAM, I_DOWNLOAD) + f"""
 <section class="sheet is-runsheet">
   <div class="intro">
+    <svg class="intro-wave" viewBox="0 0 321 170" aria-hidden="true"><path class="is-edge" transform="translate(0 4)" d="M0 0L320.92 10V156.5C320.92 156.5 62 202.5 86.5 88C103.22 9.85 0 0 0 0Z"/><path d="M0 0L320.92 10V156.5C320.92 156.5 62 202.5 86.5 88C103.22 9.85 0 0 0 0Z"/></svg>
+    <img class="intro-art" src="../assets/illustrations/follow-up-guide.svg" alt="">
     <div class="intro-body">
       <p class="eyebrow-light">Conversation guide for managers</p>
       <h1 class="intro-title">Guide the conversation and<br>listen actively.</h1>

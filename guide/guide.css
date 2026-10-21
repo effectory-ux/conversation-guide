@@ -20,6 +20,7 @@
   --blue-100: #e6f0fe;
   --blue-200: #d6e6ff;
   --pink-100: #ffd5ff;
+  --red-300: #feb9b9;   /* the edge under the run sheet banner's white wave */
   --blue: #205bb9;
   --green: #236e41;
   --bg-warning: #fa8324;   /* the Focus view score badge */
@@ -528,3 +529,11 @@ h2.sub svg { width: 5mm; height: 5mm; flex: none; }
 .is-compact .starter-box p { font-style: normal; }
 .is-compact .triage { font-weight: 500; }
 .is-runsheet .intro-title { line-height: 1.5; margin: 2mm 0 1mm; }
+
+/* The white wave in the banner's top right, with the illustration in it. Its
+   edge is the wave itself set 4px lower in red-300. Placed as on the Figma page:
+   474px from the left and 10.5px above the top of a 794px wide sheet. */
+.is-runsheet .intro-wave { position: absolute; z-index: 1; left: 125.4mm; top: -2.8mm; width: 84.9mm; height: auto; }
+.intro-wave path { fill: var(--white); }
+.intro-wave .is-edge { fill: var(--red-300); }
+.is-runsheet .intro-art { top: 5mm; left: 161.1mm; right: auto; width: 38.4mm; z-index: 2; }

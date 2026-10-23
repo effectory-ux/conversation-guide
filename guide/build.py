@@ -95,6 +95,8 @@ I_LINK   = svg('<path d="M10 13.5a4 4 0 0 0 6 .5l2.5-2.5a4 4 0 0 0-5.7-5.7L11.5 
 I_PPT    = svg('<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h5a2.5 2.5 0 0 1 0 5H8zM8 13v4"/>')
 I_IMG    = svg('<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M4 17l4.5-4.5 3 3L15 12l5 5"/>')
 
+I_HEART  = svg('<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.3l7.8-7.8 1-1.1a5.5 5.5 0 0 0 0-7.8z"/>')
+
 I_DOWNLOAD = svg('<path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/>', ' width="16" height="16"')
 I_MINUS    = svg('<path d="M5 12h14"/>', ' width="16" height="16"')
 I_PLUS     = svg('<path d="M12 5v14"/><path d="M5 12h14"/>', ' width="16" height="16"')
@@ -144,6 +146,22 @@ HEAD = """<!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="guide.css?v=%s">
+</head>
+<body>
+"""
+
+RS_REV = hashlib.sha1(open(os.path.join(HERE, "runsheet.css"), "rb").read()).hexdigest()[:8]
+RS_HEAD = """<!DOCTYPE html>
+<html lang="%s">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>%s</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="guide.css?v=%s">
+<link rel="stylesheet" href="runsheet.css?v=%s">
 </head>
 <body>
 """
@@ -383,107 +401,115 @@ def build_full():
 """
 
 # ══════════════════════════════════════════════════════════════════════════════
-def build_condensed():
-    """Two pages: the results and the agenda on one, the starters and what you
-       agree on the other. Everything a manager needs in the room, nothing to read
-       beforehand."""
-    agenda = "\n".join(
-        f"""      <div class="ag"><span class="ag-n">{i+1}</span>
-        <div class="ag-b"><h3>{t}</h3><span class="ag-t">{m}</span></div></div>"""
-        for i, (t, d, m) in enumerate(AGENDA))
-    starters = starters_table(two_up=True)
-    triage = (f'<span class="triage is-improve">{I_TARGET} improve</span>, '
-              f'<span class="triage is-monitor">{I_SEARCH} monitor</span> or '
-              f'<span class="triage is-support">{I_FLAG} need support</span>')
-    pr = (f'<span class="principle is-curious">{I_SEARCH} Be curious</span>'
-          f'<span class="principle is-listen">{I_MSG} Listen before deciding</span>'
-          f'<span class="principle is-share">{I_GROUP} Share ownership</span>')
+def build_condensed(lang="en"):
+    """The two page run sheet, as designed in Figma (print-ready, 23 Oct 2026).
+       Every string comes from i18n/<lang>.json, keyed like the Smartcat layers
+       in Figma (cg.pdf.*), so a translated file renders the same pages. Survey
+       data (team, scores, statements) stays here: it comes from the results."""
+    import json, html as _h
+    T = json.load(open(os.path.join(HERE, "i18n", lang + ".json"), encoding="utf-8"))
+    e = lambda k: _h.escape(T[k], quote=False)
+    def lead(k):
+        # "Notice: What stands out…": the label before the first colon is the title
+        txt = T[k]; i = txt.find(": ")
+        return (f"<b>{_h.escape(txt[:i + 1], quote=False)}</b> {_h.escape(txt[i + 2:], quote=False)}" if i > 0 else e(k))
+    pill = lambda cls, icon, k: f'<span class="triage is-{cls}">{icon}{e(k)}</span>'
+    sentence = (e("cg.pdf.agree.sentence")
+                .replace("{improve}", pill("improve", I_TARGET, "cg.pdf.agree.improve"))
+                .replace("{monitor}", pill("monitor", I_SEARCH, "cg.pdf.agree.monitor"))
+                .replace("{need support}", pill("support", I_FLAG, "cg.pdf.agree.need_support")))
 
-    return HEAD % ("Conversation guide, Sales West", CSS_REV) + TAB_BAR % (TEAM, SURVEY, I_MINUS, I_PLUS, TEAM, I_DOWNLOAD) + f"""
-<section class="sheet is-runsheet">
-  <div class="intro">
-    <svg class="intro-wave" viewBox="0 0 321 170" aria-hidden="true"><path class="is-edge" transform="translate(0 4)" d="M0 0L320.92 10V156.5C320.92 156.5 62 202.5 86.5 88C103.22 9.85 0 0 0 0Z"/><path d="M0 0L320.92 10V156.5C320.92 156.5 62 202.5 86.5 88C103.22 9.85 0 0 0 0Z"/></svg>
-    <img class="intro-art" src="../assets/illustrations/follow-up-guide.svg" alt="">
-    <div class="intro-body">
-      <p class="eyebrow-light">Conversation guide for managers</p>
-      <h1 class="intro-title">Guide the conversation and<br>listen actively.</h1>
-      <p class="intro-lede">Start with the team&rsquo;s overall survey results to build a shared
-        understanding before exploring the focus areas.</p>
-      <div class="intro-meta">
-        <div class="im"><span>Survey</span><strong>{SURVEY}</strong></div>
-        <div class="im"><span>Team</span><strong>{TEAM}</strong></div>
-        <div class="im"><span>Survey date</span><strong>{SURVEY_DATE}</strong></div>
-      </div>
-      <div class="principles is-onnavy">{pr}</div>
+    def card(kind, n, item):
+        text, theme, score = item
+        return (f'<div class="rs-res is-{kind}"><span class="rs-badge">{n}</span>'
+                f'<div class="rs-res-b"><h3>{text}</h3><span class="rs-theme">{theme}</span></div>'
+                f'<span class="rs-score">{score}</span></div>')
+    focus = "".join(card("focus", i + 1, f) for i, f in enumerate(FOCUS))
+    wins = "".join(card("win", i + 1, w) for i, w in enumerate(WINS))
+    agenda = "".join(
+        f'<div class="rs-ag"><span class="rs-badge">{i}</span><div class="rs-ag-b"><h3>{e(f"cg.pdf.step{i}.title")}</h3>'
+        f'<span class="rs-time">{e(f"cg.pdf.step{i}.time")}</span></div></div>' for i in range(1, 6))
+    prompts = lambda keys: "".join(f'<p class="rs-prompt">{lead(k)}</p>' for k in keys)
+    callout = lambda lbl, quotes: (f'<div class="rs-callout"><p class="rs-callout-lbl">{I_MSG}{e(lbl)}</p>'
+                                   + "".join(f"<p>{e(q)}</p>" for q in quotes) + "</div>")
+    head = lambda n, title, desc=None, wide=False: (
+        f'<div class="rs-step-head{" is-wide" if wide else ""}{"" if desc else " is-title-only"}"><span class="rs-n">{n}</span>'
+        f'<div><h2 class="rs-step-title">{e(title)}</h2>' + (f"<p>{e(desc)}</p>" if desc else "") + "</div></div>")
+
+    head_html = RS_HEAD % (lang, "Conversation guide, " + TEAM, CSS_REV, RS_REV)
+    return head_html + TAB_BAR % (TEAM, SURVEY, I_MINUS, I_PLUS, TEAM, I_DOWNLOAD) + f"""
+<section class="sheet rs">
+  <header class="rs-head">
+    <div class="rs-head-text">
+      <p class="rs-eyebrow">{e("cg.pdf.header.eyebrow")}</p>
+      <h1 class="rs-title">{e("cg.pdf.header.title")}</h1>
+      <p class="rs-lede">{e("cg.pdf.header.intro")}</p>
+    </div>
+    <div class="principles">
+      <span class="principle is-curious">{I_SEARCH}{e("cg.pdf.principle.curious")}</span>
+      <span class="principle is-listen">{I_MSG}{e("cg.pdf.principle.listen")}</span>
+      <span class="principle is-share">{I_USERS}{e("cg.pdf.principle.share")}</span>
+    </div>
+    <img class="rs-art" src="../assets/illustrations/follow-up-guide.svg" alt="">
+    <i class="rs-rule"></i>
+  </header>
+  <div class="rs-meta">
+    <div><span>{I_CLIP}{e("cg.pdf.meta.survey")}</span><strong>{SURVEY}</strong></div>
+    <div><span>{I_USERS}{e("cg.pdf.meta.team")}</span><strong>{TEAM}</strong></div>
+    <div><span>{I_CAL}{e("cg.pdf.meta.date")}</span><strong>{SURVEY_DATE}</strong></div>
+  </div>
+  <div class="rs-results">
+    <div class="rs-col">
+      <div class="rs-col-head"><h2 class="rs-h">{I_TARGET}{e("cg.pdf.focus.title")}</h2><p class="rs-intro">{e("cg.pdf.focus.intro")}</p></div>
+      <div class="rs-cards">{focus}</div>
+    </div>
+    <div class="rs-col">
+      <div class="rs-col-head"><h2 class="rs-h">{I_STAR}{e("cg.pdf.strengths.title")}</h2><p class="rs-intro">{e("cg.pdf.strengths.intro")}</p></div>
+      <div class="rs-cards">{wins}</div>
     </div>
   </div>
-{results_block(compact=True)}
-{present_block()}
-  <h2 class="sub" style="margin-top:5mm">{I_CLIP} The conversation, about 35 to 45 minutes</h2>
-  <div class="agenda is-rows">
-{agenda}
+  <div class="rs-share">
+    <div class="rs-share-text">
+      <h2 class="rs-h2">{I_SCREEN}{e("cg.pdf.share.title")}</h2>
+      <p class="rs-share-body">{e("cg.pdf.share.body")}</p>
+      <p class="rs-link">{I_LINK}<a href="{FOCUS_URL}">{FOCUS_LABEL}</a></p>
+    </div>
+    <div class="rs-qr"><div class="rs-qr-card">{qr_svg()}</div><span>{e("cg.pdf.share.qr_caption")}</span></div>
   </div>
-  <span class="pageno">1</span>
+  <div class="rs-conv">
+    <h2 class="rs-h2">{I_MSG}{e("cg.pdf.agenda.title")}</h2>
+    <div class="rs-agenda">{agenda}</div>
+  </div>
+  <span class="rs-pageno">1</span>
 </section>
 
-<section class="sheet is-compact">
-  <div class="step">
-    <div class="step-head"><span class="step-n">1</span><h3>Open the conversation</h3></div>
-    <p>Set the purpose: understand the experience behind the results before deciding what to do.
-      Agree to listen to understand, make room for different experiences, and discuss patterns
-      rather than individual responses.</p>
-    <div class="starter-box"><div class="lbl">{I_MSG} Say something like</div>
-      <p>&ldquo;These results tell us where to look, not why they are what they are. I would like us
-        to understand the experience behind them together.&rdquo;</p></div>
+<section class="sheet rs">
+  <div class="rs-step">
+    {head(1, "cg.pdf.step1.title", "cg.pdf.step1.body")}
+    {callout("cg.pdf.step1.say_label", ["cg.pdf.step1.quote"])}
   </div>
-
-  <!-- Steps two and three share a row: selecting and celebrating are both short,
-       and stacking them cost the page more than they are worth apart. -->
-  <div class="steps-two">
-    <div class="step" style="margin-bottom:0">
-      <div class="step-head"><span class="step-n">2</span><h3>Look at the results, select one area</h3></div>
-      <div class="pair-box"><span class="tag">Open the picture</span><p>What do you recognise in this picture?</p></div>
-      <div class="pair-box" style="margin-top:2.5mm"><span class="tag">Check resonance</span><p>What feels incomplete
-        or surprising? Which focus area is most useful for us to explore?</p></div>
+  <div class="rs-two">
+    <div class="rs-step">{head(2, "cg.pdf.step2.title")}<div class="rs-prompts">{prompts(["cg.pdf.step2.open_picture", "cg.pdf.step2.check_resonance"])}</div></div>
+    <div class="rs-step">{head(3, "cg.pdf.step3.title")}<div class="rs-prompts">{prompts(["cg.pdf.step3.notice", "cg.pdf.step3.build"])}</div></div>
+  </div>
+  <div class="rs-step">
+    {head(4, "cg.pdf.step4.title", "cg.pdf.step4.intro", wide=True)}
+    <div class="rs-two">
+      <div class="rs-prompts">{prompts(["cg.pdf.step4.notice", "cg.pdf.step4.example", "cg.pdf.step4.context", "cg.pdf.step4.driver"])}</div>
+      <div class="rs-prompts">{prompts(["cg.pdf.step4.difference", "cg.pdf.step4.influence", "cg.pdf.step4.meaningful_change"])}</div>
     </div>
-    <div class="step" style="margin-bottom:0">
-      <div class="step-head"><span class="step-n">3</span><h3>Take a moment to celebrate</h3></div>
-      <div class="pair-box"><span class="tag" style="color:var(--green)">Notice</span><p>What is helping this work well?
-        When have you experienced this at its best?</p></div>
-      <div class="pair-box" style="margin-top:2.5mm"><span class="tag" style="color:var(--green)">Build</span><p>What
-        should we protect, repeat or build on?</p></div>
-    </div>
+    {callout("cg.pdf.step4.keep_going_label", ["cg.pdf.step4.keep_going_quotes"])}
   </div>
-
-  <div class="step-head" style="margin:5mm 0 2mm"><span class="step-n">4</span><h3>Dive deeper, then agree a step</h3></div>
-  <p class="note-line" style="margin:0 0 3mm">Choose two or three, listen, ask a follow up, then summarise what you hear.</p>
-{starters}
-
-  <div class="starter-box" style="margin-top:4mm"><div class="lbl">{I_LISTEN} Keep them talking</div>
-    <p>&ldquo;Can you say a little more?&rdquo; &middot; &ldquo;What else is important here?&rdquo;
-      &middot; &ldquo;I am hearing &hellip; Did I capture that accurately?&rdquo;</p></div>
-
-  <h2 class="sub" style="margin-top:6mm">{I_CHECK} What you agree together</h2>
-  <p class="note-line" style="margin:0 0 3mm">Decide whether to {triage}, then set one small step and name who owns it.</p>
-  <div class="agree-row" style="margin-bottom:6mm">
-    <span class="agree">Shared focus</span>
-    <span class="agree">What we learned</span>
-    <span class="agree">First step</span>
-    <span class="agree">Owner and timing</span>
-    <span class="agree">Support needed</span>
-    <span class="agree">Follow up moment</span>
+  <div class="rs-agree">
+    <h2 class="rs-h3">{I_HEART}{e("cg.pdf.agree.title")}</h2>
+    <p class="rs-sentence">{sentence}</p>
   </div>
-
-  <div class="step" style="margin-bottom:0">
-    <div class="step-head"><span class="step-n">5</span><h3>Close off the meeting</h3></div>
-    <div class="starter-box"><div class="lbl">{I_MSG} Summarise and close</div>
-      <p>&ldquo;Today we heard &hellip; We agreed to &hellip; The first step is &hellip;
-        [name] will &hellip; by &hellip;&rdquo;</p>
-      <p>&ldquo;What is the most important thing we should take forward?&rdquo;</p></div>
-    <p class="note-line" style="margin-top:2.5mm">Thank everyone, and make sure the agreement and the follow up
-      moment are visible to the team afterwards.</p>
+  <div class="rs-step">
+    {head(5, "cg.pdf.step5.title", wide=True)}
+    {callout("cg.pdf.step5.wrap_label", ["cg.pdf.step5.summary_quote", "cg.pdf.step5.takeaway_quote"])}
+    <p class="rs-thanks">{e("cg.pdf.step5.thanks")}</p>
   </div>
-  <span class="pageno">2</span>
+  <span class="rs-pageno">2</span>
 </section>
 </body></html>
 """
@@ -501,5 +527,10 @@ def render(name, port):
 
 if __name__ == "__main__":
     open(os.path.join(HERE, "conversation-guide-full.html"), "w", encoding="utf-8").write(build_full())
-    open(os.path.join(HERE, "conversation-guide.html"), "w", encoding="utf-8").write(build_condensed())
-    print("wrote conversation-guide-full.html and conversation-guide.html")
+    # one run sheet per language file in i18n/: English is conversation-guide.html,
+    # a translation (nl.json, de.json from Smartcat) becomes conversation-guide.<lang>.html
+    langs = sorted(f[:-5] for f in os.listdir(os.path.join(HERE, "i18n")) if f.endswith(".json"))
+    for lang in langs:
+        name = "conversation-guide.html" if lang == "en" else f"conversation-guide.{lang}.html"
+        open(os.path.join(HERE, name), "w", encoding="utf-8").write(build_condensed(lang))
+    print("wrote conversation-guide-full.html and the run sheet for", ", ".join(langs))

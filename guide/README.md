@@ -9,6 +9,8 @@ already carries their survey, their team and their numbers instead of blank line
 | `conversation-guide-full.pdf` | **The full guide, 7 pages.** The same content with the guidance for each agenda step written out. Not linked from the prototype, kept as the long form reference |
 | `build.py` | Builds both documents, and holds the team results they are populated with |
 | `guide.css` | The shared print stylesheet |
+| `runsheet.css` | The run sheet's own styles, mirroring the print-ready Figma pages (Conversation Guide file, "📄 Conversation guide updated", frames `12195:733` and `12196:853`) in px at A4 |
+| `i18n/en.json` | Every string on the run sheet, keyed `cg.pdf.*`. The source file for Smartcat |
 | `conversation-guide.html` | The build output. Versions 1 to 3 show it in the **View the guide** dialog; version 4 opens it in its own tab, where a bar with a zoom control (75 to 200%) and *Download a copy* appears (hidden when framed or printed; the zoom scales the pages only). Do not edit by hand, it is overwritten |
 | `conversation-guide-source.docx` | The original content brief, before the design pass |
 
@@ -21,10 +23,34 @@ document carries no remote image. Both it and `PLATFORM_URL` are placeholders
 under `my.effectory.com`; swap them for the real deep link and the code
 regenerates itself.
 
+## Translations (Smartcat)
+
+The run sheet's copy lives in `i18n/en.json`, one key per string. The keys match
+the layer names in the Figma Smartcat frames ("🌐 Smartcat · Conversation guide ·
+EN source"), so a translator can look a key up there for context.
+
+1. Upload `i18n/en.json` to the Smartcat project as a JSON file, English as the
+   source language.
+2. When a translation is done, export it from Smartcat as JSON and save it next to
+   the source as `i18n/<lang>.json`, for example `nl.json` or `de.json`.
+3. Rebuild. Each file in `i18n/` becomes a run sheet: English is
+   `conversation-guide.html`, a translation `conversation-guide.<lang>.html`. Print
+   that page to PDF the same way as below.
+
+Keep in a translation:
+- the `{improve}`, `{monitor}` and `{need support}` placeholders in
+  `cg.pdf.agree.sentence` (the tags are drawn there);
+- the colon after the label in the prompt strings ("Notice: …"), since the text
+  before the first colon is set in medium weight;
+- the line break in `cg.pdf.share.qr_caption`.
+
+Survey data (team, survey name, date, scores, the statements and their themes)
+is not in the file. It comes from the results below.
+
 ## Changing the results
 
-The team's focus areas, celebration points, survey and period live at the top of
-`build.py` as `FOCUS`, `WINS`, `SURVEY`, `TEAM` and `PERIOD`. They mirror
+The team's focus areas, celebration points, survey and dates live at the top of
+`build.py` as `FOCUS`, `WINS`, `SURVEY`, `TEAM`, `SURVEY_DATE` and `PERIOD`. They mirror
 `focusAreas` and `WINS` in `conversation-guide-v1.html`, so if the prototype's
 results change, change them here too.
 

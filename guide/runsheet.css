@@ -1,0 +1,142 @@
+/* Conversation guide, the two page run sheet (print-ready version, 23 Oct 2026).
+   Mirrors the Figma pages "PDF · page 1" (12195:733) and "PDF · page 2"
+   (12196:853) in the Conversation Guide file, in px at A4 (794 × 1123).
+   Loaded after guide.css, which keeps the base sheet, the principle pills and
+   the tab bar. Every colour is a token: Effectory primitives where the design
+   uses one, and the two print tints from the Figma retouch named as such. */
+:root {
+  --neutral-100: #f8f8f9;   /* survey, team and date strip */
+  --neutral-200: #f1f2f4;   /* result cards and the agenda */
+  --orange-600: #ec6e0a;    /* focus area score */
+  --orange-800: #a83e00;    /* focus area badge number */
+  --yellow-300: #fecd29;    /* agenda badge */
+  --yellow-900: #6b310a;    /* callout labels */
+  --improve-ink: #9a4b00;   /* triage tag text, as in guide.css */
+  --support-ink: #8e5913;
+  --print-card: #eef0f3;    /* prompt cards on page 2: print tint, not a primitive */
+  --print-line: #d7dbe2;    /* theme and time pill borders: print tint, not a primitive */
+}
+
+.sheet.rs { width: 794px; min-height: 1123px; height: 1123px; padding: 36px 56px; gap: 24px; }
+.rs p, .rs h1, .rs h2, .rs h3 { margin: 0; }
+.rs svg { flex: none; }
+.rs-pageno {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; line-height: 18px; color: var(--navy);
+}
+
+/* ── Page 1 ─────────────────────────────────────────────────────────────── */
+.rs-head {
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; gap: 16px;
+  padding: 20px 24px 28px; border-radius: 12px; background: var(--navy); color: var(--white);
+}
+.rs-head-text { display: flex; flex-direction: column; gap: 8px; max-width: 476px; }
+.rs-eyebrow { font-size: 11.33px; line-height: 17px; font-weight: 600; letter-spacing: 1.59px; text-transform: uppercase; color: var(--yellow-200); }
+.rs-title { font-size: 22.67px; line-height: 28px; font-weight: 600; letter-spacing: -.23px; }
+.rs-lede { font-size: 12px; line-height: 18px; }
+.rs-art { position: absolute; left: 538px; top: 43px; width: 120px; }
+.rs-rule { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: var(--teal); }
+.rs .principles { margin: 0; gap: 7.5px; }
+.rs .principle { gap: 5.5px; padding: 5px 11px; font-size: 11.33px; line-height: 17px; font-weight: 600; color: var(--navy); }
+.rs .principle svg { width: 12px; height: 12px; }
+
+.rs-meta { display: flex; gap: 48px; padding: 10px; border-radius: 6px; background: var(--neutral-100); }
+.rs-meta > div { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.rs-meta span { display: flex; align-items: center; gap: 6px; font-size: 12px; line-height: 16px; font-weight: 500; }
+.rs-meta svg { width: 14px; height: 14px; }
+.rs-meta strong { font-size: 12px; line-height: 19px; font-weight: 400; color: rgba(25, 39, 67, .8); }
+
+.rs-results { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.rs-col { display: flex; flex-direction: column; gap: 10px; }
+.rs-col-head { display: flex; flex-direction: column; gap: 5px; }
+.rs-h { display: flex; align-items: center; gap: 10px; font-size: 15.34px; line-height: 23px; font-weight: 600; }
+.rs-h svg { width: 19px; height: 19px; }
+.rs-intro { font-size: 12px; line-height: 18px; color: var(--navy-80); }
+.rs-cards { display: flex; flex-direction: column; gap: 5px; }
+.rs-res { display: flex; gap: 9px; height: 84px; padding: 10px; border-radius: 12px; background: var(--neutral-200); }
+.rs-badge {
+  flex: none; display: flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; border-radius: 999px; border: 1px solid var(--white);
+  font-size: 10.66px; line-height: 15px; font-weight: 700;
+}
+.rs-res.is-focus .rs-badge { background: var(--orange-300); color: var(--orange-800); }
+.rs-res.is-win .rs-badge { background: var(--green-300); color: var(--green); }
+.rs-res-b { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 7.5px; }
+.rs-res-b h3 { font-size: 12px; line-height: 19.2px; font-weight: 500; }
+.rs-theme {
+  align-self: flex-start; padding: 2.5px 7.5px; border-radius: 999px;
+  background: var(--white); border: 1px solid var(--print-line);
+  font-size: 10.66px; line-height: 13px; font-weight: 600; letter-spacing: .35px; text-transform: uppercase; color: var(--navy-80);
+}
+.rs-score {
+  flex: none; align-self: flex-start; padding: 1px 6px; border-radius: 6px; border: 1px solid var(--white);
+  font-size: 12px; line-height: 18px; font-weight: 600; color: var(--white);
+}
+.rs-res.is-focus .rs-score { background: var(--orange-600); }
+.rs-res.is-win .rs-score { background: var(--bg-positive); }
+
+.rs-share { display: flex; align-items: center; gap: 16px; padding: 15px 15px 15px 24px; border-radius: 12px; background: var(--blue-100); }
+.rs-share-text { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.rs-h2 { display: flex; align-items: center; gap: 9.5px; font-size: 17.34px; line-height: 26px; font-weight: 600; }
+.rs-h2 svg { width: 19px; height: 19px; }
+.rs-share-body { font-size: 12px; line-height: 19.2px; }
+.rs-link { display: flex; align-items: center; gap: 8.5px; font-size: 12.66px; line-height: 19px; font-weight: 600; }
+.rs-link svg { width: 13px; height: 13px; color: var(--blue); }
+.rs-link a { color: var(--blue); text-decoration: none; }
+.rs-qr { flex: none; width: 90px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.rs-qr-card { width: 83px; height: 83px; padding: 9.5px; border-radius: 8px; background: var(--white); }
+.rs-qr-card svg { display: block; width: 64px; height: 64px; }
+.rs-qr span { font-size: 10.66px; line-height: 16px; text-align: center; color: var(--navy-80); white-space: pre-line; }
+
+.rs-conv { display: flex; flex-direction: column; gap: 10px; }
+.rs-agenda { padding: 10px 15px; border-radius: 12px; background: var(--neutral-200); }
+.rs-ag { display: flex; align-items: center; gap: 10px; height: 32px; }
+.rs-ag .rs-badge { width: 20px; height: 20px; background: var(--yellow-300); color: var(--navy); line-height: 16px; }
+.rs-ag-b { display: flex; align-items: center; gap: 8px; }
+.rs-ag-b h3 { font-size: 12px; line-height: 19.2px; font-weight: 500; }
+.rs-time {
+  padding: 4.5px 10px; border-radius: 999px; background: var(--white); border: 1px solid var(--print-line);
+  font-size: 10.66px; line-height: 16px; font-weight: 500; color: var(--navy-80); white-space: nowrap;
+}
+
+/* ── Page 2 ─────────────────────────────────────────────────────────────── */
+.rs-step { display: flex; flex-direction: column; gap: 10px; }
+.rs-step-head { display: flex; align-items: flex-start; gap: 10px; }
+.rs-step-head.is-wide { gap: 11.5px; }
+.rs-n {
+  flex: none; display: flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; border-radius: 999px; background: var(--navy);
+  font-size: 12px; line-height: 18px; font-weight: 700; color: var(--white);
+}
+.rs-step-title { font-size: 14.01px; line-height: 21px; font-weight: 600; }
+.rs-step-head > div > .rs-step-title + p { font-size: 12px; line-height: 18px; color: var(--navy-80); }
+.rs-step-head.is-title-only { align-items: center; }
+
+.rs-callout { display: flex; flex-direction: column; gap: 5px; padding: 10px; border-radius: 12px; background: var(--yellow-100); }
+.rs-callout-lbl {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 10.66px; line-height: 15px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--yellow-900);
+}
+.rs-callout-lbl svg { width: 14px; height: 14px; }
+.rs-callout p { font-size: 12px; line-height: 18px; }
+
+.rs-two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: start; }
+.rs-prompts { display: flex; flex-direction: column; gap: 5px; }
+.rs-prompt { padding: 10px; border-radius: 12px; background: var(--print-card); font-size: 12px; line-height: 18px; }
+.rs-prompt b { font-weight: 500; }
+
+.rs-agree { display: flex; flex-direction: column; gap: 5px; }
+.rs-h3 { display: flex; align-items: center; gap: 10px; font-size: 14.67px; line-height: 22px; font-weight: 600; }
+.rs-h3 svg { width: 19px; height: 19px; }
+.rs-sentence { font-size: 12px; line-height: 26px; color: var(--navy-80); }
+.rs .triage {
+  display: inline-flex; align-items: center; gap: 4px; padding: 2px 6px; border-radius: 11px;
+  font-size: 12px; line-height: 19.2px; font-weight: 500; vertical-align: middle;
+}
+.rs .triage svg { width: 12px; height: 12px; }
+.rs .triage.is-improve { background: var(--orange-100); color: var(--improve-ink); }
+.rs .triage.is-monitor { background: var(--blue-100); color: var(--blue); }
+.rs .triage.is-support { background: var(--yellow-100); color: var(--support-ink); }
+.rs-thanks { font-size: 12px; line-height: 18px; color: var(--navy-80); }
